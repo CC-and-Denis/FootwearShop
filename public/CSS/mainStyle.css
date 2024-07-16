@@ -1,0 +1,23 @@
+*{
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    overflow-y: hidden;
+}
+
+.center{
+    display: flex;
+    height: 120vh;
+    justify-content: center;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;;
+}
+
