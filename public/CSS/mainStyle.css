@@ -12,12 +12,37 @@ body{
 
 .center{
     display: flex;
-    height: 120vh;
+    height: 100vh;
     justify-content: center;
+    align-items: center;;
 }
 
 .row{
     display: flex;
-    flex-direction: row;;
+    flex-direction: row;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+}
+
+.aButton{
+    border-radius: 17px;
+    background-color: rgb(73, 145, 252);
+    height: 2.5vh;
+    font-size: 2vh;
+    font-weight: 800;
+    width: 7vw;
+    text-align: center;
+    margin-top: 5vh;
+    padding:2vh;
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.5);
+    
+}
+
+.aButton:hover{
+    cursor: pointer;
 }
 

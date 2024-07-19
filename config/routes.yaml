@@ -2,5 +2,9 @@
 login:
     path: /login
     # the controller value has the format 'controller_class::method_name'
-    controller: App\Controller\LoginController::number
+    controller: App\Controller\LoginController::loadLoginPage
     
+loadComponent:
+    path: /login/switchmode
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\LoginController::switchMode
