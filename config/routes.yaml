@@ -1,10 +1,25 @@
 
-login:
-    path: /login
+access:
+    path: /access
     # the controller value has the format 'controller_class::method_name'
-    controller: App\Controller\LoginController::loadLoginPage
-    
-loadComponent:
-    path: /login/switchmode
+    controller: App\Controller\accessController::loadAccessPage
+
+signUp:
+    path: /access/signup
     # the controller value has the format 'controller_class::method_name'
-    controller: App\Controller\LoginController::switchMode
+    controller: App\Controller\accessController::signUp
+
+app_login:
+    path: /access/login
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\accessController::login
+
+home:
+    path: /access/debug
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\accessController::debug
+
+app_logout:
+    path: /access/logout
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\accessController::logout

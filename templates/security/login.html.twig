@@ -1,0 +1,67 @@
+{% extends 'accessPage.html.twig' %}
+
+{% block title%}
+Login
+{% endblock %}
+
+{% block javascripts %}
+<script>
+</script>
+{% endblock %}
+
+
+{% block content %}
+<form method="post">
+    {% if error %}
+        <div class="row">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="row" style="">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% else %}
+    <div class="column">
+        <label for="inputUsername">Username</label>
+        <div class="row">
+            <img src="/Images/envelope-regular.png">
+            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+        </div>
+        </div>
+        
+        <div class="column">
+            <label for="inputPassword">Password</label>
+            <div class="row">
+                <img src="/Images/key-solid.png">
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+        
+        </div>
+        
+    
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+    
+        <div class="row">
+            <input type="checkbox" name="_remember_me"> 
+            <label for="_remember_me">
+                Remember me
+            </label>
+        </div>
+    
+        <button class="btn btn-lg btn-primary" type="submit">
+            Sign in
+        </button>
+    </form>
+    {% endif %}
+    
+
+<div class="row">
+    <div id="login" class="aButton" style="border-radius:17px 0px 0px 17px ;">
+        Login
+    </div>
+<a href="/access/signup" id="SignUp" class="aButton" style="border-radius:0px 17px 17px 0px; background-color: rgba(73, 145, 252 , 0.5);color: rgba(255, 255, 255, 0.5);">
+        Sign up
+</a>
+{% endblock %}

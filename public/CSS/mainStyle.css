@@ -29,7 +29,7 @@ body{
 
 .aButton{
     border-radius: 17px;
-    background-color: rgb(73, 145, 252);
+    background-color: rgba(73, 145, 252,1);
     height: 2.5vh;
     font-size: 2vh;
     font-weight: 800;
@@ -38,9 +38,26 @@ body{
     margin-top: 5vh;
     padding:2vh;
     box-shadow: none;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 1);
+    cursor: pointer;
     
 }
+
+button{
+    border-radius: 17px;
+    background-color: rgba(73, 145, 252,1);
+    height: 6.5vh;
+    font-size: 2vh;
+    font-weight: 800;
+    width: 7vw;
+    text-align: center;
+    margin-top: 5vh;
+    box-shadow: none;
+    border:none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 1);
+}
+
 
 .aButton:hover{
     cursor: pointer;

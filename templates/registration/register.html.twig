@@ -1,0 +1,58 @@
+{% extends 'accessPage.html.twig' %}
+
+{% block title%}
+Sign up
+{% endblock %}
+
+{% block javascripts %}
+<script>
+</script>
+{% endblock %}
+
+{% block content %}
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+    <div class="column">
+        <label>Email</label>
+        <div class="row">
+            <img src="/Images/envelope-regular.png">
+            {{ form_row(registrationForm.email) }}
+        </div>
+    </div>
+    <div class="column">
+        <label for="usenrame">Username</label>
+        <div class="row">
+            <img src="/Images/user-regular.png">
+            {{ form_row(registrationForm.username) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <label>Password</label>
+            <div class="row">
+                <img class="double" id="passwordImage" src="/Images/key-solid.png">
+                {{ form_row(registrationForm.password.first) }}
+            </div>
+        </div>
+    
+        <div class="column" style="margin-left: 2vw;">
+            <label> Confirm password</label>
+            <div class="row">
+                <img class="double" src="/Images/key-solid.png">
+                {{ form_row(registrationForm.password.second) }}
+            </div>
+        </div>
+    </div>
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+
+    <div class="row">
+        <a href="/access/login" class="aButton" style="border-radius:17px 0px 0px 17px ; background-color: rgba(73, 145, 252 , 0.5);color: rgba(255, 255, 255, 0.5);">
+            Login
+        </a>
+    <div class="aButton" style="border-radius:0px 17px 17px 0px;">
+            Sign up
+    </div>
+
+{% endblock %}

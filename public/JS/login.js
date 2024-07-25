@@ -1,25 +1,20 @@
-var isSigningUp = false
-
-function switchMode(){
-    console.log(isSigningUp)
-    if(isSigningUp){
-        document.getElementById("login").style.backgroundColor="rgba(73, 145, 252 , 1)";
-        document.getElementById("SignUp").style.backgroundColor="rgba(73, 145, 252 , 0.5)";
-    }else{
-        document.getElementById("login").style.backgroundColor="rgba(73, 145, 252 , 0.5)";
-        document.getElementById("SignUp").style.backgroundColor="rgba(73, 145, 252 , 1)";
-    }
-    isSigningUp=! isSigningUp
-    loadCorrespondingHtml()
+function login(){
+    // TODO
+    return;
+    //window.location.href = "/Home";
 }
 
-function loadCorrespondingHtml(){
-    fetch('/login/switchmode', {
+function signUp(){
+    // TODO
+    fetch('/access/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mode: isSigningUp}),
+        body: JSON.stringify({ email:document.getElementById("email").value,
+            username:document.getElementById("username").value,
+            password:document.getElementById("password").value
+        }),
       })
       .then(response => response.text())
       .then(data => {
@@ -27,20 +22,8 @@ function loadCorrespondingHtml(){
 
         })
       .catch((error) => console.error('Error:', error));
-
+    //window.location.href = "/Home";
 }
 
-function loginOrSignUp(){
-    if(isSigningUp){
-        signUp()
-    }
-    login()
-}
 
-function login(){
-    // TODO
-    window.location.href = "/Home";
-}
-
-window.onload = loadCorrespondingHtml()
 
