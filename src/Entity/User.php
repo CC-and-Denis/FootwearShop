@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,6 +46,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $isVendor = null;
+
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'sellerUsername', orphanRemoval: true)]
+    private Collection $sellingProducts;
+
+    public function __construct()
+    {
+        $this->sellingProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -164,6 +177,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVendor(bool $isVendor): static
     {
         $this->isVendor = $isVendor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getSellingProducts(): Collection
+    {
+        return $this->sellingProducts;
+    }
+
+    public function addSellingProduct(Product $sellingProduct): static
+    {
+        if (!$this->sellingProducts->contains($sellingProduct)) {
+            $this->sellingProducts->add($sellingProduct);
+            $sellingProduct->setSellerUsername($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSellingProduct(Product $sellingProduct): static
+    {
+        if ($this->sellingProducts->removeElement($sellingProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($sellingProduct->getSellerUsername() === $this) {
+                $sellingProduct->setSellerUsername(null);
+            }
+        }
 
         return $this;
     }
