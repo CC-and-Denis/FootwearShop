@@ -6,6 +6,8 @@ access:
 
 signUp:
     path: /access/signup
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\accessController::signUp
 
 
 app_login:

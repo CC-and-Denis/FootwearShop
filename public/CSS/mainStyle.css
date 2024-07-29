@@ -5,6 +5,10 @@
     margin: 0px;
     padding: 0px;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 
 body{
     overflow-y: hidden;
@@ -14,7 +18,7 @@ body{
     display: flex;
     height: 100vh;
     justify-content: center;
-    align-items: center;;
+    align-items: center;
 }
 
 .row{
@@ -63,3 +67,11 @@ button{
     cursor: pointer;
 }
 
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+label:hover{
+    cursor: pointer;
+}

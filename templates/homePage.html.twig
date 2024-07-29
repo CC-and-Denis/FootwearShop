@@ -1,0 +1,188 @@
+{% extends 'pageFrame.html.twig' %}
+
+{% block style %}
+<style>
+    .container{
+        width: 80vw;
+        height: 50vh;
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        margin-top: 1.5vh;
+        margin-bottom: 1.5vh;
+        flex-direction: column;
+        font-size: 3vh;
+        font-weight: 600;
+        padding: 0.5vh;
+        padding-bottom: 1vh;
+    }
+    .container>a{
+        font-size: medium;
+    }
+
+    .slideShowContainer{
+        height: 30vh;
+        margin-top: 3vh;
+        margin-bottom: 1.5vh;
+
+    }
+
+    .slideShowContainer>img{
+        height: 5vh;
+        width: 5vh;
+    }
+
+    .aButton{
+        height: 2.5vh;
+        padding: 0vh;
+    }
+
+    .productCard{
+        background-size: cover; 
+        background-repeat: no-repeat;
+        height: 32vh;
+        width: 20vw;
+        border-radius: 15px;
+        margin-right: 3.4vw;
+    }
+
+    .slideShowContainer2>:last-child{
+        margin-right: 0vw;
+    }
+
+    .slideShowContainer2{
+        width: 70vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
+
+    }
+
+    .productPriceFast{
+        margin-top: 1vh;
+        margin-left: 1vh;
+        width: max-content;
+        padding-left:1vw ;
+        padding-right: 1vw;
+        border-radius: 100px;
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(20px);
+        color: rgba(0,0,0,0.7);
+    }
+
+    .productCard:hover>.productInfo{
+        opacity: 1;
+    }
+
+    .productInfo{
+        opacity: 0;
+        border-radius: 0px 0px 15px 15px;
+        margin-top: 7.5vh;
+        height:20vh;
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(20px);
+        padding-left:0.2vw;
+    }
+
+    .productInfo>h1{
+
+        font-size:large;
+        margin-top: 0.5vh;
+        margin-bottom: 1vh;
+    }
+
+    .productInfo>p{
+        font-size: small;
+    }
+
+    .productInfo>a{
+        font-size: medium;
+        margin-top: 1vh;
+        text-decoration: underline;
+    }
+
+</style>
+{% endblock%}
+
+{% block javascripts %}
+<script>
+function redirectToProductPage(){
+    window.location.href="/product/id"
+}
+</script>
+{% endblock%}
+
+{% block content %}
+<div class="column center" style="width: 94vw">
+
+    <div class="container column center">
+        Popular
+    
+        <div class="slideShowContainer row center">
+            <img src="/Images/circle-chevron-left-solid.png">
+            <div class="slideShowContainer2 row">
+
+                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
+                    <div class="productPriceFast">
+                        100€
+                    </div>
+                    <div class="productInfo column">
+                        <h1>Nike Air Force Limited edition </h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <a href="/user/bigvendor99">BigVendor99</a>
+                    </div>
+                </div>
+
+                <div class="productCard" style="background-image: url(/Images/product-example.jpg);">
+                    <div class="productPriceFast">
+                        100€
+                    </div>
+                </div>
+
+                <div class="productCard" style="background-image: url(/Images/product-example.jpg);">
+                    <div class="productPriceFast">
+                        100€
+                    </div>
+                </div>
+
+            </div>
+        <img src="/Images/circle-chevron-left-solid.png" style="transform: rotate(180deg);">
+        
+            
+        </div>
+        <a class="aButton" href="/popular">See more</a>
+    </div>
+
+<div class="container column center">
+        For you
+        <div class="slideShowContainer row center">
+            <img src="/Images/circle-chevron-left-solid.png">
+            <div class="slideShowContainer2 row">
+
+                <div class="productCard" style="background-image: url(/Images/product-example.jpg);">
+                    <div class="productPriceFast">
+                        100€
+                    </div>
+                </div>
+
+                <div class="productCard" style="background-image: url(/Images/product-example.jpg);">
+                    <div class="productPriceFast">
+                        100€
+                    </div>
+                </div>
+
+                <div class="productCard" style="background-image: url(/Images/product-example.jpg);">
+                    <div class="productPriceFast">
+                        100€
+                    </div>
+                </div>
+
+            </div>
+        <img src="/Images/circle-chevron-left-solid.png" style="transform: rotate(180deg);">
+        
+            
+        </div>
+        <a class="aButton" href="/fyp">See more</a>
+    </div>
+
+{% endblock%}
+
