@@ -13,6 +13,10 @@ class HomeController extends AbstractController
         return $this->render('homePage.html.twig');
     }
 
-    #
+    #[Route('/product/{productId}',)]
+    public function loadProductPage(): Response
+    {
+        return $this->render('productpage.html.twig');
+    }
 }
 ?>

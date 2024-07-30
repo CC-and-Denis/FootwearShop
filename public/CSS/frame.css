@@ -7,7 +7,7 @@
         flex-direction: column;
         border-radius: 0px 0px 0px 0px;
         /*box-shadow: 5px 5px 5px 5px rgba(255, 255, 255, 0.2);*/
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(35px);
         /*z-index: 2;*/
     }
 
@@ -23,7 +23,7 @@
 
     .sidebar>.column>a{
         margin-bottom: 3vh ;
-        font-size: large;
+        font-size: 1vw;
         font-weight: 600;
     }
 
@@ -117,4 +117,10 @@
         margin-right: 1vh;
     }
     
-    
+    .background{
+        background-image: url(/Images/loginBackground.jpg);
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat; 
+        background-position:center ;
+    }

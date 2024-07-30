@@ -5,6 +5,31 @@
     margin: 0px;
     padding: 0px;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 120px;
+    background:  rgba(255,255,255,0.05);
+ 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 120px;
+    background: rgba(255,255,255,0.2); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5); 
+  }
+
 a{
     text-decoration: none;
     color: black;
@@ -39,7 +64,6 @@ body{
     font-weight: 800;
     width: 7vw;
     text-align: center;
-    margin-top: 5vh;
     padding:2vh;
     box-shadow: none;
     color: rgba(255, 255, 255, 1);

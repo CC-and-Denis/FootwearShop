@@ -20,6 +20,12 @@ home:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadHomePage
 
+productPage:
+    path: /product/{id}
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\HomeController::loadProductPage
+
+
 app_logout:
     path: /access/logout
     # the controller value has the format 'controller_class::method_name'

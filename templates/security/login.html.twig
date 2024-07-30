@@ -20,6 +20,8 @@ Login
         <div class="row" style="">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
+
+        <a class="aButton" href="/home">Home</a>
     {% else %}
     <div class="column">
         <label for="inputUsername">Username</label>
