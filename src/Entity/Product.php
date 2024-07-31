@@ -54,6 +54,9 @@ class Product
     #[ORM\Column]
     private ?int $itemsSold = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cart')]
+    private ?User $cartedBy = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -218,6 +221,18 @@ class Product
     public function setItemsSold(int $itemsSold): static
     {
         $this->itemsSold = $itemsSold;
+
+        return $this;
+    }
+
+    public function getCartedBy(): ?User
+    {
+        return $this->cartedBy;
+    }
+
+    public function setCartedBy(?User $cartedBy): static
+    {
+        $this->cartedBy = $cartedBy;
 
         return $this;
     }

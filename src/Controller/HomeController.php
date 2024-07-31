@@ -38,6 +38,7 @@ class HomeController extends AbstractController
             return $this->render('userPage.html.twig',[
                 'username'=>$username,
                 'isVendor'=>$targetUser->isVendor(),
+                'products'=>$targetUser->getSellingProducts(),
             ]);
         }else{
             return $this->render('notFound.html.twig',[

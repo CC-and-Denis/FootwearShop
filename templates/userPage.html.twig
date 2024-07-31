@@ -7,12 +7,14 @@
 
 {% block style %}
 <style>
+
+
 .container{
         background-color: rgba(255,255,255,0.2);
         backdrop-filter: blur(35px);
         border-radius: 20px;
-        padding: 5vh;
-        height: 82vh;
+        padding: 2vh 5vh;
+        height: 88vh;
 
 }
 
@@ -25,9 +27,9 @@
 #rating{
     background-color: rgba(255,255,255,0.5);
         backdrop-filter: blur(35px);
-        border-radius: 20px;
+        border-radius: 18px;
         padding: 2vh 5vh;
-        height: 35vh;
+        height: 40vh;
         width: 15vw;
 
 }
@@ -48,6 +50,23 @@
 
 .aButton{
     margin-top: 2vh;
+    height: 3vh;
+    padding-top: 0.3vh;
+    padding-bottom: 0vh;
+}
+
+#bubble{
+    width: 80vh;
+    height: 80vh;
+    position: absolute;
+    background-image: linear-gradient(to top left, rgba(255, 255, 255, 0),rgba(255, 255, 255, 0.5));
+    border-radius: 100%;
+    animation-name: rotate;
+    animation-duration: 10s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    margin-left: 9vw;
+    z-index: 1;
 }
 
 </style>
@@ -78,10 +97,10 @@
                 <!-- visualizzeremo le stelle -->
                 {% else %}
                         {% if app.user.userIdentifier == username %}
-                        <p>You are not selling anything</p>
+                        <p>You have not sold anything</p>
                         <a class="aButton">Start selling</a>
                         {% else %}
-                        This User is not selling anything
+                        This User has not sold anything
                         {% endif %}
                 {% endif %}
             </div>
@@ -89,21 +108,22 @@
 
         </div>
         {% if app.user.userIdentifier == username %}
-            <!--<a class="aButton">Edit</a>-->
-            <a class="aButton">Settings</a>
+            <a class="aButton">Add product</a>
+            <a href="/settings" class="aButton">Settings</a>
         {% endif %}
     </div>
     
     <div class="column container" style="width: 58vw;">
-        {% if isVendor %}
-                <!-- visualizzeremo i prodotti -->
+        {% if products|length %}
+                {% for product in products %}
+                 baby
+                {% endfor %}
                 {% else %}
-                    <div class="center column">
+                    <div class="center column" style="z-index: 2;">
                         {% if app.user.userIdentifier == username %}
-                        <p>You are not selling anything</p>
-                        <a class="aButton">Start selling</a>
+                        <p>here will appear products sold by you</p>
                         {% else %}
-                        This User is not selling anything
+                            here will appear products sold by this user
                         {% endif %}
                     </div>
                 {% endif %}
