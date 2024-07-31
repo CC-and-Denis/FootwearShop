@@ -22,7 +22,7 @@
     }
 
     .sidebar>.column>a{
-        margin-bottom: 3vh ;
+        margin-bottom: 2vh ;
         font-size: 1vw;
         font-weight: 600;
     }
@@ -37,7 +37,7 @@
     }
 
     #bottom{
-        margin-top: 15vh;
+        margin-top: 8vh;
     }
 
     #bottom>a{
@@ -123,4 +123,14 @@
         background-size: cover;
         background-repeat: no-repeat; 
         background-position:center ;
+    }
+
+    .userImage{
+        border-radius: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size:contain;
+        background-color: rgba(255, 255, 255, 0.2);
+        width: 4vw;
+        height: 4vw;
     }

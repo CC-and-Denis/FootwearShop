@@ -25,6 +25,11 @@ productPage:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadProductPage
 
+userPage:
+    path: /user/{username}
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\HomeController::loadUserPage
+
 
 app_logout:
     path: /access/logout

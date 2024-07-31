@@ -1,0 +1,115 @@
+{% extends 'pageFrame.html.twig' %}
+
+{% block title %}
+    Nike Air Force Limited edition
+{% endblock %}
+
+
+{% block style %}
+<style>
+.container{
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(35px);
+        border-radius: 20px;
+        padding: 5vh;
+        height: 82vh;
+
+}
+
+#profilePic{
+    width: 20vh;
+    height: 20vh;
+    margin-bottom: 2vh;
+}
+
+#rating{
+    background-color: rgba(255,255,255,0.5);
+        backdrop-filter: blur(35px);
+        border-radius: 20px;
+        padding: 2vh 5vh;
+        height: 35vh;
+        width: 15vw;
+
+}
+
+#rating>h1{
+    display: block;
+    font-size: 4vh;
+    text-align: center;
+    font-weight: 400;
+}
+
+#userName{
+    font-size: 4vh;
+    margin-bottom: 2vh;
+    font-weight: 600;
+    color: rgba(255,255,255,1);
+}
+
+.aButton{
+    margin-top: 2vh;
+}
+
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row" style="padding: 5vh;overflow-x: hidden;
+    overflow-y: hidden;">
+
+    <div class="column container" style=" width: 20vw;margin-right: 3vh; align-items: center;">
+        <div id="profilePic" class="userImage" style="background-image: url(/Images/user-regularB.png);">
+
+        </div>
+        <div id="userName">
+            {{username}}
+        </div>
+
+        <div id="rating" class="column">
+            <h1>Ratings</h1>
+            <div class="column center">
+                {% if isVendor %}
+                <!-- visualizzeremo le stelle -->
+                {% else %}
+                        {% if app.user.userIdentifier == username %}
+                        <p>You are not selling anything</p>
+                        <a class="aButton">Start selling</a>
+                        {% else %}
+                        This User is not selling anything
+                        {% endif %}
+                {% endif %}
+            </div>
+            
+
+        </div>
+        {% if app.user.userIdentifier == username %}
+            <!--<a class="aButton">Edit</a>-->
+            <a class="aButton">Settings</a>
+        {% endif %}
+    </div>
+    
+    <div class="column container" style="width: 58vw;">
+        {% if isVendor %}
+                <!-- visualizzeremo i prodotti -->
+                {% else %}
+                    <div class="center column">
+                        {% if app.user.userIdentifier == username %}
+                        <p>You are not selling anything</p>
+                        <a class="aButton">Start selling</a>
+                        {% else %}
+                        This User is not selling anything
+                        {% endif %}
+                    </div>
+                {% endif %}
+    </div>
+
+
+</div>
+
+{% endblock %}
