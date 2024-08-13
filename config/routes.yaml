@@ -21,7 +21,7 @@ home:
     controller: App\Controller\HomeController::loadHomePage
 
 productPage:
-    path: /product/{id}
+    path: /product/{productId}
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadProductPage
 
@@ -30,8 +30,10 @@ userPage:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadUserPage
 
+editProduct:
+    path: /editproduct/{id}
+    controller: App\Controller\HomeController::loadProductEditPage
 
 app_logout:
     path: /access/logout
-    # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\accessController::logout

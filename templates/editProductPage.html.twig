@@ -1,0 +1,162 @@
+{% extends 'pageFrame.html.twig' %}
+
+{% block title %}
+    Nike Air Force Limited edition
+{% endblock %}
+
+
+{% block style %}
+<style>
+    .background{
+        /*background-image:  radial-gradient(rgb(240, 206, 255), rgb(200, 206, 255))*/
+    }
+
+    .mainImage{
+        width: 20vh;
+        height: 20vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 12px ;
+    }
+
+    .slideShowContainer{
+        height: 40vh;
+        margin-top: 0vh;
+        margin-bottom: 1.5vh;
+        width: 90vw;
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+
+    }
+
+    .slideShowContainer>img{
+        height: 5vh;
+        width: 5vh;
+    }
+
+    .slideShowContainer2>:last-child{
+        margin-right: 0vw;
+    }
+
+    .slideShowContainer2{
+        width: 80vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
+
+    }
+    .previewImages{
+        background-color: rgba(255,255,255,0.5);
+        border-radius: 18px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size:contain;
+        height: 38vh;
+        width: 100vh;
+        margin-right: 2vw;
+    }
+
+    .container{
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(35px);
+        border-radius: 20px;
+        padding: 2vh;
+        height: 50vh;
+    }
+
+    .container>.row>.column{
+        margin-left: 1vw;
+        height: 20vh;
+        width: 10vw;
+        font-size: large;
+    }
+    #title{
+        font-size:1vw;
+        margin-bottom: 3vh;
+        margin-top: 3vh;
+    }
+
+    .container>.row>.column>.row{
+        background-color: rgba(255,255,255,0.5);
+        width: fit-content;
+        padding: 0.5vh 1vh;
+        border-radius: 100px;
+    }
+
+    #description{
+        height: 23vh;
+        overflow-y: scroll;
+        padding-right: 1vh;
+        
+    }
+
+    #vendor{
+        text-decoration: underline;
+        margin-top: 2vh;
+    }
+
+    .aButton{
+        margin-top: 1vh;
+    }
+
+
+</style>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="column" style="padding-left: 2vw; padding-top: 2vh;">
+            <div class="slideShowContainer row center">
+                <img src="/Images/circle-chevron-left-solid.png">
+                <div class="slideShowContainer2 row">
+    
+                    
+    
+                </div>
+            <img src="/Images/circle-chevron-left-solid.png" style="transform: rotate(180deg);">
+            
+                
+            </div>
+        <div class="row">
+            <div class="column container" style="width: 40vw; margin-right: 2vw;" >
+                <div class="row" style="margin-bottom: 2vh;">
+                    <div class="mainImage" style="background-image: url(/Images/product-example.jpg);"></div>
+                    <div class="column">
+                        <div id="title">
+                            Nike Air Force One Limited Edition
+                        </div>
+                        <div class="row">
+                            <div id="price">
+                                99.99
+                            </div>
+                            <div id="currency">
+                                €
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="column">
+                        <a class="aButton"> Buy now</a>
+                        <a class="aButton"> Add to cart</a>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div id="description">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                    <a href="/user/BigVendor99"id="vendor">
+                        BigVendor99
+                    </a>
+                </div>
+            </div>
+
+            <div class="column container" style="width: 44vw;">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

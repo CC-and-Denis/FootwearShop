@@ -88,7 +88,12 @@
             <a>Support</a>
             <a>Copyright</a>
             <a href="/shoppingcart"><img src="/Images/cart-shopping-solid.png"></a>
+            {% if app.user %}
             <a id="userImage" class="userImage" style="background-image: url(/Images/user-regularB.png);" href="/user/{{app.user.userIdentifier}}"></a>
+            {% else %}
+            <a id="userImage" class="userImage" style="background-image: url(/Images/user-regularB.png);" href="/access/login"></a>
+
+            {% endif %}
 
 
         </div>

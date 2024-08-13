@@ -22,10 +22,16 @@ class HomeController extends AbstractController
         return $this->render('homePage.html.twig');
     }
 
-    #[Route('/product/{productId}',)]
-    public function loadProductPage(): Response
+    #[Route('product/{productId}',)]
+    public function loadProductPage($productId): Response
     {
         return $this->render('productpage.html.twig');
+    }
+
+    #[Route('/editproduct/{id}', name: 'edit_product')]
+    public function loadProductEditPage($id): Response
+    {
+        return $this->render('editProductPage.html.twig');
     }
 
     #[Route('user/{username}',)]
@@ -46,5 +52,7 @@ class HomeController extends AbstractController
             ]);
         }
     }
+
+    
 }
 ?>
