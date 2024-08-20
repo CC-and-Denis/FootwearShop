@@ -2,7 +2,7 @@
 access:
     path: /access
     # the controller value has the format 'controller_class::method_name'
-    controller: App\Controller\accessController::loadAccessPage
+    controller: App\Controller\accessController::signUp
 
 signUp:
     path: /access/signup

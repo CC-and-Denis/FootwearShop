@@ -5,36 +5,32 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="/CSS/mainStyle.css">
-    <link rel="stylesheet" href="/CSS/frame.css">
-    <script src="/JS/frame.js"></script>
-
+{{parent()}}
+{{ encore_entry_link_tags('frame') }}
 {% endblock %}
 
 {% block javascripts %}
+{{ encore_entry_script_tags('frame') }}
 {% endblock %}
 
 
 
-
-{% block style %}
-{% endblock %}
 
 {% block body %}
 <div id="searchContainer">
     <label for="searchContainerCheckbox">
-        <img src="/Images/circle-chevron-left-solid.png" style="height: 10vh;width: 10vh; position: absolute; top: 0; left: 0; margin-top: 2vh; margin-left: 10vw;">
+        <img src="{{ asset('build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="height: 10vh;width: 10vh; position: absolute; top: 0; left: 0; margin-top: 2vh; margin-left: 10vw;">
     </label>
     <div class="row" id="searchBarContainer"> 
         <div>
-            <input id="filterMenuCheckbox" type="checkbox" onchange="displayFilters()" style="opacity: 0;position: absolute;">
+            <input id="filterMenuCheckbox" type="checkbox" style="opacity: 0;position: absolute;">
             <label for="filterMenuCheckbox">
-                <img src="/Images/filter-solid.png"></label>
+                <img src="{{ asset('/build/Images/filter-solid.8f86f99e.png')}}"></label>
             
         </div>
         <input type="text">
         <div>
-            <img src="/Images/magnifying-glass-solid.png">
+            <img src="{{ asset('/build/Images/magnifying-glass-solid.2b32bcc1.png')}}">
         </div>
     </div>
     <div id="filterMenu">
@@ -64,13 +60,13 @@
 
     </div>
 </div>
-<div class="row background">
+<div class="row background" style="background-image:url({{asset('/build/Images/loginBackground.384cedde.jpg')}}) ;">
     <div class="sidebar">
         <div class="column" id="top">
             <div>
-                <input id="searchContainerCheckbox" type="checkbox" onchange="displaySearch()" style="opacity: 0;position: absolute;">
+                <input id="searchContainerCheckbox" type="checkbox" style="opacity: 0;position: absolute;">
                 <label for="searchContainerCheckbox">
-                    <img src="/Images/magnifying-glass-solid.png"></label>
+                    <img src="{{ asset('/build/Images/magnifying-glass-solid.2b32bcc1.png')}}"></label>
                 
             </div>
         </div>
@@ -87,11 +83,10 @@
             <a>About</a>
             <a>Support</a>
             <a>Copyright</a>
-            <a href="/shoppingcart"><img src="/Images/cart-shopping-solid.png"></a>
             {% if app.user %}
-            <a id="userImage" class="userImage" style="background-image: url(/Images/user-regularB.png);" href="/user/{{app.user.userIdentifier}}"></a>
+            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/Images/user-regularB.df1377b9.png')}});" href="/user/{{app.user.userIdentifier}}"></a>
             {% else %}
-            <a id="userImage" class="userImage" style="background-image: url(/Images/user-regularB.png);" href="/access/login"></a>
+            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/Images/user-regularB.df1377b9.png')}});" href="/access/login"></a>
 
             {% endif %}
 

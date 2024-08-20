@@ -16,7 +16,7 @@
         padding: 0.5vh;
         padding-bottom: 1vh;
     }
-    .container>a{
+    .container>.aButton{
         font-size: medium;
     }
 
@@ -38,6 +38,8 @@
     }
 
     .productCard{
+        display:block;
+        padding-right: 0;
         background-size: cover; 
         background-repeat: no-repeat;
         background-position: center;
@@ -77,25 +79,15 @@
     .productInfo{
         opacity: 0;
         border-radius: 0px 0px 15px 15px;
-        margin-top: 5.7vh;
+        margin-top: 5.6vh;
         height:23vh;
         background-color: rgba(255,255,255,0.2);
         backdrop-filter: blur(20px);
-        padding-left:0.2vw;
+        padding-left:0.1vw;
+
     }
 
-    .productInfo>h1{
-
-        font-size:large;
-        margin-top: 0.5vh;
-        margin-bottom: 1vh;
-    }
-
-    .productInfo>p{
-        font-size: small;
-    }
-
-    .productInfo>a{
+    .productInfo>.user{
         font-size: medium;
         margin-top: 1vh;
         text-decoration: underline;
@@ -105,16 +97,11 @@
         margin-top: 3vh;
     }
 
+
+
 </style>
 {% endblock%}
 
-{% block javascripts %}
-<script>
-function redirectToProductPage(){
-    window.location.href="/product/id"
-}
-</script>
-{% endblock%}
 
 {% block content %}
 <div class="column center" style="width: 94vw">
@@ -123,55 +110,63 @@ function redirectToProductPage(){
         Popular
     
         <div class="slideShowContainer row center">
-            <img src="/Images/circle-chevron-left-solid.png">
+            <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}">
             <div class="slideShowContainer2 row">
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
             </div>
-        <img src="/Images/circle-chevron-left-solid.png" style="transform: rotate(180deg);">
+        <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
         
             
         </div>
@@ -181,55 +176,62 @@ function redirectToProductPage(){
 <div class="container column center">
         For you
         <div class="slideShowContainer row center">
-            <img src="/Images/circle-chevron-left-solid.png">
+            <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}">
             <div class="slideShowContainer2 row">
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force One Limited Edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
+                </a>
 
-                <div class="productCard" style="background-image: url(/Images/product-example.jpg);" onclick="redirectToProductPage()">
-                    <div class="productPriceFast">
-                        100€
+                <a href="/product/id" >
+                    <div class="productCard" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});" ">
+                        <div class="productPriceFast">
+                            99€
+                        </div>
+                        <div class="productInfo column">
+                            <h1 style="font-size: smaller; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">Nike Air Force Limited edition </h1>
+                            <p style="font-size: small;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <a class="user" href="/user/bigvendor99">BigVendor99</a>
+                        </div>
                     </div>
-                    <div class="productInfo column">
-                        <h1>Nike Air Force Limited edition </h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                        <a href="/user/bigvendor99">BigVendor99</a>
-                    </div>
-                </div>
-
+                </a>
             </div>
-        <img src="/Images/circle-chevron-left-solid.png" style="transform: rotate(180deg);">
+        <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
         
             
         </div>

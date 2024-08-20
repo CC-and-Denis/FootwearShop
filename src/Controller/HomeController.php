@@ -22,7 +22,7 @@ class HomeController extends AbstractController
         return $this->render('homePage.html.twig');
     }
 
-    #[Route('product/{productId}',)]
+    #[Route('product/{productId}', )]
     public function loadProductPage($productId): Response
     {
         return $this->render('productpage.html.twig');

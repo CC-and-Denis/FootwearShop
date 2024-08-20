@@ -4,10 +4,6 @@
 Sign up
 {% endblock %}
 
-{% block javascripts %}
-<script>
-</script>
-{% endblock %}
 
 {% block content %}
     {{ form_errors(registrationForm) }}
@@ -16,14 +12,14 @@ Sign up
     <div class="column">
         <label>Email</label>
         <div class="row">
-            <img src="/Images/envelope-regular.png">
+            <img src="{{asset('/build/Images/envelope-regular.8640d6ad.png')}}">
             {{ form_row(registrationForm.email) }}
         </div>
     </div>
     <div class="column">
         <label for="usenrame">Username</label>
         <div class="row">
-            <img src="/Images/user-regular.png">
+            <img src="{{asset('/build/Images/user-regular.246ab86a.png')}}">
             {{ form_row(registrationForm.username) }}
         </div>
     </div>
@@ -31,7 +27,7 @@ Sign up
         <div class="column">
             <label>Password</label>
             <div class="row">
-                <img class="double" id="passwordImage" src="/Images/key-solid.png">
+                <img class="double" id="passwordImage" src="{{asset('/build/Images/key-solid.792a57bf.png')}}">
                 {{ form_row(registrationForm.password.first) }}
             </div>
         </div>
@@ -39,7 +35,7 @@ Sign up
         <div class="column" style="margin-left: 2vw;">
             <label> Confirm password</label>
             <div class="row">
-                <img class="double" src="/Images/key-solid.png">
+                <img class="double" src="{{asset('/build/Images/key-solid.792a57bf.png')}}">
                 {{ form_row(registrationForm.password.second) }}
             </div>
         </div>

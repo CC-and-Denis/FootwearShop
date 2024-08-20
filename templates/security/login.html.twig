@@ -4,11 +4,6 @@
 Login
 {% endblock %}
 
-{% block javascripts %}
-<script>
-</script>
-{% endblock %}
-
 
 {% block content %}
 <form method="post">
@@ -26,7 +21,7 @@ Login
     <div class="column">
         <label for="inputUsername">Username</label>
         <div class="row">
-            <img src="/Images/user-regular.png">
+            <img src="{{asset('/build/Images/user-regular.246ab86a.png')}}">
             <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
         </div>
         </div>
@@ -34,7 +29,7 @@ Login
         <div class="column">
             <label for="inputPassword">Password</label>
             <div class="row">
-                <img src="/Images/key-solid.png">
+                <img src="{{asset('/build/Images/key-solid.792a57bf.png')}}">
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             </div>
         

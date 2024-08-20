@@ -1,7 +1,7 @@
 {% extends 'pageFrame.html.twig' %}
 
 {% block title %}
-    Nike Air Force Limited edition
+ {{username}} profile
 {% endblock %}
 
 
@@ -59,18 +59,13 @@
 </style>
 {% endblock %}
 
-{% block javascripts %}
-<script>
-
-</script>
-{% endblock %}
 
 {% block content %}
 <div class="row" style="padding: 5vh;overflow-x: hidden;
     overflow-y: hidden;">
 
     <div class="column container" style=" width: 20vw;margin-right: 2.9vh; align-items: center;">
-        <div id="profilePic" class="userImage" style="background-image: url(/Images/user-regularB.png);">
+        <div id="profilePic" class="userImage" style="background-image: url({{asset('/build/Images/user-regularB.df1377b9.png')}});">
 
         </div>
         <div id="userName">
@@ -108,9 +103,9 @@
                 {% else %}
                     <div class="center column" style="z-index: 2;">
                         {% if app.user.userIdentifier == username %}
-                        <p>here will appear products sold by you</p>
+                        <p>Here, products sold by you will appear</p>
                         {% else %}
-                            here will appear products sold by this user
+                        <p>Here, products sold by {{username}} will appear</p>
                         {% endif %}
                     </div>
                 {% endif %}

@@ -1,27 +1,25 @@
 var element=null;
-    var step = 1;
-    var end = 10;
-    var opacity = 0;
-    var id = null
-
+var step = 1;
+var end = 10;
+var opacity = 0;
+var id = null
+    
     function displayFilters(){
-        var element = document.getElementById("filterMenu")
+        element = document.getElementById("filterMenu")
         
-        var id = null
+        id = null
         clearInterval(id)
         id=setInterval(frame,10)
         if(document.getElementById("filterMenuCheckbox").checked){
-            var step = 1
-            var end = 10
-            var opacity = 0
+            step = 1
+            end = 10
+            opacity = 0
         }else{
-            var step = -1
-            var end = 0
-            var opacity = 10
+            step = -1
+            end = 0
+            opacity = 10
         }
         function frame() {
-            console.log(element)
-            console.log(opacity)
             if (opacity==end) {
               clearInterval(id);
             } else {
@@ -35,30 +33,27 @@ var element=null;
         
 
         function displaySearch(){
-        var element = document.getElementById("searchContainer")
-        console.log(element)
-        var id = null
+        element = document.getElementById("searchContainer")
+        id = null
         clearInterval(id)
         id=setInterval(frame,10)
         if(document.getElementById("searchContainerCheckbox").checked){
-            var step = 1
-            var end = 10
-            var opacity = 0
+            step = 1
+            end = 10
+            opacity = 0
             element.style.display="flex"
         }else{
-            var step = -1
-            var end = 0
-            var opacity = 10
+            step = -1
+            end = 0
+            opacity = 10
             
         }
        
         function frame() {
-            console.log(element)
-            console.log(opacity)
+
             if (opacity==end) {
               clearInterval(id);
               if(! document.getElementById("searchContainerCheckbox").checked){
-                console.log("nascondi")
              element.style.display="none"
                 }
             } else {
@@ -69,6 +64,10 @@ var element=null;
 
         }
 
-        
+
         
         }
+
+document.getElementById("searchContainerCheckbox").addEventListener('change',displaySearch);
+document.getElementById("filterMenuCheckbox").addEventListener('change',displayFilters);
+
