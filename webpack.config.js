@@ -62,11 +62,13 @@ Encore
         to:'Images/[path][name].[hash:8].[ext]',
         pattern: /\.(png|jpg|jpeg)$/
     })
+
+    //.enableVueLoader()
     // enables Sass/SCSS support
     //.enableSassLoader()
 
     // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    .enableTypeScriptLoader()
 
     // uncomment if you use React
     //.enableReactPreset()

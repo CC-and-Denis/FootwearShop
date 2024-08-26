@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Product;
+use App\Form\ProductFormType;
+
 
 class HomeController extends AbstractController
 {
@@ -16,10 +19,14 @@ class HomeController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/home',)]
+    #[Route('/home', name:'home')]
     public function loadHomePage(): Response
     {
-        return $this->render('homePage.html.twig');
+        
+
+        return $this->render('homePage.html.twig',[
+          
+        ]);
     }
 
     #[Route('product/{productId}', )]
@@ -28,10 +35,24 @@ class HomeController extends AbstractController
         return $this->render('productpage.html.twig');
     }
 
-    #[Route('/editproduct/{id}', name: 'edit_product')]
-    public function loadProductEditPage($id): Response
+    #[Route('createproduct'),]
+    public function createProduct(Request $request): Response
     {
-        return $this->render('editProductPage.html.twig');
+        $product = new Product();
+        $form = $this->createForm(ProductFormType::class, $product);
+        
+        $form->handleRequest($request);
+        //dd($form);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $newProduct=$form->getData();
+            dd($newProduct);
+            exit;
+        } 
+        
+        return $this->render('editProductPage.html.twig',[
+            'form'=>$form->createView(),
+        ]);
     }
 
     #[Route('user/{username}',)]

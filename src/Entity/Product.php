@@ -17,11 +17,11 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $model = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $colors = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private ?string $colors = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $materials = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $materials = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $brand = null;
@@ -57,6 +57,12 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'cart')]
     private ?User $cartedBy = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $mainImage = null;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $otherImages = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,24 +87,24 @@ class Product
         return $this;
     }
 
-    public function getColors(): ?array
+    public function getColors(): ?string
     {
         return $this->colors;
     }
 
-    public function setColors(?array $colors): static
+    public function setColors(?string $colors): static
     {
         $this->colors = $colors;
 
         return $this;
     }
 
-    public function getMaterials(): ?array
+    public function getMaterials(): ?string
     {
         return $this->materials;
     }
 
-    public function setMaterials(?array $materials): static
+    public function setMaterials(?string $materials): static
     {
         $this->materials = $materials;
 
@@ -233,6 +239,30 @@ class Product
     public function setCartedBy(?User $cartedBy): static
     {
         $this->cartedBy = $cartedBy;
+
+        return $this;
+    }
+
+    public function getMainImage(): ?string
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(string $mainImage): static
+    {
+        $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    public function getOtherImages(): array
+    {
+        return $this->otherImages;
+    }
+
+    public function setOtherImages(array $otherImages): static
+    {
+        $this->otherImages = $otherImages;
 
         return $this;
     }

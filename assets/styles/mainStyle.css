@@ -4,7 +4,12 @@
     font-style: normal;
     margin: 0px;
     padding: 0px;
+  
     
+}
+
+:root{
+    --higlight-color:#00509E;
 }
 
 
@@ -31,6 +36,18 @@
     background: rgba(255,255,255,0.5); 
   }
 
+  ::-moz-selection { /* Code for Firefox */
+    color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    background:rgba(255,255,255,0.5) ;
+  }
+  
+  ::selection {
+    color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    background:rgba(255,255,255,0.5) ;
+
+  }
 a{
     text-decoration: none;
     color: black;
@@ -48,19 +65,25 @@ body{
     align-items: center;
 }
 
-.row{
+
+.row, .column, .reverseColumn{
     display: flex;
+}
+.row{
     flex-direction: row;
 }
 
 .column{
-    display: flex;
     flex-direction: column;
+}
+
+.reverseColumn{
+    flex-direction: column-reverse;
 }
 
 .aButton{
     border-radius: 17px;
-    background-color: rgba(73, 145, 252,1);
+    background-color: var(--higlight-color);
     height: 2.5vh;
     font-size: 2vh;
     font-weight: 800;
@@ -75,7 +98,7 @@ body{
 
 button{
     border-radius: 17px;
-    background-color: rgba(73, 145, 252,1);
+    background-color: var(--higlight-color);
     height: 6.5vh;
     font-size: 2vh;
     font-weight: 800;
