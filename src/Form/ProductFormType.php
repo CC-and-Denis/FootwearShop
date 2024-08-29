@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\File;
 
 
 
@@ -125,38 +127,71 @@ class ProductFormType extends AbstractType
             ->add('forKids',CheckboxType::class, [
                 'label' => false,
                 'required' => false,     // The checkbox is not required
-                'empty_data' => false,
             ])
             ->add('price',MoneyType::class,[
                 'label'=>false,
+                'constraints' => [
+                    new Range([
+                        'min' => 0.2, // Minimum value
+                        'max' => 10000, // Maximum value
+                        'notInRangeMessage' => 'The price must be between {{ min }} and {{ max }}.',
+                    ]),
+                ],
                 'attr'=>[
                     'pattern' => '[0-9\.]+',
                     'placeholder'=>".",
                     'min'=>0.2,
-                    'max'=>1000
+                    'max'=>10000,
+                    'maxlength'=>7,
                 ]
             ],
             )
             ->add('description',TextareaType::class,[
                 'label'=>false,
+                
                 'attr'=>[
-                    'placeholder'=>"."
+                    'placeholder'=>".",
+                    'maxlength' => 800,
                 ],
                 'required'=>false,
             ])
             ->add('quantity',IntegerType::class)
             ->add('mainImage',FileType::class,[
                 'required'=>true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1G',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image (JPG,JPEG or PNG).',
+                    ]),
+                ]
             ])
-            ->add('otherImages',FileType::class,[
-                'label' => 'Upload Files',
-                'multiple' => true,  // Allows multiple files to be selected
-                'mapped' => false,    // This field is not associated with any entity property
-                'required' => false,  // Makes the file input optional
-                'attr' => [
-                    'multiple' => 'multiple'  // Allows the user to select multiple files
+            ->add('otherImages',CollectionType::class, [
+                'entry_type' => FileType::class,
+                'label'=>false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'entry_options' => [
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1G',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                                'image/jpg',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid image (JPG,JPEG or PNG).',
+                        ])
+                    ],
                 ],
-                ])
+                'required' => false,
+            ]);
+        
             
         ;
     }

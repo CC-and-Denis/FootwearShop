@@ -16,6 +16,7 @@
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
   }
   
   /* Track */
@@ -123,4 +124,8 @@ img{
 
 label:hover{
     cursor: pointer;
+}
+
+.scrollable{
+    overflow-y: scroll;
 }

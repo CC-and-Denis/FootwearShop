@@ -12,6 +12,8 @@
     opacity: 0;
 }
 
+
+
 .slideShowContainer {
     height: 40vh;
     margin-top: 0vh;
@@ -55,6 +57,25 @@
     padding: 2vh;
     height: 50vh;
 }
+
+.errorContainer{
+    padding: 0.5vh 1vw;
+    background-color: rgba(255, 110, 0, 0.5);
+    backdrop-filter: blur(0px);
+    margin-top: 1vh;
+    font-size: small;
+    height: 3.5vh;
+    margin-top: 0;
+    text-decoration: none;
+    border-radius: 120px;
+    margin-left: 0.5vw
+
+}
+
+.errorContainer>ul{
+    list-style: none;
+}
+
 
 .container>.row>.column {
     margin-left: 1vw;
@@ -266,6 +287,7 @@ label[for=product_form_price] {
                 
             </div>
         {{form_start(form)}}
+        
         <div class="row">
             <div class="column container" style="width: 40vw; margin-right: 2vw;" >
                 <div class="row" style="margin-bottom: 2vh;">
@@ -282,14 +304,29 @@ label[for=product_form_price] {
                     <label for="product_form_model" >Product model</label>
                     </div>
                     
-                        <div style="position: relative;">
-                        <div class="row">
+                        <div style="position: relative;" class="row">
+                        <div class="row" style="width: 5vw;">
                         {{form_widget(form.price)}}
                         <label for="product_form_price">
                             Price
                         </label>
                         </div>
+                        {% if form_errors(form.price)%}
+                        <div class="errorContainer">
+                            <p>{{form_errors(form.price)}}</p>
                         </div>
+                        {% endif %}
+                        </div>
+
+                        {% if form_errors(form.mainImage) or form_errors(form.otherImages) %}
+                        <div class="errorContainer">
+                        <p>{{form_errors(form.description)}}</p>
+                        <p>{{form_errors(form.model)}}</p>
+                        <p>{{form_errors(form.mainImage)}}</p>
+                        <p>{{form_errors(form.otherImages)}}</p>
+                        </div>
+                        {% endif %}
+
                     </div> 
                     <div class="column">
                         <button type="submit" style="width: 9vw;">Save</button>
@@ -299,7 +336,9 @@ label[for=product_form_price] {
 
                 <div class="column" style="position: relative;">
                     {{form_widget(form.description)}}
-                    <label for="product_form_description">Description</label>
+                    <label for="product_form_description">Description
+                        
+                    </label>
                 </div>
             </div>
 

@@ -131,14 +131,14 @@
         <div class="row">
             <div class="column container" style="width: 40vw; margin-right: 2vw;" >
                 <div class="row" style="margin-bottom: 2vh;">
-                    <div class="mainImage" style="background-image: url({{asset('/build/Images/product-example.dcd0d6dc.jpg')}});"></div>
+                    <div class="mainImage" style="background-image: url({{asset( product.mainImage )}});"></div>
                     <div class="column">
                         <div id="title">
-                            Nike Air Force One Limited Edition
+                            {{product.model}}
                         </div>
                         <div class="row">
                             <div id="price">
-                                99.99
+                                {{product.price}}
                             </div>
                             <div id="currency">
                                 €
@@ -152,10 +152,10 @@
 
                 <div class="column">
                     <div id="description">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        {{product.description}}
                     </div>
-                    <a href="/user/BigVendor99"id="vendor">
-                        BigVendor99
+                    <a href="/user/{{product.sellerusername.username}}"id="vendor">
+                        {{product.sellerusername.username}}
                     </a>
                 </div>
             </div>

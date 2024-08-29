@@ -10,6 +10,7 @@ use App\Entity\Product;
 use App\Form\ProductFormType;
 
 
+
 class HomeController extends AbstractController
 {
     private $entityManager;
@@ -32,7 +33,20 @@ class HomeController extends AbstractController
     #[Route('product/{productId}', )]
     public function loadProductPage($productId): Response
     {
-        return $this->render('productpage.html.twig');
+        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $targetProduct = $productRepository->findOneBy(['id' => $productId]);
+
+        if($targetProduct){
+            return $this->render('productpage.html.twig',[
+                'product'=>$targetProduct,
+            ]
+        );
+        }else{
+            return $this->render('notFound.html.twig',[
+                'entity'=>"Product"
+            ]);
+        }
+        
     }
 
     #[Route('createproduct'),]
@@ -42,12 +56,36 @@ class HomeController extends AbstractController
         $form = $this->createForm(ProductFormType::class, $product);
         
         $form->handleRequest($request);
-        //dd($form);
+        //dd($form->getErrors());
         if($form->isSubmitted() && $form->isValid()){
             
             $newProduct=$form->getData();
-            dd($newProduct);
-            exit;
+            $mainImagePath=$form->get('mainImage')->getData();
+            if($mainImagePath){
+                $newMainIMageName=uniqid().'.'.$mainImagePath->guessExtension();
+
+                try{
+                    $mainImagePath->move(
+                        $this->getParameter('kernel.project_dir').'/public/uploads',
+                        $newMainIMageName
+                    );
+                }catch(FileException $e){
+                    dd($e);
+                    return new Response($e->getMessage());
+                }
+
+                $newProduct->setMainImage('/uploads/'.$newMainIMageName);
+                $newProduct->setViews(0);
+                $newProduct->setItemsSold(0);
+                $newProduct->setSellerUsername($this->getUser());
+                
+
+            }
+
+            $this->entityManager->persist($newProduct);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute("home");
         } 
         
         return $this->render('editProductPage.html.twig',[

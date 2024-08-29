@@ -13,10 +13,12 @@ Login
 
     {% if app.user %}
         <div class="row" style="">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            You are logged in as {{ app.user.userIdentifier }},
         </div>
 
         <a class="aButton" href="/home">Home</a>
+        <a class="aButton" href="/access/logout" style="background-color: red;">Log out</a>
+
     {% else %}
     <div class="column">
         <label for="inputUsername">Username</label>
@@ -52,14 +54,15 @@ Login
             Sign in
         </button>
     </form>
+    <div class="row">
+        <div id="login" class="aButton" style="border-radius:17px 0px 0px 17px ;">
+            Login
+        </div>
+    <a href="/signup" id="SignUp" class="aButton" style="border-radius:0px 17px 17px 0px; opacity: 0.5;">
+            Sign up
+    </a>
     {% endif %}
     
 
-<div class="row">
-    <div id="login" class="aButton" style="border-radius:17px 0px 0px 17px ;">
-        Login
-    </div>
-<a href="/signup" id="SignUp" class="aButton" style="border-radius:0px 17px 17px 0px; background-color: rgba(73, 145, 252 , 0.5);color: rgba(255, 255, 255, 0.5);">
-        Sign up
-</a>
+
 {% endblock %}
