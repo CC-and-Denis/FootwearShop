@@ -18,10 +18,10 @@ class Product
     private ?string $model = null;
 
     #[ORM\Column(length: 255, nullable: false)]
-    private ?string $colors = null;
+    private ?string $color = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $materials = null;
+    private ?string $material = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $brand = null;
@@ -87,26 +87,26 @@ class Product
         return $this;
     }
 
-    public function getColors(): ?string
+    public function getColor(): ?string
     {
-        return $this->colors;
+        return $this->color;
     }
 
-    public function setColors(?string $colors): static
+    public function setColor(?string $color): static
     {
-        $this->colors = $colors;
+        $this->color = $color;
 
         return $this;
     }
 
-    public function getMaterials(): ?string
+    public function getMaterial(): ?string
     {
-        return $this->materials;
+        return $this->material;
     }
 
-    public function setMaterials(?string $materials): static
+    public function setMaterial(?string $material): static
     {
-        $this->materials = $materials;
+        $this->materials = $material;
 
         return $this;
     }

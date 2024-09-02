@@ -1,13 +1,17 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Product;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Filesystem\Filesystem;    
 use App\Form\ProductFormType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 
 
@@ -190,7 +194,7 @@ class HomeController extends AbstractController
 
             $data[$i] = [
                 'id' => $queryResult -> getId(),
-                'img_path' => $queryResult -> getImgPath(),
+                'main_image' => $queryResult -> getMainImage(),
                 'brand' => $queryResult -> getBrand(),
                 'model' => $queryResult -> getModel(),
                 'color' => $queryResult -> getColor(),
@@ -202,7 +206,7 @@ class HomeController extends AbstractController
 
         }
 
-        $this->filesystem->dumpFile('', json_encode($query_history));
+        $this->filesystem->dumpFile('testFile.json', json_encode($query_history));
 
         return new JsonResponse($data);
     }
