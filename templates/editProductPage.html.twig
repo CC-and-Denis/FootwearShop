@@ -27,15 +27,20 @@
 .slideShowContainer>img {
     height: 5vh;
     width: 5vh;
+    opacity: 50%;
 }
 
-.slideShowContainer2 {
+.slideShowContainer>img:last-child {
+    rotate: 180deg;
+}
+
+#slideShowContainer2 {
     width: 80vw;
     margin-left: 1vw;
     margin-right: 1vw;
 }
 
-.slideShowContainer2>:last-child {
+#slideShowContainer2>:last-child {
     margin-right: 0vw;
 }
 
@@ -46,7 +51,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     height: 38vh;
-    width: 100vh;
+    width: 50vh;
     margin-right: 2vw;
 }
 
@@ -271,20 +276,21 @@ label[for=product_form_price] {
 
 
 
+
+
 </style>
 {% endblock %}
 
 {% block content %}
     <div class="column" style="padding-left: 2vw; padding-top: 2vh;">
             <div class="slideShowContainer row center">
-               
-                <div class="slideShowContainer2 row">
-    
+
+                <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" id="goBack">
+                <div class="row" id="slideShowContainer2">
+
                     
-    
                 </div>
-            
-                
+                <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}"  id="goForward">
             </div>
         {{form_start(form)}}
         

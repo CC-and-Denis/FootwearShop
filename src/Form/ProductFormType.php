@@ -170,14 +170,15 @@ class ProductFormType extends AbstractType
                     ]),
                 ]
             ])
-            ->add('otherImages',CollectionType::class, [
-                'entry_type' => FileType::class,
+            ->add('otherImages', FileType::class,[
                 'label'=>false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'entry_options' => [
-                    'constraints' => [
+                'mapped'=>false,
+                'multiple'=>true,
+                'attr'=>[
+                    'multiple'=>true,
+                    
+                ],
+                'constraints' => [
                         new File([
                             'maxSize' => '1G',
                             'mimeTypes' => [
@@ -188,7 +189,6 @@ class ProductFormType extends AbstractType
                             'mimeTypesMessage' => 'Please upload a valid image (JPG,JPEG or PNG).',
                         ])
                     ],
-                ],
                 'required' => false,
             ]);
         
