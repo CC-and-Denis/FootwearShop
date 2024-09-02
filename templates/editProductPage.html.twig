@@ -4,6 +4,12 @@
     Nike Air Force Limited edition
 {% endblock %}
 
+{% block javascripts %}
+{{parent()}}
+{{ encore_entry_script_tags('productCreation') }}
+{% endblock %}
+
+
 
 {% block style %}
 <style>

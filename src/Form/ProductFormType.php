@@ -153,7 +153,7 @@ class ProductFormType extends AbstractType
                     'placeholder'=>".",
                     'maxlength' => 800,
                 ],
-                'required'=>false,
+                
             ])
             ->add('quantity',IntegerType::class)
             ->add('mainImage',FileType::class,[
@@ -178,17 +178,7 @@ class ProductFormType extends AbstractType
                     'multiple'=>true,
                     
                 ],
-                'constraints' => [
-                        new File([
-                            'maxSize' => '1G',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                                'image/jpg',
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid image (JPG,JPEG or PNG).',
-                        ])
-                    ],
+                
                 'required' => false,
             ]);
         

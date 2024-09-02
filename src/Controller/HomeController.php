@@ -61,6 +61,10 @@ class HomeController extends AbstractController
             
             $newProduct=$form->getData();
             $mainImagePath=$form->get('mainImage')->getData();
+            $otherImages=$form->get('otherImages')->getData();
+            
+
+
             if($mainImagePath){
                 $newMainIMageName=uniqid().'.'.$mainImagePath->guessExtension();
 
@@ -72,6 +76,27 @@ class HomeController extends AbstractController
                 }catch(FileException $e){
                     dd($e);
                     return new Response($e->getMessage());
+                }
+            
+                if ($otherImages) {
+                    foreach ($otherImages as $image) {
+                    
+                            $newFilename = uniqid() . '.' . $image->guessExtension();
+        
+                            try {
+                                $image->move(
+                                    $this->getParameter('kernel.project_dir') . '/public/uploads',
+                                    $newFilename
+                                );
+        
+                                // Add the path to the entity as a string
+                                $product->addOtherImage('/uploads/' . $newFilename);
+                            } catch (FileException $e) {
+                                // Handle the exception gracefully
+                                return new Response($e->getMessage());
+                            }
+                
+                    }
                 }
 
                 $newProduct->setMainImage('/uploads/'.$newMainIMageName);
