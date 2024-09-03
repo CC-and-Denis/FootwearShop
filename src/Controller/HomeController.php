@@ -33,7 +33,7 @@ class HomeController extends AbstractController
         $this->filesystem->dumpFile('testFile.json', json_encode(($data)));
 
         $queryResult = $this -> createQuery('trekking', 'Salomon', 'pink', 1);
-        $queryResult2 = $this -> createQuery('trekking', 'Salomon', 'pink', 1);
+        $queryResult2 = $this -> createQuery('trekking', 'Salomon', 'yellow', 1);
 
         if ($queryResult === $queryResult2) {
             // Log or debug here
@@ -140,23 +140,24 @@ class HomeController extends AbstractController
         }
     }
 
-    #[Route('/api/fyp-function', name: 'api_fyp_function')]
+    #[Route('/api/fyp-function',)]
     public function fyp_function(Request $request): JsonResponse
     {
 
 
         // Get 'type' cookies values
-        $typeCookie = $request->cookies->get('type');
+        $typeCookie = json_decode($request->cookies->get('type'), true);
+        $brandCookie = json_decode($request->cookies->get('brand'), true);
+        $colorCookie = json_decode($request->cookies->get('color'), true);
+
 
         $normalizedProbabilities = $this -> normalizeProbabilities($typeCookie);
         // Pick 3 names based on probabilities
         $types = $this -> pickNames($normalizedProbabilities, 4);
 
-        $brandCookie = $request->cookies->get('brand');
         $normalizedProbabilities = $this -> normalizeProbabilities($brandCookie);
         $brands = $this -> pickNames($normalizedProbabilities, 4);
 
-        $colorCookie = $request->cookies->get('color');
         $normalizedProbabilities = $this -> normalizeProbabilities($colorCookie);
         $colors = $this -> pickNames($normalizedProbabilities, 4);
         $data = [];
@@ -165,7 +166,7 @@ class HomeController extends AbstractController
 
         $queryResult = 1;
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             while ($queryResult === null) {
 
                 $v = 0;
@@ -188,8 +189,13 @@ class HomeController extends AbstractController
                                                     'query_r' => $queryResult,
                                                     'n' => 1
                                                 ]);
-                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 0);
+                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
                 }
+            }
+
+            if (gettype($queryResult) === "int" || $queryResult === null) {
+                // Handle the case when no result is found
+                return new JsonResponse(['error' => 'No matching product found'], 404);
             }
 
             $data[$i] = [
@@ -273,7 +279,6 @@ class HomeController extends AbstractController
 
 
     private function read_json_file($path) {
-        $path = $this->getParameter('json_file_path'); // e.g., 'assets/json/data.json'
         $data = file_get_contents($path);
         return json_decode($data, true); // true for associative array
     }

@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use App\Security\LoginAuthenticator;
+use  Symfony\Component\HttpFoundation\Cookie;
 
 class accessController extends AbstractController
 {
@@ -44,12 +45,72 @@ class accessController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $type = [
+                'trekking' => 1,
+                'running' => 0,
+                'hiking' => 0,
+                'sandals' => 0,
+                'heels' => 0,
+                'boots' => 0,
+                'ankle_boots' => 0,
+                'sneakers' => 0,
+                'formal' => 0,
+                'flip flops' => 0,
+                'others' => 0
+            ];
 
+            $marca = [
+                'Nike' => 0,
+                'Adidas' => 0,
+                'Puma' => 0,
+                'Asics' => 0,
+                'Converse' => 0,
+                'NewBalance' => 0,
+                'Scarpa' => 0,
+                'LaSportiva' => 0,
+                'Hoka' => 0,
+                'Salomon' => 1,
+            ];
+    
+            $color = [
+                'white' => 0,
+                'yellow' => 0,
+                'orange' => 0,
+                'red' => 0,
+                'green' => 0,
+                'blue' => 0,
+                'violet' => 0,
+                'pink' => 1,
+                'cyan' => 0,
+                'gray' => 0,
+                'black' => 0,
+            ];
+    
+
+        /*
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
+        */
+
+            $response = $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+
+            $typeJSON = json_encode($type);
+            $brandJSON = json_encode($marca);
+            $colorJSON = json_encode($color);
+    
+            // Set the cookies for 'tipo', 'marca', and 'colore' with an expiration date far in the future
+            $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
+            $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
+            $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));
+
+            return $response; // that include the authentication
         }
 
         return $this->render('registration/register.html.twig', [

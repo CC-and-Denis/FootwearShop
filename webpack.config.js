@@ -22,7 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('frame', './assets/frame.js')
-
+    .addEntry('cookie', './assets/JS/cookie.js')
 
 
 

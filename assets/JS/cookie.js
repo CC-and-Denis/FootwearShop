@@ -11,12 +11,14 @@ window.addEventListener('load', function() {
     //updateCookie("Marca", marca.value)
     //updateCookie("Colore", colore.value)
 
+    console.log("hey")
+
     fetch('/api/fyp-function')
     .then(response => response.json())              // process the JSON response form the PHP function
     .then(data => {
         // Display the result
         if (data.result) {
-            
+
             document.querySelector('.fyp_image1').style.backgroundImage = "url('" + data[0].img + "')";
             //setInnerText('fyp_image1', data[0].img)
             //setInnerText('fyp_image2', data[1].img)
