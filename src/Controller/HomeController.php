@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Product;
 use App\Form\ProductFormType;
-
+use App\Repository\ProductRepository;
 
 
 class HomeController extends AbstractController
@@ -115,6 +115,7 @@ class HomeController extends AbstractController
         
         return $this->render('editProductPage.html.twig',[
             'form'=>$form->createView(),
+            'removeLink'=>"/user/".$this->getUser()->getUsername(),
         ]);
     }
 
@@ -137,6 +138,15 @@ class HomeController extends AbstractController
         }
     }
 
+    #[Route('/api/getProductByPopular/{qta}-{position}', name: 'get_product_by_popular', methods: ['GET'])]
+    public function getProductByPopular(int $qta, int $position, ProductRepository $productRepository): Response
+    {
+        // Fetch the popular products from the repository
+        $products = $productRepository->findPopularProducts($qta, $position);
+        return $this->render('productCardComponent.html.twig',[
+            "products"=>$products,
+        ]);
+    }
     
 }
 ?>

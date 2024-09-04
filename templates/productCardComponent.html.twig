@@ -1,0 +1,39 @@
+
+{% for product in products %}
+<a href="/product/{{product.id}}" >
+    <div class="productCard" 
+    style="
+    background-image: url({{asset(product.mainImage)}});
+    display:block;
+    padding-right: 0;
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 33vh;
+    width: 33vh;
+    border-radius: 15px;
+    margin-right: 1.5vw;
+    border: 1px solid rgba(255,255,255,0.1);"
+    >
+        <div style="
+        margin-top: 1vh;
+        margin-left: 1vh;
+        width: max-content;
+        padding-left:1vw ;
+        padding-right: 1vw;
+        border-radius: 100px;
+        background-color: rgba(255,255,255,0.2);
+        backdrop-filter: blur(20px);
+        color: rgba(0,0,0,0.7);
+        ">
+            {{product.price}}
+        </div>
+        <div class="productInfo column">
+            <h1 style="font-size: 2vh; margin-top: 0.5vh; margin-bottom: 1vh;text-decoration: underline;">{{product.model}}</h1>
+            <p style="font-size: small;height: 14vh;"> {{product.description}}</p>
+            <a style="font-size: 1.5vh;margin-top: 1vh;text-decoration: underline;" href="/user/{{product.sellerusername.username}}">{{product.sellerusername.username}}</a>
+        </div>
+    </div>
+</a>
+{% endfor %}
+

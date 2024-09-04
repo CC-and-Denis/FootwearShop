@@ -34,3 +34,8 @@ crateProduct:
 app_logout:
     path: /access/logout
     controller: App\Controller\accessController::logout
+
+get_product_by_popular:
+    path: /api/getProductByPopular/{qta}-{position}
+    controller: App\Controller\HomeController::getProductByPopular
+    
