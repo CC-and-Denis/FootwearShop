@@ -274,7 +274,7 @@ class Product
         if (!in_array($image, $this->otherImages, true)) {
             $this->otherImages[] = $image; // Adds the image path as a string
         }
-
+        
         return $this;
     }
 }

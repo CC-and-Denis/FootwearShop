@@ -63,30 +63,36 @@ class Carousel {
 
 
   
-  // Example usage:
-  // Assuming the elements are already in the document with IDs 'container', 'forward', and 'back'
+
   const carouselPopular = new Carousel();
-  carouselPopular.setContainer("popularSlideshow");   // Set the div element by its ID
-  carouselPopular.setForward("goForwardPopular");       // Set the forward image by its ID
-  carouselPopular.setBack("goBackPopular");             // Set the back image by its ID
+  carouselPopular.setContainer("popularSlideshow");   
+  carouselPopular.setForward("goForwardPopular");       
+  carouselPopular.setBack("goBackPopular");           
 
   const carouselFy = new Carousel();
-  carouselFy.setContainer("fySlideshow");   // Set the div element by its ID
-  carouselFy.setForward("goForwardFy");       // Set the forward image by its ID
-  carouselFy.setBack("goBackFy");             // Set the back image by its ID
+  carouselFy.setContainer("fySlideshow");   
+  carouselFy.setForward("goForwardFy");       
+  carouselFy.setBack("goBackFy");             
 
 if( carouselPopular.container ){
-    fetch("/api/getProductByPopular/4-0")
+    fetch("/api/getProductByPopular/5-0")
     .then(response => response.text())
     .then(html=>{
         const tempContainer = document.createElement('div');
         tempContainer.innerHTML = html;
 
-        // Add each child element of tempContainer to the productContainer
+        let i = 0;
         Array.from(tempContainer.children).forEach(element => {
-        // You can manipulate each element here if needed before appending
-        carouselPopular.container.appendChild(element);
+          if(i<8){
+            carouselPopular.container.appendChild(element);
+          }
+          i++
+          
         })
+        console.log(tempContainer.children.length)
+        if(! tempContainer.children.length){
+          carouselPopular.forward.style.opacity="0.5"
+        }
     })
     .catch(error => console.error('Error loading products:', error));
 
@@ -113,13 +119,13 @@ function loadMoreProducts(direction:number,carousel:Carousel){
     let errors = false;
     carousel.forward.style.opacity="0.5"
     fetch(url)
-    .then(function(response) {                      // first then()
+    .then(function(response) {                     
         if(response.ok)
         {
           return response.text();         
         }
-        throw new Error('Something went wrong.');})
-
+        throw new Error('Something went wrong.');
+    })
     .then(html=>{
         let tempContainer = document.createElement('div')
         tempContainer.innerHTML = html;

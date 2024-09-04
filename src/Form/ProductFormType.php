@@ -160,7 +160,6 @@ class ProductFormType extends AbstractType
                 'required'=>true,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1G',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',

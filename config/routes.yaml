@@ -38,4 +38,9 @@ app_logout:
 get_product_by_popular:
     path: /api/getProductByPopular/{qta}-{position}
     controller: App\Controller\HomeController::getProductByPopular
+
+delete_product:
+    path: deleteproduct/{id}
+    controller: App\Controller\HomeController::deleteProduct
+    
     

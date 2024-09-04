@@ -147,6 +147,23 @@ class HomeController extends AbstractController
             "products"=>$products,
         ]);
     }
+
+    #[Route('deleteproduct/{id}',name:"delete_product")]
+    public function deleteProduct(int $id){
+        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $targetProduct = $productRepository->findOneBy(['id' => $id]);
+        if( (! $targetProduct) || $targetProduct->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
+            $response = new Response("This item can't be deleted",500);
+            return $response;
+        }
+        //product deletable
+        $this->entityManager->remove($targetProduct);
+        $this->entityManager->flush();
+
+
+        $response = new Response("item deleted",200);
+        return $response;
+    }
     
 }
 ?>

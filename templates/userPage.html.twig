@@ -9,12 +9,11 @@
 <style>
 
 
-.container{
-        background-color: rgba(255,255,255,0.2);
-        backdrop-filter: blur(35px);
-        border-radius: 20px;
-        padding: 2vh 5vh;
-        height: 88vh;
+
+
+.row > .column.container{
+    height: 88vh;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -157,11 +156,30 @@
     font-size: larger;
 }
 
+#alertBox1{
+    background-color: whitesmoke;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+
+}
 
 
 </style>
 {% endblock %}
 
+{% block alerts %}
+    <div class="coloumn container center" id="alertBox1" style="display:none ;">
+        <h1>Attention, this action is irreversible!</h1>
+        <h3>Are you sure that you want to delete the selected item:</h3>
+        <h3 id="itemToBeDeleted">Unknown</h3>
+
+        <div class="row" style="justify-content: center;">
+            <a class="aButton" id="buttonDelete2" style="background-color: red;">Delete</a>
+            <div style="width: 5vw;"></div>
+            <a class="aButton" id="noDelete">Don't delete</a>
+        </div>
+    </div>
+{% endblock %}
 
 {% block content %}
 <div class="row" style="padding: 5vh;overflow-x: hidden;
@@ -206,7 +224,6 @@
                     {% endfor%}
                 </div>
                 <a class="aButton">Read them!</a>
-                <!-- visualizzeremo le stelle -->
                 {% else %}
                         {% if app.user.userIdentifier | lower == username | lower%}
                         <p>You have not sold anything</p>
@@ -246,8 +263,8 @@
                     </div>
                     <div class="column">
                     {% if ( app.user.userIdentifier | lower == username | lower ) and product.itemsSold==0 %}
-                        <a class="aButton" href="deleteproduct/{{product.id}}" style="background-color: red;">Delete</a>
-                        <a class="aButton" href="editproduct/{{product.id}}" >Edit</a>
+                    <a class="aButton deleteButton1" name="{{product.model}}" id="{{product.id}}"  style="background-color: red;">Delete</a>
+                    <a class="aButton" href="/editproduct/{{product.id}}" >Edit</a>
 
                     {% endif %}
                     </div>
