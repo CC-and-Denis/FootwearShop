@@ -29,6 +29,7 @@ class HomeController extends AbstractController
     #[Route('/home', name:'home')]
     public function loadHomePage(): Response
     {
+        /*
         $data = [];
         $this->filesystem->dumpFile('testFile.json', json_encode(($data)));
 
@@ -56,6 +57,8 @@ class HomeController extends AbstractController
             ];
             return $this->render('homePage.html.twig', ['items' => $items]);
         }
+        */
+        return $this->render('homePage.html.twig');
     }
 
     #[Route('product/{productId}', )]
@@ -162,9 +165,9 @@ class HomeController extends AbstractController
         $colors = $this -> pickNames($normalizedProbabilities, 4);
         $data = [];
 
-        $query_history = $this -> read_json_file('testFile.json');
+        $query_history = $this -> read_json_file('fyp_history_json');
 
-        $queryResult = 1;
+        $queryResult = null ;
 
         for ($i = 0; $i < 1; $i++) {
             while ($queryResult === null) {
@@ -172,28 +175,40 @@ class HomeController extends AbstractController
                 $v = 0;
                 $n = 0;
 
-                foreach ($query_history as $element) {
-                    if ($element['query_r'] -> getType() ===  $types[$i] && $element['query_r'] -> getBrand() === $brands[$i] && $element['query_r'] -> getColor() === $colors[$i]) {
-                        $n = $element['n'];
-                        $element['n'] = $n + 1;
-                        $v = 1;
-                        break;
+                $this->filesystem->dumpFile($this->getParameter('prova_json'), json_encode($query_history));    
+
+                if (gettype($query_history) === 'array' && $query_history != null) {
+                    foreach ($query_history as $element) {
+                        if ($element['query_r'] -> getType() ===  $types[$i] && $element['query_r'] -> getBrand() === $brands[$i] && $element['query_r'] -> getColor() === $colors[$i]) {
+                            $n = $element['n'];
+                            $element['n'] = $n + 1;
+                            $v = 1;
+                            break;
+                        }
                     }
                 }
-
+                else {
+                    $query_history = [];
+                }
                 if ($v === 1) {
                     $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], $n);
                 }
                 else {
-                    array_push($query_history, [
-                                                    'query_r' => $queryResult,
-                                                    'n' => 1
-                                                ]);
-                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
+                    if ($queryResult != null) {
+                        array_push($query_history, [
+                            'query_r' => $queryResult,
+                            'n' => 1
+                        ]);
+$queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
+                    }
                 }
+
+                $prova = [$types[$i], $brands[$i], $colors[$i]];
+
+                $this->filesystem->dumpFile($this->getParameter('prova_json'), json_encode($prova));    
             }
 
-            if (gettype($queryResult) === "int" || $queryResult === null) {
+            if ($queryResult === null) {
                 // Handle the case when no result is found
                 return new JsonResponse(['error' => 'No matching product found'], 404);
             }
@@ -212,7 +227,7 @@ class HomeController extends AbstractController
 
         }
 
-        $this->filesystem->dumpFile('testFile.json', json_encode($query_history));
+        $this->filesystem->dumpFile($this->getParameter('fyp_history_json'), json_encode($query_history));
 
         return new JsonResponse($data);
     }
@@ -278,7 +293,11 @@ class HomeController extends AbstractController
     }
 
 
-    private function read_json_file($path) {
+    private function read_json_file($name) {
+        $path = $this->getParameter($name);
+        if (!file_exists($path)) {
+            $this->filesystem->dumpFile($path, json_encode([])); // Create an empty JSON array
+        }
         $data = file_get_contents($path);
         return json_decode($data, true); // true for associative array
     }
