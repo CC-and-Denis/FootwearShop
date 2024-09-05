@@ -43,4 +43,6 @@ delete_product:
     path: deleteproduct/{id}
     controller: App\Controller\HomeController::deleteProduct
     
-    
+load_popular_products_page:
+    path: /populars
+    controller: App\Controller\HomeController::loadPopularProductsPage

@@ -6,10 +6,12 @@ class Carousel {
     public container: HTMLDivElement;
     public forward: HTMLImageElement;
     public back: HTMLImageElement;
+    public semaphore: boolean;
   
     constructor() {
       // Initialize the counter but do not automatically set elements
       this.counter = 0; 
+      this.semaphore = false;
     }
   
     // Method to assign the container div element
@@ -83,13 +85,13 @@ if( carouselPopular.container ){
 
         let i = 0;
         Array.from(tempContainer.children).forEach(element => {
-          if(i<8){
+          if(i<4){
             carouselPopular.container.appendChild(element);
           }
           i++
           
         })
-        console.log(tempContainer.children.length)
+       
         if(! tempContainer.children.length){
           carouselPopular.forward.style.opacity="0.5"
         }
@@ -103,18 +105,21 @@ if( carouselPopular.container ){
 function loadMoreProducts(direction:number,carousel:Carousel){
 
     let url = "/api/getProductByPopular/2-"
+
+    
    
     if(carousel==carouselFy){
         url="/api/fyp-function"
     }
 
-    if( (direction<0 && carousel.counter==0) || (direction>0 && carousel.forward.style.opacity=="0.5") ){
+    if( carousel.semaphore || (direction<0 && carousel.counter==0) || (direction>0 && carousel.forward.style.opacity=="0.5") ){
         return;
     }else if(direction>0){
         url+=(carousel.counter+4)
     }else{
         url+=(carousel.counter-1)
     }
+    carousel.semaphore=true;
 
     let errors = false;
     carousel.forward.style.opacity="0.5"
@@ -131,26 +136,21 @@ function loadMoreProducts(direction:number,carousel:Carousel){
         tempContainer.innerHTML = html;
 
         let newElement = tempContainer.firstElementChild;
-        let newElement1 = tempContainer.children[1];
-
-        if(tempContainer.children.length>2){
+        
+        if(! tempContainer.getElementsByClassName("end-message").length){
             carousel.forward.style.opacity="1"
         }
 
 
-            if (direction < 0) {
-                //tje elements are counted as two: <a> and <div>
-                carousel.container.removeChild(carousel.container.lastChild);
-                carousel.container.removeChild(carousel.container.lastChild);
-                carousel.container.insertBefore(newElement1, carousel.container.firstChild);
-                carousel.container.insertBefore(newElement, carousel.container.firstChild);
-            } 
-            else{
-                carousel.container.removeChild(carousel.container.children[0]);
-                carousel.container.removeChild(carousel.container.children[0]);
-                carousel.container.appendChild(newElement);
-                carousel.container.appendChild(newElement1);
-            }
+        if (direction < 0) {
+            //the elements are counted as two: <a> and <div>
+            carousel.container.removeChild(carousel.container.lastChild);
+            carousel.container.insertBefore(newElement, carousel.container.firstChild);
+        } 
+        else{
+            carousel.container.removeChild(carousel.container.children[0]);
+            carousel.container.appendChild(newElement);
+        }
     })
     .catch(error => {
         errors = true
@@ -168,5 +168,6 @@ function loadMoreProducts(direction:number,carousel:Carousel){
         carousel.counter+=1
         carousel.back.style.opacity="1"
     }
+    carousel.semaphore=false;
     
 }

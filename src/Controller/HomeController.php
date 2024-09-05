@@ -142,8 +142,11 @@ class HomeController extends AbstractController
     {
         // Fetch the popular products from the repository
         $products = $productRepository->findPopularProducts($qta, $position);
+        $hasMore = count($products) === $qta;
+
         return $this->render('productCardComponent.html.twig',[
             "products"=>$products,
+            'hasMore' => $hasMore,
         ]);
     }
 
@@ -167,6 +170,11 @@ class HomeController extends AbstractController
         $response = new Response("item deleted",200);
         return $response;
     }
-    
+
+
+#[Route('/populars',name:"load_popular_products_page")]
+public function loadPopularProductsPage(){
+    return $this->render('populars.html.twig',[]);
 }
-?>
+
+}?>
