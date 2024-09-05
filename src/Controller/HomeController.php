@@ -114,8 +114,7 @@ class HomeController extends AbstractController
         } 
         
         return $this->render('editProductPage.html.twig',[
-            'form'=>$form->createView(),
-            'removeLink'=>"/user/".$this->getUser()->getUsername(),
+            'form'=>$form->createView()
         ]);
     }
 
@@ -158,6 +157,10 @@ class HomeController extends AbstractController
         }
         //product deletable
         $this->entityManager->remove($targetProduct);
+        unlink($this->getParameter('kernel.project_dir') .'/public'.$targetProduct->getMainImage());
+        foreach ($targetProduct->getOtherImages() as $image) {
+            unlink($this->getParameter('kernel.project_dir') .'/public'.$image);
+        }
         $this->entityManager->flush();
 
 

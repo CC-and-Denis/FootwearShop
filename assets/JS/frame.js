@@ -75,5 +75,5 @@ const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
 buttonsForSearch.forEach(button => {
     button.addEventListener('click',displaySearch);
 });
-document.getElementById("filterMenuCheckbox").addEventListener('onChange',displayFilters);
+document.getElementById("filterMenuCheckbox").addEventListener('change',displayFilters);
 

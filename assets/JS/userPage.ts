@@ -59,20 +59,22 @@ deleteButtons1.forEach(button=>{
         }
     }
 }
+if(document.getElementById("noDelete") && document.getElementById("buttonDelete2")){
+    document.getElementById("noDelete").addEventListener("click",()=>{
+        displayDeleteAlert()
+    })
+    document.getElementById("buttonDelete2").addEventListener("click",()=>{
+        fetch("/deleteproduct/"+document.getElementById("buttonDelete2").getAttribute("name"))
+        .then(function(response) {                     
+            if(response.ok)
+            {
+              document.getElementById(document.getElementById("buttonDelete2").getAttribute("name")).remove()
+              displayDeleteAlert()
+    
+            }else{
+              alert("The product could not be deleted")
+            }
+            })
+    })
+}
 
-document.getElementById("noDelete").addEventListener("click",()=>{
-    displayDeleteAlert()
-})
-document.getElementById("buttonDelete2").addEventListener("click",()=>{
-    fetch("/deleteproduct/"+document.getElementById("buttonDelete2").getAttribute("name"))
-    .then(function(response) {                     
-        if(response.ok)
-        {
-          document.getElementById(document.getElementById("buttonDelete2").getAttribute("name")).remove()
-          displayDeleteAlert()
-
-        }else{
-          alert("The product could not be deleted")
-        }
-        })
-})

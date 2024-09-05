@@ -60,7 +60,7 @@
         backdrop-filter: blur(5px);
         z-index: 3;
         align-items: center;
-        justify-content: center;
+        padding-top: 20vh;
     }
 
     #searchBarContainer{
@@ -93,7 +93,7 @@
         opacity: 0;
         background-color: white;
         width: 70vw;
-        height: 30vh;
+        height: 20vh;
         border: 1px solid black;
         border-radius:0px 0px 20px 20px;
         padding: 1vh;
@@ -104,7 +104,7 @@
         padding: 1vh;
         font-size: large;
         font-weight: 700;
-        height: 27vh;
+        height: 18vh;
     }
 
     #filterMenu>.column>label{
