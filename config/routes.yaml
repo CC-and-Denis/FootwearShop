@@ -15,7 +15,9 @@ home:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadHomePage
 
-
+api_fyp_function:
+    path: /api/fyp-function
+    controller: App\Controller\HomeController::fyp_function
 
 productPage:
     path: /product/{productId}
@@ -50,3 +52,9 @@ delete_product:
 load_popular_products_page:
     path: /populars
     controller: App\Controller\HomeController::loadPopularProductsPage
+
+payment:
+    path: /payment
+    # the controller value has the format 'controller_class::method_name'
+    controller: App\Controller\PaymentController::loadPaymentPage
+

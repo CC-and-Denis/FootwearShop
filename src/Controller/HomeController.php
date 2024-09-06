@@ -1,39 +1,76 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Product;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Filesystem\Filesystem;    
 use App\Form\ProductFormType;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+
 
 
 class HomeController extends AbstractController
 {
     private $entityManager;
+    private $filesystem;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
         $this->entityManager = $entityManager;
+        $this->filesystem = $filesystem;
     }
 
     #[Route('/home', name:'home')]
     public function loadHomePage(): Response
     {
-        
+        /*
+        $data = [];
+        $this->filesystem->dumpFile('testFile.json', json_encode(($data)));
 
-        return $this->render('homePage.html.twig',[
-          
-        ]);
+        $queryResult = $this -> createQuery('trekking', 'Salomon', 'pink', 1);
+        $queryResult2 = $this -> createQuery('trekking', 'Salomon', 'yellow', 1);
+
+        if ($queryResult === $queryResult2) {
+            // Log or debug here
+            dump('Query returned null');
+            
+            $items = [
+                'query' => 'error, null',
+            ];
+
+            return $this->render('homePage.html.twig', ['items' => $items]);
+        }
+        else {
+            // Log or debug the actual result
+            dump($queryResult);
+            dump($queryResult->getColors());
+            $string = (string)$queryResult->getColors();
+            
+            $items = [
+                'query' => $string,
+            ];
+            return $this->render('homePage.html.twig', ['items' => $items]);
+        }
+        */
+        return $this->render('homePage.html.twig', [
+            'item'=> [
+                'model' => 'hey',
+            ]
+        ]);;
     }
 
     #[Route('product/{productId}', )]
     public function loadProductPage($productId): Response
     {
-        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
 
         if($targetProduct){
@@ -192,6 +229,7 @@ class HomeController extends AbstractController
         }
     }
 
+
     #[Route('/api/getProductByPopular/{qta}-{position}', name: 'get_product_by_popular', methods: ['GET'])]
     public function getProductByPopular(int $qta, int $position, ProductRepository $productRepository): Response
     {
@@ -210,8 +248,173 @@ class HomeController extends AbstractController
 
 #[Route('/populars',name:"load_popular_products_page")]
 public function loadPopularProductsPage(){
-    return $this->render('populars.html.twig',[]);
-}
+    return $this->render('populars.html.twig',[]);}
+
+    #[Route('/api/fyp-function',)]
+    public function fyp_function(Request $request): JsonResponse
+    {
+
+
+        // Get 'type' cookies values
+        $typeCookie = json_decode($request->cookies->get('type'), true);
+        $brandCookie = json_decode($request->cookies->get('brand'), true);
+        $colorCookie = json_decode($request->cookies->get('color'), true);
+
+
+        $normalizedProbabilities = $this -> normalizeProbabilities($typeCookie);
+        // Pick 3 names based on probabilities
+        $types = $this -> pickNames($normalizedProbabilities, 4);
+
+        $normalizedProbabilities = $this -> normalizeProbabilities($brandCookie);
+        $brands = $this -> pickNames($normalizedProbabilities, 4);
+
+        $normalizedProbabilities = $this -> normalizeProbabilities($colorCookie);
+        $colors = $this -> pickNames($normalizedProbabilities, 4);
+        $data = [];
+
+        $query_history = $this -> read_json_file('fyp_history_json');
+
+        $queryResult = null ;
+
+        for ($i = 0; $i < 1; $i++) {
+            $queryResult = null ;
+            while ($queryResult === null) {
+
+                $v = 0;
+                $n = 0;
+
+                $this->filesystem->dumpFile($this->getParameter('prova_json'), json_encode($query_history));    
+
+                if (gettype($query_history) === 'array' && $query_history != null) {
+                    foreach ($query_history as $element) {
+                        if ($element['query_r'] -> getType() ===  $types[$i] && $element['query_r'] -> getBrand() === $brands[$i] && $element['query_r'] -> getColor() === $colors[$i]) {
+                            $n = $element['n'];
+                            $element['n'] = $n + 1;
+                            $v = 1;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    $query_history = [];
+                }
+                if ($v === 1) {
+                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], $n);
+                }
+                else {
+                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
+                    /*
+                    dd($queryResult);
+                    if ($queryResult != null) {
+
+                        array_push($query_history, [
+                            'query_r' => $queryResult,
+                            'n' => 1
+                        ]);
+                    }
+                    */
+                }
+
+                $prova = [$types[$i], $brands[$i], $colors[$i]];
+
+                $this->filesystem->dumpFile($this->getParameter('prova_json'), json_encode($prova));    
+            }
+
+            if ($queryResult === null) {
+                // Handle the case when no result is found
+                return new JsonResponse(['error' => 'No matching product found'], 404);
+            }
+
+            $data[$i] = [
+                'id' => $queryResult -> getId(),
+                'main_image' => $queryResult -> getMainImage(),
+                'brand' => $queryResult -> getBrand(),
+                'model' => $queryResult -> getModel(),
+                'color' => $queryResult -> getColor(),
+                'description' => $queryResult -> getDescription(),
+            ];
+            
+            //dd($data);
+
+            array_push($query_history, $queryResult);
+
+        }
+
+        $this->filesystem->dumpFile($this->getParameter('fyp_history_json'), json_encode($query_history));
+
+        return new JsonResponse($data);
+    }
+
+    private function createQuery($value1, $value2, $value3, $start_row) {
+        $queryBuilder = $this -> entityManager->getRepository(Product::class)->createQueryBuilder('e');
+
+        // Filter on multiple fields
+        $queryBuilder
+            ->where($queryBuilder->expr()->andX(
+                $queryBuilder->expr()->eq('e.type', ':field1'),
+                $queryBuilder->expr()->eq('e.brand', ':field2'),
+                $queryBuilder->expr()->eq('e.color', ':field3')
+            ))
+            ->setParameter('field1', $value1)
+            ->setParameter('field2', $value2)
+            ->setParameter('field3', $value3)
+            ->setFirstResult($start_row) // offset (0-based)
+            ->setMaxResults(1); // number of result rows
+            return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
+    // Step 2: Normalize the probabilities (fractions)
+    private function normalizeProbabilities($names) {
+        $totalProbability = array_sum($names); // Get the total sum of all probabilities
+        $probabilities = [];
+
+        // For each name, calculate its relative probability
+        foreach ($names as $name => $value) {
+            $probabilities[$name] = $value / $totalProbability;
+        }
+
+        return $probabilities;
+    }
+
+    // Step 3: Pick a random name based on the probability distribution
+    private function pickName($probabilities) {
+        $rand = mt_rand() / mt_getrandmax(); // Generate a random float between 0 and 1
+        $cumulativeProbability = 0;
+
+        // Loop through each name and its probability
+        foreach ($probabilities as $name => $probability) {
+            $cumulativeProbability += $probability;
+
+            // If the random value is less than the cumulative probability, return the name
+            if ($rand < $cumulativeProbability) {
+                return $name;
+            }
+        }
+
+        return null; // Fallback in case of an issue
+    }
+
+    // Step 4: Pick 3 names using the method of extraction
+    private function pickNames($probabilities, $n) {
+        $selectedNames = [];
+
+        for ($i = 0; $i < $n; $i++) {
+            $selectedNames[$i] = $this -> pickName($probabilities); // Pick a name using the probabilities
+        }
+
+        return $selectedNames;
+    }
+
+
+    private function read_json_file($name) {
+        $path = $this->getParameter($name);
+        if (!file_exists($path)) {
+            $this->filesystem->dumpFile($path, json_encode([])); // Create an empty JSON array
+        }
+        $data = file_get_contents($path);
+        return json_decode($data, true); // true for associative array
+    }
+
 
 
 

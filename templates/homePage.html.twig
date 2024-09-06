@@ -105,6 +105,11 @@
 </style>
 {% endblock%}
 
+{% block javascripts %}
+
+    {{ encore_entry_script_tags('cookie') }}
+    
+{% endblock%}
 
 {% block content %}
 <div class="column center" style="width: 94vw">
@@ -132,7 +137,6 @@
             <img id="goBackFy" src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
             <div class="slideShowContainer2 row" id="fySlideshow">
 
-                
             </div>
         <img id="goForwardFy" src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
         

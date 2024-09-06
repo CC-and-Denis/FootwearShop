@@ -29,6 +29,7 @@ Encore
 
 
 
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

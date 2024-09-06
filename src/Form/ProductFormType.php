@@ -40,7 +40,7 @@ class ProductFormType extends AbstractType
                     ],
                     ]
                     )
-            ->add('colors',ChoiceType::class,[
+            ->add('color',ChoiceType::class,[
                 'label'=>false,
                 'choices'=>[
                     'White' => 'white',
@@ -57,7 +57,7 @@ class ProductFormType extends AbstractType
                     'Other' => 'other',
                 ]
             ])
-            ->add('materials',ChoiceType::class,[
+            ->add('material',ChoiceType::class,[
                 'label'=>false,
                 'choices'=>[
                     "Leather" => "Leather",
