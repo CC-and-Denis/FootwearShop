@@ -58,7 +58,11 @@ class HomeController extends AbstractController
             return $this->render('homePage.html.twig', ['items' => $items]);
         }
         */
-        return $this->render('homePage.html.twig');
+        return $this->render('homePage.html.twig', [
+            'item'=> [
+                'model' => 'hey',
+            ]
+        ]);;
     }
 
     #[Route('product/{productId}', )]
@@ -170,6 +174,7 @@ class HomeController extends AbstractController
         $queryResult = null ;
 
         for ($i = 0; $i < 1; $i++) {
+            $queryResult = null ;
             while ($queryResult === null) {
 
                 $v = 0;
@@ -194,13 +199,17 @@ class HomeController extends AbstractController
                     $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], $n);
                 }
                 else {
+                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
+                    /*
+                    dd($queryResult);
                     if ($queryResult != null) {
+
                         array_push($query_history, [
                             'query_r' => $queryResult,
                             'n' => 1
                         ]);
-$queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
                     }
+                    */
                 }
 
                 $prova = [$types[$i], $brands[$i], $colors[$i]];
@@ -222,6 +231,7 @@ $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
                 'description' => $queryResult -> getDescription(),
             ];
             
+            //dd($data);
 
             array_push($query_history, $queryResult);
 

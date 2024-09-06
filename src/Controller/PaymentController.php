@@ -24,22 +24,10 @@ class PaymentController extends AbstractController
             // Get form data
             $data = $form->getData();
             
-            // You would typically process the payment here using Stripe
-            Stripe::setApiKey('api_key');
+            // For debugging: dump the data and exit
+            dd($data);  // This will show the form data
 
-            try {
-                $paymentIntent = PaymentIntent::create([
-                    'amount' => 5000, // Amount in cents (e.g., $50.00)
-                    'currency' => 'usd',
-                    'payment_method_types' => ['card'],
-                ]);
-
-                // Normally, you'd pass client-side token instead of raw card data
-                // For now, just return a success message
-                $this->addFlash('success', 'Payment successfully processed!');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Payment failed: ' . $e->getMessage());
-            }
+            // Process the payment here (e.g., using Stripe or another gateway)
 
             return $this->redirectToRoute('payment');
         }
