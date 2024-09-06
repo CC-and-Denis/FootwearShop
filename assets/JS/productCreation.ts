@@ -4,11 +4,20 @@ const mainImagePreview = document.getElementById("mainImagePreview") as HTMLDivE
 const quantity = document.getElementById("product_form_quantity") as HTMLInputElement
 const otherImagesInput = document.getElementById("product_form_otherImages") as HTMLInputElement;
 const otherImagesPreview = document.getElementById("slideShowContainer2") as HTMLDivElement;
+const otherImagesHidden = document.getElementById("hiddenOtherImages") as HTMLDivElement;
+
+var minqta=1;
+if(document.getElementById("itmesSoldAtEditTime") && (+ document.getElementById("itmesSoldAtEditTime").innerText)!=0){
+    console.log(document.getElementById("itmesSoldAtEditTime"))
+    minqta= + document.getElementById("itmesSoldAtEditTime").innerText;
+}
+
 var counter = 0;
 
 function setQuantityToMin(){
-    if( quantity && ! quantity.value || quantity.valueAsNumber<1){
-        quantity.value="1"    
+    
+    if( quantity && ! quantity.value || quantity.valueAsNumber<minqta){
+        quantity.value=minqta.toString();   
     }
 }
 
@@ -36,8 +45,9 @@ if(colorSelection){
 }
 
 if( mainImage && mainImagePreview){
+    console.log(mainImage.files)
     if(! mainImagePreview.style.backgroundImage){
-        mainImagePreview.style.backgroundImage='url("build/Images/file-arrow-up-solid.bca87184.png")'
+        mainImagePreview.style.backgroundImage='url("/build/Images/file-arrow-up-solid.bca87184.png")'
     }
     mainImage.addEventListener('change',()=>{
         if(["image/png","image/jpg","image/jpeg"].includes(mainImage.files[0].type)){
@@ -53,6 +63,8 @@ if( mainImage && mainImagePreview){
 
 
 if( otherImagesInput && otherImagesPreview ){
+    console.log(otherImagesInput.files)
+
 
     document.getElementById("goBack").addEventListener('click',()=>{
         scrollOtherImages(-1)
@@ -60,6 +72,12 @@ if( otherImagesInput && otherImagesPreview ){
     document.getElementById("goForward").addEventListener('click',()=>{
         scrollOtherImages(1)
     })
+
+    if(otherImagesInput.files.length){
+        console.log("ci sono files:")
+        console.log(otherImagesInput.files)
+        loadOtherImages()
+    }
 
     otherImagesInput.addEventListener('change',()=>{
         let invalids = false;
@@ -82,20 +100,7 @@ if( otherImagesInput && otherImagesPreview ){
             alert("you reached tha max number of Images(10)")
         }
         
-        counter = 0;
-        document.getElementById("goForward").style.opacity="0.5"
-        document.getElementById("goBack").style.opacity="0.5"
-        otherImagesPreview.replaceChildren();
         
-        if(cleanFileList.files.length>3){
-            document.getElementById("goForward").style.opacity="1"
-        }
-        for(let i =0;i<3 && i<cleanFileList.files.length;i++){
-            let e =document.createElement('div')
-            e.classList.add("previewImages");
-            e.style.backgroundImage=`url(${URL.createObjectURL(cleanFileList.files[i])})`
-            otherImagesPreview.appendChild(e)
-        }
         
     })
 }
@@ -105,6 +110,23 @@ if(quantity){
     quantity.addEventListener("change",setQuantityToMin)
 }
 
+
+function loadOtherImages(){
+    counter = 0;
+    document.getElementById("goForward").style.opacity="0.5"
+    document.getElementById("goBack").style.opacity="0.5"
+    otherImagesPreview.replaceChildren();
+        
+    if(otherImagesInput.files.length>3){
+        document.getElementById("goForward").style.opacity="1"
+    }
+    for(let i =0;i<3 && i<otherImagesInput.files.length;i++){
+        let e =document.createElement('div')
+        e.classList.add("previewImages");
+        e.style.backgroundImage=`url(${URL.createObjectURL(otherImagesInput.files[i])})`
+        otherImagesPreview.appendChild(e)
+    }
+}
 
 function scrollOtherImages(direction){
     if(direction>0){

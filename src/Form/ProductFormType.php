@@ -26,11 +26,17 @@ class ProductFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $items_sold = $options['data']->getItemsSold();
+        $mainImg = $options['data']->getMainImage();
+        $otherImages = $options['data']->getOtherImages();
+
         $builder
-            ->add('model',TextType::class,[                    'label'=>false,
+            ->add('model',TextType::class,[                    
+                'label'=>false,
                     'attr'=>[
                         'placeholder'=>".",
                         'maxlenght'=>35
+
                     ],
                     ]
                     )
@@ -155,34 +161,46 @@ class ProductFormType extends AbstractType
                 ],
                 
             ])
-            ->add('quantity',IntegerType::class)
-            ->add('mainImage',FileType::class,[
-                'required'=>true,
-                'constraints' => [
-                    new File([
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'image/jpg',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image (JPG,JPEG or PNG).',
-                    ]),
-                ]
-            ])
-            ->add('otherImages', FileType::class,[
-                'label'=>false,
+            ->add('quantity',IntegerType::class,[
                 'mapped'=>false,
-                'multiple'=>true,
-                'attr'=>[
-                    'multiple'=>true,
-                    
-                ],
-                
-                'required' => false,
             ]);
+            if(! $mainImg){
+                $builder->add('mainImage',FileType::class,[
+                    'data_class'=>null,
+                    'required'=>true,
+                    'constraints' => [
+                        new File([
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                                'image/jpg',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid image (JPG,JPEG or PNG).',
+                        ]),
+                    ],
+    
+                ]);
+            }
+            if(! $otherImages){
+                $builder->add('otherImages', FileType::class,[
+                    'label'=>false,
+                    'mapped'=>false,
+                    'multiple'=>true,
+                    'attr'=>[
+                        
+                        'multiple'=>true,
+                        
+                    ],
+                    
+                    'required' => false,
+                ]);
+            }
+            
+
+
         
             
-        ;
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

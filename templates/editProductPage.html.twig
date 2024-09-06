@@ -19,6 +19,14 @@
 }
 
 
+.mainImage{
+        width: 20vh;
+        height: 20vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 12px ;
+}
 
 .slideShowContainer {
     height: 40vh;
@@ -302,13 +310,18 @@ label[for=product_form_price] {
         <div class="row">
             <div class="column container" style="width: 40vw; margin-right: 2vw;" >
                 <div class="row" style="margin-bottom: 2vh;">
-                    {{form_widget(form.mainImage)}}
-                    <label for="product_form_mainImage" style="position: relative;">
-                        <div id="mainImagePreview" style=" background-image: {{asset(field_value(form.mainImage))}}" ></div>
-                        <div class="container">
-                            Modify the main image diplayed
-                        </div>
-                    </label>
+                    {% if product is not defined %}
+                        {{form_widget(form.mainImage)}}
+                        <label for="product_form_mainImage" style="position: relative;">
+                            <div id="mainImagePreview" style=" background-image: {{asset(field_value(form.mainImage))}}" ></div>
+                            <div class="container">
+                                Modify the main image diplayed
+                            </div>
+                        </label>
+                    {% else %}
+                        <div class="mainImage" style="background-image: url({{asset( product.mainImage )}});"></div>
+                    {% endif %}
+
                     <div class="column" style="width: 20vw;">
                     <div style="position: relative;">
                     {{form_widget(form.model)}}
@@ -329,12 +342,9 @@ label[for=product_form_price] {
                         {% endif %}
                         </div>
 
-                        {% if form_errors(form.mainImage) or form_errors(form.otherImages) %}
+                        {% if form.mainImage is defined and form_errors(form.mainImage) %}
                         <div class="errorContainer">
-                        <p>{{form_errors(form.description)}}</p>
-                        <p>{{form_errors(form.model)}}</p>
                         <p>{{form_errors(form.mainImage)}}</p>
-                        <p>{{form_errors(form.otherImages)}}</p>
                         </div>
                         {% endif %}
 
@@ -398,11 +408,13 @@ label[for=product_form_price] {
                 </div>
             </div>
             <div class="column">
+                {% if form.otherImages is defined%}
                 <label for="product_form_otherImages" style="position: relative;">
                     Other images
                     <div id="otherImagesUploadButton" ></div>
                 </label>
                 {{form_widget(form.otherImages)}}
+                {% endif %}
                 
 
             </div>
@@ -410,5 +422,17 @@ label[for=product_form_price] {
             </div>
         </div>
         {{form_end(form)}}
+        {% if product is defined %}
+    <div style="display: none;">
+        <div id="hiddenOtherImages">
+            {% for img in product.otherImages %}
+                {{ img }}
+            {% endfor %}
+        </div>
+        <div id="itmesSoldAtEditTime">
+            {{product.itemsSold}}
+        </div>
+    </div>
+    {% endif %}
     </div>
 {% endblock %}

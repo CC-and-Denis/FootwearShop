@@ -62,6 +62,7 @@ class HomeController extends AbstractController
             $newProduct=$form->getData();
             $mainImagePath=$form->get('mainImage')->getData();
             $otherImages=$form->get('otherImages')->getData();
+            $quantity = $form->get('quantity')->getData();
             
 
 
@@ -103,6 +104,11 @@ class HomeController extends AbstractController
                 $newProduct->setViews(0);
                 $newProduct->setItemsSold(0);
                 $newProduct->setSellerUsername($this->getUser());
+                if($quantity<1){
+                    $newProduct->setQuantity(1);
+                }else{
+                    $newProduct->setQuantity($quantity);
+                }
                 
 
             }
@@ -110,13 +116,62 @@ class HomeController extends AbstractController
             $this->entityManager->persist($newProduct);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute("home");
+            return $this->redirectToRoute("userPage",[
+               "username"=> $this->getUser()->getUsername()
+            ]);
         } 
         
         return $this->render('editProductPage.html.twig',[
             'form'=>$form->createView()
         ]);
     }
+
+
+    #[Route('deleteproduct/{id}',name:"delete_product")]
+    public function deleteProduct(int $id){
+        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $targetProduct = $productRepository->findOneBy(['id' => $id]);
+        if( (! $targetProduct) || $targetProduct->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
+            $response = new Response("This item can't be deleted",500);
+            return $response;
+        }
+        //product deletable
+        $this->entityManager->remove($targetProduct);
+        unlink($this->getParameter('kernel.project_dir') .'/public'.$targetProduct->getMainImage());
+        foreach ($targetProduct->getOtherImages() as $image) {
+            unlink($this->getParameter('kernel.project_dir') .'/public'.$image);
+        }
+        $this->entityManager->flush();
+
+
+        $response = new Response("item deleted",200);
+        return $response;
+    }
+
+    #[Route('editproduct/{id}',name:"edit_product")]
+    public function editProduct(int $id){
+        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $product = $productRepository->findOneBy(['id' => $id]);
+
+        if( (! $product) || $product->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() ){
+            $response = new Response("This item can't be deleted",500);
+            return $response;
+        }
+        if( $product->getItemsSold()!=0 ){
+            // possibilità solo di aggiungere prodotti e cambiare prezzo
+            dd("wip");
+        }
+        $form = $this->createForm(ProductFormType::class, $product);
+        return $this->render('editProductPage.html.twig',[
+            'form'=>$form->createView(),
+            'product'=>$product,
+        ]);
+
+        
+
+
+    }
+
 
     #[Route('user/{username}',)]
     public function loadUserPage(String $username): Response
@@ -150,31 +205,14 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('deleteproduct/{id}',name:"delete_product")]
-    public function deleteProduct(int $id){
-        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
-        $targetProduct = $productRepository->findOneBy(['id' => $id]);
-        if( (! $targetProduct) || $targetProduct->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
-            $response = new Response("This item can't be deleted",500);
-            return $response;
-        }
-        //product deletable
-        $this->entityManager->remove($targetProduct);
-        unlink($this->getParameter('kernel.project_dir') .'/public'.$targetProduct->getMainImage());
-        foreach ($targetProduct->getOtherImages() as $image) {
-            unlink($this->getParameter('kernel.project_dir') .'/public'.$image);
-        }
-        $this->entityManager->flush();
 
-
-        $response = new Response("item deleted",200);
-        return $response;
-    }
 
 
 #[Route('/populars',name:"load_popular_products_page")]
 public function loadPopularProductsPage(){
     return $this->render('populars.html.twig',[]);
 }
+
+
 
 }?>

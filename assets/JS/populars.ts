@@ -39,9 +39,6 @@ async function loadProductsForPopularPage() {
     }
 }
 
-// Load initial products
-loadProductsForPopularPage();
-
 // Detect when the user scrolls near the bottom
 function onScroll() {
     const scrollTop = scrollableElement.scrollTop;
@@ -54,5 +51,11 @@ function onScroll() {
     }
 }
 
-// Add scroll listener to the scrollable element
-scrollableElement.addEventListener('scroll', onScroll);
+
+if(scrollableElement){
+    // Add scroll listener to the scrollable element
+    scrollableElement.addEventListener('scroll', onScroll);
+    // Load initial products
+    loadProductsForPopularPage();
+
+}

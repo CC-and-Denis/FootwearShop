@@ -31,6 +31,10 @@ crateProduct:
     path: /createproduct
     controller: App\Controller\HomeController::createProduct
 
+edit_product:
+    path: editproduct/{id}
+    controller: App\Controller\HomeController::editProduct
+
 app_logout:
     path: /access/logout
     controller: App\Controller\accessController::logout
