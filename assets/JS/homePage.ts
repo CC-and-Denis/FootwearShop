@@ -91,6 +91,9 @@ if( carouselPopular.container ){
           i++
           
         })
+        if(document.getElementById("end-message")){
+          document.getElementById("end-message").remove;
+        }
        
         if(! tempContainer.children.length){
           carouselPopular.forward.style.opacity="0.5"
