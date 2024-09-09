@@ -45,7 +45,6 @@ if(colorSelection){
 }
 
 if( mainImage && mainImagePreview){
-    console.log(mainImage.files)
     if(! mainImagePreview.style.backgroundImage){
         mainImagePreview.style.backgroundImage='url("/build/Images/file-arrow-up-solid.bca87184.png")'
     }
@@ -63,8 +62,6 @@ if( mainImage && mainImagePreview){
 
 
 if( otherImagesInput && otherImagesPreview ){
-    console.log(otherImagesInput.files)
-
 
     document.getElementById("goBack").addEventListener('click',()=>{
         scrollOtherImages(-1)
@@ -73,13 +70,9 @@ if( otherImagesInput && otherImagesPreview ){
         scrollOtherImages(1)
     })
 
-    if(otherImagesInput.files.length){
-        console.log("ci sono files:")
-        console.log(otherImagesInput.files)
-        loadOtherImages()
-    }
 
     otherImagesInput.addEventListener('change',()=>{
+
         let invalids = false;
         let full = false;
         let cleanFileList = new DataTransfer();
@@ -100,9 +93,37 @@ if( otherImagesInput && otherImagesPreview ){
             alert("you reached tha max number of Images(10)")
         }
         
+        counter = 0;
+        document.getElementById("goForward").style.opacity="0.5"
+        document.getElementById("goBack").style.opacity="0.5"
+        otherImagesPreview.replaceChildren();
+
+        if(cleanFileList.files.length>3){
+            document.getElementById("goForward").style.opacity="1"
+        }
+        for(let i =0;i<3 && i<cleanFileList.files.length;i++){
+            let e =document.createElement('div')
+            e.classList.add("previewImages");
+            e.style.backgroundImage=`url(${URL.createObjectURL(cleanFileList.files[i])})`
+            otherImagesPreview.appendChild(e)
+        }
         
         
     })
+}else if(otherImagesHidden && otherImagesPreview){
+    document.getElementById("goBack").addEventListener('click',()=>{
+        scrollOtherImagesHidden(-1)
+    })
+    document.getElementById("goForward").addEventListener('click',()=>{
+        scrollOtherImagesHidden(1)
+    })
+
+
+    for(let i = 0;i< 3 && i<otherImagesHidden.children.length;i++){
+        otherImagesPreview.appendChild(otherImagesHidden.children[i].cloneNode())
+    }
+
+    document.getElementById("goBack").style.opacity="0.5";
 }
 
 if(quantity){
@@ -164,4 +185,34 @@ function scrollOtherImages(direction){
 
 }
 
+function scrollOtherImagesHidden(direction){
+    if(direction>0){
+        if(counter==(otherImagesHidden.children.length - 3)){
+            return;
+        }
+        otherImagesPreview.removeChild(otherImagesPreview.firstChild)
+        counter++
+        let e = otherImagesHidden.children[counter+2].cloneNode()
+        otherImagesPreview.appendChild(e)
+        document.getElementById("goBack").style.opacity="1"
+        if(counter==otherImagesHidden.children.length - 3){
+            document.getElementById("goForward").style.opacity="0.5"
+        }
+        
+    }
+    else{
+        if(! counter){
+            return;
+        }
+        otherImagesPreview.removeChild(otherImagesPreview.lastChild)
+        counter--
+        let e =otherImagesHidden.children[counter].cloneNode()
+        otherImagesPreview.insertBefore(e,otherImagesPreview.firstChild)
+        document.getElementById("goForward").style.opacity="1"
+        if(! counter){
+            document.getElementById("goBack").style.opacity="0.5"
+        }
+        
+    }
 
+}

@@ -186,19 +186,66 @@ class HomeController extends AbstractController
     }
 
     #[Route('editproduct/{id}',name:"edit_product")]
-    public function editProduct(int $id){
+    public function editProduct(int $id,Request $request){
         $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
+        if( (! $product) || $product->getSellerUsername()->getUsername()!=$this->getUser()->getUsername()){
+            
+        }
 
         if( (! $product) || $product->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() ){
-            $response = new Response("This item can't be deleted",500);
-            return $response;
+            return $this->render('notFound.html.twig',[
+                'entity'=>"Product"
+            ]);
         }
-        if( $product->getItemsSold()!=0 ){
-            // possibilità solo di aggiungere prodotti e cambiare prezzo
-            dd("wip");
-        }
+
         $form = $this->createForm(ProductFormType::class, $product);
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $product=$form->getData();
+            $quantity = $form->get('quantity')->getData();
+            if ($form->has('otherImages')) {
+                $otherImages = $form->get('otherImages')->getData();
+                if ($otherImages) {
+                    foreach ($otherImages as $image) {
+                    
+                            $newFilename = uniqid() . '.' . $image->guessExtension();
+        
+                            try {
+                                $image->move(
+                                    $this->getParameter('kernel.project_dir') . '/public/uploads',
+                                    $newFilename
+                                );
+        
+                                // Add the path to the entity as a string
+                                $product->addOtherImage('/uploads/' . $newFilename);
+                            } catch (FileException $e) {
+                                // Handle the exception gracefully
+                                return new Response($e->getMessage());
+                            }
+                
+                    }
+                }
+            }
+            
+            if($quantity<1){
+                $product->setQuantity(1);
+            }else{
+                $product->setQuantity($quantity);
+            }
+
+            
+
+            $this->entityManager->persist($product);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute("userPage",[
+               "username"=> $this->getUser()->getUsername()
+            ]);
+        } 
         return $this->render('editProductPage.html.twig',[
             'form'=>$form->createView(),
             'product'=>$product,

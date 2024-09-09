@@ -181,7 +181,7 @@ class ProductFormType extends AbstractType
     
                 ]);
             }
-            if(! $otherImages){
+            if(!count($otherImages)){
                 $builder->add('otherImages', FileType::class,[
                     'label'=>false,
                     'mapped'=>false,

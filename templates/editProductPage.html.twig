@@ -342,9 +342,10 @@ label[for=product_form_price] {
                         {% endif %}
                         </div>
 
-                        {% if form.mainImage is defined and form_errors(form.mainImage) %}
+                        {% if (form.mainImage is defined and form_errors(form.mainImage)) or (form.otherImages is defined and form_errors(form.otherImages) )%}
                         <div class="errorContainer">
                         <p>{{form_errors(form.mainImage)}}</p>
+                        <p>{{form_errors(form.otherImages)}}</p>
                         </div>
                         {% endif %}
 
@@ -426,7 +427,9 @@ label[for=product_form_price] {
     <div style="display: none;">
         <div id="hiddenOtherImages">
             {% for img in product.otherImages %}
-                {{ img }}
+            <div class="previewImages" style="background-image: url({{img}});">
+
+            </div>
             {% endfor %}
         </div>
         <div id="itmesSoldAtEditTime">

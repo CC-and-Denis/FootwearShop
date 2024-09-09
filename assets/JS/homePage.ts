@@ -92,7 +92,7 @@ if( carouselPopular.container ){
           
         })
         if(document.getElementById("end-message")){
-          document.getElementById("end-message").remove;
+          document.getElementById("end-message").remove();
         }
        
         if(! tempContainer.children.length){
@@ -112,7 +112,7 @@ function loadMoreProducts(direction:number,carousel:Carousel){
     
    
     if(carousel==carouselFy){
-        url="/api/fyp-function"
+        url="/api/fyp-function/"
     }
 
     if( carousel.semaphore || (direction<0 && carousel.counter==0) || (direction>0 && carousel.forward.style.opacity=="0.5") ){
