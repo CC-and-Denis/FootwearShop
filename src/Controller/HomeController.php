@@ -31,59 +31,60 @@ class HomeController extends AbstractController
     #[Route('/home', name:'home')]
     public function loadHomePage(): Response
     {
-        /*
-        $data = [];
-        $this->filesystem->dumpFile('testFile.json', json_encode(($data)));
-
-        $queryResult = $this -> createQuery('trekking', 'Salomon', 'pink', 1);
-        $queryResult2 = $this -> createQuery('trekking', 'Salomon', 'yellow', 1);
-
-        if ($queryResult === $queryResult2) {
-            // Log or debug here
-            dump('Query returned null');
-            
-            $items = [
-                'query' => 'error, null',
-            ];
-
-            return $this->render('homePage.html.twig', ['items' => $items]);
-        }
-        else {
-            // Log or debug the actual result
-            dump($queryResult);
-            dump($queryResult->getColors());
-            $string = (string)$queryResult->getColors();
-            
-            $items = [
-                'query' => $string,
-            ];
-            return $this->render('homePage.html.twig', ['items' => $items]);
-        }
-        */
-        return $this->render('homePage.html.twig', [
-            'item'=> [
-                'model' => 'hey',
-            ]
-        ]);;
+        return $this->render('homePage.html.twig',);
     }
 
     #[Route('product/{productId}', )]
-    public function loadProductPage($productId): Response
+    public function loadProductPage($productId, Request $request): Response
     {
+        $response = new Response();
         $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
 
         if($targetProduct){
+            $this -> cookie_update($targetProduct, $request, $response);
             return $this->render('productpage.html.twig',[
                 'product'=>$targetProduct,
-            ]
+            ], $response
         );
-        }else{
+        }
+        else{
             return $this->render('notFound.html.twig',[
                 'entity'=>"Product"
-            ]);
+            ], $response);
         }
         
+    }
+
+
+
+    private function cookie_update(Product $product, Request $request, $response) {
+    
+        $typeCookie = $request->cookies->get('type');
+        $brandCookie = $request->cookies->get('brand');
+        $colorCookie = $request->cookies->get('color');
+
+
+        $types = json_decode($typeCookie, true);
+        $brands = json_decode($brandCookie, true);
+        $colors = json_decode($colorCookie, true);
+
+        $types[$product->getType()] ++;
+        $brands[$product->getBrand()] ++;
+        $colors[$product->getColor()] ++;
+
+        //dump($types, $brands, $colors);
+        
+        $typeJSON = json_encode($types);
+        $brandJSON = json_encode($brands);
+        $colorJSON = json_encode($colors);
+
+        $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
+        $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
+        $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));
+        
+    
+        return $response;
     }
 
     #[Route('createproduct'),]
@@ -243,124 +244,320 @@ class HomeController extends AbstractController
         ]);
     }
 
-
-
-
-#[Route('/populars',name:"load_popular_products_page")]
-public function loadPopularProductsPage(){
-    return $this->render('populars.html.twig',[]);}
-
-    #[Route('/api/fyp-function',)]
-    public function fyp_function(Request $request): JsonResponse
+    #[Route('/api/getProductForFyp/{qta}-{position}', name: 'get_product_for_fyp', methods: ['GET'])]
+    public function getProductForFyp(int $qta, int $position, ProductRepository $productRepository, Request $request): Response
     {
-
-
-        // Get 'type' cookies values
+        // Fetch the popular products from the repository
         $typeCookie = json_decode($request->cookies->get('type'), true);
         $brandCookie = json_decode($request->cookies->get('brand'), true);
         $colorCookie = json_decode($request->cookies->get('color'), true);
 
+        arsort($typeCookie);  // Sorting the type array
+        arsort($brandCookie); // Sorting the brand array
+        arsort($colorCookie); // Sorting the color array
+    
+        if (empty($typeCookie) || empty($brandCookie) || empty($colorCookie)) {
+            return $this->render('homePage.html.twig',);
+        }
+    
+        // Calculate items based on the provided conditions
+        $products = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
+        $hasMore = count($products) === $qta;
 
-        $normalizedProbabilities = $this -> normalizeProbabilities($typeCookie);
-        // Pick 3 names based on probabilities
-        $types = $this -> pickNames($normalizedProbabilities, 4);
+        return $this->render('productCardComponent.html.twig',[
+            "products"=>$products,
+            'hasMore' => $hasMore,
+        ]);
+    }
 
-        $normalizedProbabilities = $this -> normalizeProbabilities($brandCookie);
-        $brands = $this -> pickNames($normalizedProbabilities, 4);
 
-        $normalizedProbabilities = $this -> normalizeProbabilities($colorCookie);
-        $colors = $this -> pickNames($normalizedProbabilities, 4);
-        $data = [];
 
-        $query_history = $this -> read_json_file('fyp_history_json');
 
-        $queryResult = null ;
+    #[Route('/populars',name:"load_popular_products_page")]
+    public function loadPopularProductsPage(){
+        return $this->render('populars.html.twig',[]);}
+    
+    
+    
 
-        for ($i = 0; $i < 1; $i++) {
-            $queryResult = null ;
-            while ($queryResult === null) {
+    #[Route('/api/fyp-function/{qta}-{position}',)]
+    
+        // Main function to handle cookie data and the item calculation
+    public function fyp_function($qta, $position, ProductRepository $productRepository, Request $request): Response 
+    { 
+        $typeCookie = json_decode($request->cookies->get('type'), true);
+        $brandCookie = json_decode($request->cookies->get('brand'), true);
+        $colorCookie = json_decode($request->cookies->get('color'), true);
 
-                $v = 0;
-                $n = 0;
+        arsort($typeCookie);  // Sorting the type array
+        arsort($brandCookie); // Sorting the brand array
+        arsort($colorCookie); // Sorting the color array
+    
+        if (empty($typeCookie) || empty($brandCookie) || empty($colorCookie)) {
+            return $this->render('homePage.html.twig',);
+        }
+    
+        // Calculate items based on the provided conditions
+        $items = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
 
-                $this->filesystem->dumpFile($this->getParameter('prova_json'), json_encode($query_history));    
+        //dump($items);
+    
+        // Render the items (for now, just print them)
+        /*
+        foreach ($items as $index => $item) {
+            dd( ($index + 1) . ": Type: " . $item['type'] . ", Brand: " . $item['brand'] . ", Color: " . $item['color'] . " | Offset: " . $item['offset'] . "<br>");
+        }
+        */
+        $hasMore = count($items ) === $qta;
 
-                if (gettype($query_history) === 'array' && $query_history != null) {
-                    foreach ($query_history as $element) {
-                        if ($element['query_r'] -> getType() ===  $types[$i] && $element['query_r'] -> getBrand() === $brands[$i] && $element['query_r'] -> getColor() === $colors[$i]) {
-                            $n = $element['n'];
-                            $element['n'] = $n + 1;
-                            $v = 1;
-                            break;
+        return $this->render('productCardComponent.html.twig',[
+            "products"=>$items,
+            'hasMore' => $hasMore,  
+        ]);
+    }
+
+
+
+
+
+
+
+
+    private function getDivisionRate($first, $second) {
+        if ($second == 0){
+            if ($first == 0)
+                return 1;
+            else
+                return intval($first / 1);
+        }
+        if ($first / $second > 10) return -1;
+        return intval($first / $second);
+    }
+    
+    // Function to calculate and simulate the for loops described
+    private function calculateItems($types, $brands, $colors, $startingIndex, $productCount, $productRepository) {
+
+        // Step 1: Work with the type relations
+        $typeDivisions = [];
+        $typeNames = array_keys($types);
+        $typeValues = array_values($types);
+        $totalTypeItems = 0;
+        $totalTypeRate = 0;
+
+        $pickedTypeNames = [];
+    
+        for ($i = 1; $i < count($typeValues); $i++) {
+            $divResult = $this -> getDivisionRate($typeValues[$i - 1], $typeValues[$i]);
+            if ($divResult == -1 || $totalTypeRate >= 15 || $totalTypeItems >= 2){
+                $typeDivisions[] = 1;
+                $pickedTypeNames[] = $typeNames[$i - 1];
+                break;
+            }
+            $typeDivisions[] = $divResult;
+            $pickedTypeNames[] = $typeNames[$i - 1];
+            $totalTypeRate += $divResult;
+            $totalTypeItems ++;
+        }
+    
+        // Step 2: Work with brands (same logic as types, stop at 10 items)
+        $brandDivisions = [];
+        $brandNames = array_keys($brands);
+        $brandValues = array_values($brands);
+        $totalBrandItems = 0;
+        $totalBrandRate = 0;
+
+        $pickedBrandNames = [];
+    
+        for ($i = 1; $i < count($brandValues); $i++) {
+            $divResult = $this -> getDivisionRate($brandValues[$i - 1], $brandValues[$i]);
+            if ($divResult == -1 || $totalBrandRate >= 10 || $totalBrandItems >= 2) {
+                $brandDivisions[] = 1;
+                $pickedBrandNames[] = $brandNames[$i - 1];
+                break;
+            }
+            $brandDivisions[] = $divResult;
+            $pickedBrandNames[] = $brandNames[$i - 1];
+            $totalBrandRate += $divResult;
+            $totalBrandItems ++;
+        }
+    
+        // Step 3: Work with colors (same logic as types and brands)
+        $colorDivisions = [];
+        $colorNames = array_keys($colors);
+        $colorValues = array_values($colors);
+        $totalColorItems = 0;
+        $totalColorRate = 0;
+        $pickedColorNames = [];
+        for ($i = 1; $i < count($colorValues); $i++) {
+            $divResult = $this -> getDivisionRate($colorValues[$i - 1], $colorValues[$i]);
+            if ($divResult == -1 || $totalColorRate >= 10 || $totalColorItems >= 1) {
+                $colorDivisions[] = 1;
+                $pickedColorNames[] = $colorNames[$i - 1];
+                break;
+            }
+            $colorDivisions[] = $divResult;
+            $pickedColorNames[] = $colorNames[$i - 1];
+            $totalColorRate += $divResult;
+            $totalColorItems ++;
+        }
+
+        //dump("typeDivisions: ", $types, $typeDivisions);
+        //dump("brandDivisions: ", $brands, $brandDivisions);
+        //dump("colorDivisions: ", $colors, $colorDivisions);
+        //dump($pickedTypeNames, $pickedBrandNames, $pickedColorNames);
+        
+        $typeList = ['type1', 'type2', 'type3'];  // Example types
+        $brand = 'some_brand';
+        $color = 'some_color';
+
+        $query = $this->entityManager->createQuery(
+            'SELECT COUNT(p.id) 
+            FROM App\Entity\Product p
+            WHERE p.type IN (:types) 
+            AND p.brand IN (:brand) 
+            AND p.color IN (:color)'
+        );
+
+        $query->setParameter('types', $pickedTypeNames);
+        $query->setParameter('brand', $pickedBrandNames);
+        $query->setParameter('color', $pickedColorNames);
+
+        $totalRecords = $query->getSingleScalarResult() - $startingIndex;
+
+        //dump('totalRecords', $totalRecords);
+
+        //$this->entityManager->getConnection()->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+        // Step 4: Use loops based on the divisions found
+        $results = [];
+        $combinationCounter = []; // To store occurrences of each combination
+        $counter = 0;
+    
+        //for ($i = 0; $i < $productCount; $i++) {
+        while (true) {
+            // Check type
+            foreach ($typeDivisions as $typeIndex => $typeLoopCount) {
+                for ($j = 0; $j < $typeLoopCount; $j++) {
+                    // Check brand
+                    foreach ($brandDivisions as $brandIndex => $brandLoopCount) {
+                        for ($k = 0; $k < $brandLoopCount; $k++) {
+                            // Check color
+                            foreach ($colorDivisions as $colorIndex => $colorLoopCount) {
+                                for ($l = 0; $l < $colorLoopCount; $l++) {
+                                    $type = $typeNames[$typeIndex];
+                                    $brand = $brandNames[$brandIndex];
+                                    $color = $colorNames[$colorIndex];
+                                    // Create a combination key to track how many times it has occurred
+                                    $combinationKey = $type . '-' . $brand . '-' . $color;
+                                    
+                                    // Initialize counter for this combination if not set
+                                    if (!isset($combinationCounter[$combinationKey])) {
+                                        $combinationCounter[$combinationKey] = 0; //null offset is 1
+                                    }
+                                    //dump($type, $brand, $color, $combinationCounter[$combinationKey]);
+                                    //dump("combinationCounter", $combinationCounter);
+                                    if ($combinationCounter[$combinationKey] != -1) {
+                                        if ($startingIndex == 0){
+
+                                            //$queryResult = $productRepository -> findFavouriteProduct($type, $brand, $color, $combinationCounter[$combinationKey]);
+                                            $query = $this->entityManager->createQuery(
+                                                'SELECT p 
+                                                FROM App\Entity\Product p
+                                                WHERE p.type = :type 
+                                                AND p.brand = :brand 
+                                                AND p.color = :color
+                                                ORDER BY p.id ASC'  // Ensure deterministic order
+                                            );
+                                            $query->setParameter('type', $type);
+                                            $query->setParameter('brand', $brand);
+                                            $query->setParameter('color', $color);
+                                            $query->setFirstResult($combinationCounter[$combinationKey]); // Skip rows (offset)
+                                            $query->setMaxResults(1); // Get only one result
+                                            
+                                            $queryResult = $query->getOneOrNullResult();
+                                            $this->entityManager->clear();
+
+                                            if ($queryResult === null) {
+                                                $combinationCounter[$combinationKey] = -1;
+                                            }
+                                            else{
+
+                                                //dump("productCount", $productCount);
+                                                
+                                                if ($productCount >= 1) {
+
+                                                    //dump("Pinkyeah", $type, $brand, $color, $combinationCounter[$combinationKey]);
+                                                    $results[] = $queryResult;
+                                                    $counter ++;
+                                                    /*
+                                                    $results[] = [
+                                                        'type' => $type,
+                                                        'brand' => $brand,
+                                                        'color' => $color,
+                                                        'offset' => $combinationCounter[$combinationKey] // Offset starts at 1
+                                                    ];
+                                                    */
+                                                    $productCount --;
+                                                }
+                                                $combinationCounter[$combinationKey]++;
+                                            }
+                                            if ($productCount == 0) {
+                                                //dump("combinationCounter", $combinationCounter);
+                                                return $results;
+                                            }
+                                        }
+                                        else
+                                            $startingIndex --;
+                                        if ($counter == $totalRecords){
+                                            //dump("combinationCounter", $combinationCounter);
+                                            return $results;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                else {
-                    $query_history = [];
-                }
-                if ($v === 1) {
-                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], $n);
-                }
-                else {
-                    $queryResult = $this -> createQuery($types[$i], $brands[$i], $colors[$i], 1);
-                    /*
-                    dd($queryResult);
-                    if ($queryResult != null) {
-
-                        array_push($query_history, [
-                            'query_r' => $queryResult,
-                            'n' => 1
-                        ]);
-                    }
-                    */
-                }
-
-                $prova = [$types[$i], $brands[$i], $colors[$i]];
-
-                $this->filesystem->dumpFile($this->getParameter('prova_json'), json_encode($prova));    
             }
-
-            if ($queryResult === null) {
-                // Handle the case when no result is found
-                return new JsonResponse(['error' => 'No matching product found'], 404);
-            }
-
-            $data[$i] = [
-                'id' => $queryResult -> getId(),
-                'main_image' => $queryResult -> getMainImage(),
-                'brand' => $queryResult -> getBrand(),
-                'model' => $queryResult -> getModel(),
-                'color' => $queryResult -> getColor(),
-                'description' => $queryResult -> getDescription(),
-            ];
-            
-            //dd($data);
-
-            array_push($query_history, $queryResult);
-
         }
-
-        $this->filesystem->dumpFile($this->getParameter('fyp_history_json'), json_encode($query_history));
-
-        return new JsonResponse($data);
     }
 
-    private function createQuery($value1, $value2, $value3, $start_row) {
+
+
+
+
+
+
+    
+
+    private function createQuery($type, $brand, $color, $offset) {
         $queryBuilder = $this -> entityManager->getRepository(Product::class)->createQueryBuilder('e');
 
         // Filter on multiple fields
+        /*
         $queryBuilder
             ->where($queryBuilder->expr()->andX(
                 $queryBuilder->expr()->eq('e.type', ':field1'),
                 $queryBuilder->expr()->eq('e.brand', ':field2'),
                 $queryBuilder->expr()->eq('e.color', ':field3')
             ))
-            ->setParameter('field1', $value1)
-            ->setParameter('field2', $value2)
-            ->setParameter('field3', $value3)
-            ->setFirstResult($start_row) // offset (0-based)
+            ->setParameter('field1', $type)
+            ->setParameter('field2', $brand)
+            ->setParameter('field3', $color)
+            ->setFirstResult($offset) // offset (0-based)
             ->setMaxResults(1); // number of result rows
             return $queryBuilder->getQuery()->getOneOrNullResult();
+        */
+        return $this -> entityManager->getRepository(Product::class)->createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->andWhere('p.brand = :brand')
+            ->andWhere('p.color = :color')
+            ->setParameter('type', $type)
+            ->setParameter('brand', $brand)
+            ->setParameter('color', $color)
+            ->setMaxResults(1)
+            ->setFirstResult($offset) // Using the offset parameter
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // Step 2: Normalize the probabilities (fractions)
@@ -418,4 +615,5 @@ public function loadPopularProductsPage(){
 
 
 
-}?>
+}
+?>

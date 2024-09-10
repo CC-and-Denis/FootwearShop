@@ -12,6 +12,7 @@ async function loadProductsForPopularPage() {
     //document.getElementById('loader').style.display = 'block';
 
     try {
+        
         const response = await fetch(`/api/getProductByPopular/8-`+counter);
         const html = await response.text();
         const productList = document.getElementById('productList');

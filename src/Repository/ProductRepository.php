@@ -16,31 +16,6 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    //    /**
-    //     * @return Product[] Returns an array of Product objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Product
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
-
     public function findPopularProducts(int $qta, int $position): array
     {
         // Create the query to fetch products sorted by views and sales
@@ -51,5 +26,19 @@ class ProductRepository extends ServiceEntityRepository
             ->setMaxResults($qta)      
             ->getQuery()
             ->getResult();
+    }
+    public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
+    {
+        return $this -> createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->andWhere('p.brand = :brand')
+            ->andWhere('p.color = :color')
+            ->setParameter('type', $type)
+            ->setParameter('brand', $brand)
+            ->setParameter('color', $color)
+            ->setMaxResults(1)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

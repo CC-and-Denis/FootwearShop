@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    PROVA
+{% endblock %}
+
+{% block body %}
+    <div id = "dati" >
+    {% for item in list.items %}
+        <div id="item">
+            <p>Type: {{ item.type }}</p>
+            <p>Brand: {{ item.brand }}</p>
+            <p>Color: {{ item.color }}</p>
+            <p>Offset: {{ item.offset }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

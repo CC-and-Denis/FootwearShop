@@ -16,7 +16,7 @@ home:
     controller: App\Controller\HomeController::loadHomePage
 
 api_fyp_function:
-    path: /api/fyp-function
+    path: /api/fyp-function/{qta}-{position}
     controller: App\Controller\HomeController::fyp_function
 
 productPage:
