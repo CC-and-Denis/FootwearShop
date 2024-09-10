@@ -55,7 +55,7 @@ class accessController extends AbstractController
                 'others' => 0
             ];
 
-            $marca = [
+            $brand = [
                 'Nike' => 0,
                 'Adidas' => 0,
                 'Puma' => 0,
@@ -98,10 +98,9 @@ class accessController extends AbstractController
             );
 
             $typeJSON = json_encode($type);
-            $brandJSON = json_encode($marca);
+            $brandJSON = json_encode($brand);
             $colorJSON = json_encode($color);
     
-            // Set the cookies for 'tipo', 'marca', and 'colore' with an expiration date far in the future
             $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
             $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
             $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));

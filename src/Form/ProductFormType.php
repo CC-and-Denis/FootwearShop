@@ -110,16 +110,17 @@ class ProductFormType extends AbstractType
             ->add('type',ChoiceType::class,[
                 'label'=>false,
                 'choices'=>[
-                    'Running' => 'Running',
-                    'Hiking' => 'Hiking',
-                    'Sandals' => 'Sandals',
-                    'Heels' => 'Heels',
-                    'Boots' => 'Boots',
-                    'Ankle boots' => 'Ankle boots',
-                    'Sneakers' => 'Sneakers',
-                    'Formal' => 'Formal',
+                    'Trekking' => 'trekking',
+                    'Running' => 'running',
+                    'Hiking' => 'hiking',
+                    'Sandals' => 'sandals',
+                    'Heels' => 'heels',
+                    'Boots' => 'boots',
+                    'Ankle boots' => 'ankle boots',
+                    'Sneakers' => 'sneakers',
+                    'Formal' => 'formal',
                     'flip flops' => 'flip flops',
-                    'Other' => 'Other'
+                    'Other' => 'other'
                 ]
             ])
             ->add('gender',ChoiceType::class,[

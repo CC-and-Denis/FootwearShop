@@ -46,7 +46,7 @@ if(colorSelection){
 
 if( mainImage && mainImagePreview){
     if(! mainImagePreview.style.backgroundImage){
-        mainImagePreview.style.backgroundImage='url("/build/Images/file-arrow-up-solid.bca87184.png")'
+        mainImagePreview.style.backgroundImage='url("/build/images/file-arrow-up-solid.bca87184.png")'
     }
     mainImage.addEventListener('change',()=>{
         if(["image/png","image/jpg","image/jpeg"].includes(mainImage.files[0].type)){
@@ -54,7 +54,7 @@ if( mainImage && mainImagePreview){
         }else{
             mainImage.value=""
             mainImage.files[0]=null
-            mainImagePreview.style.backgroundImage='url("build/Images/file-arrow-up-solid.bca87184.png")'
+            mainImagePreview.style.backgroundImage='url("build/images/file-arrow-up-solid.bca87184.png")'
             alert("file format not supported")
         }
     })

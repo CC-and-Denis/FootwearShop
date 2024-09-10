@@ -103,7 +103,33 @@ if( carouselPopular.container ){
 
 
 }
+if( carouselFy.container ){
+  fetch("/api/fyp-function/5-0")
+  .then(response => response.text())
+  .then(html=>{
+      const tempContainer = document.createElement('div');
+      tempContainer.innerHTML = html;
 
+      let i = 0;
+      Array.from(tempContainer.children).forEach(element => {
+        if(i<4){
+          carouselFy.container.appendChild(element);
+        }
+        i++
+        
+      })
+      if(document.getElementById("end-message")){
+        document.getElementById("end-message").remove();
+      }
+     
+      if(! tempContainer.children.length){
+        carouselFy.forward.style.opacity="0.5"
+      }
+  })
+  .catch(error => console.error('Error loading products:', error));
+
+
+}
 
 function loadMoreProducts(direction:number,carousel:Carousel){
 
@@ -117,15 +143,18 @@ function loadMoreProducts(direction:number,carousel:Carousel){
 
     if( carousel.semaphore || (direction<0 && carousel.counter==0) || (direction>0 && carousel.forward.style.opacity=="0.5") ){
         return;
-    }else if(direction>0){
+    }
+    else if(direction>0){
         url+=(carousel.counter+4)
-    }else{
+    }
+    else{
         url+=(carousel.counter-1)
     }
     carousel.semaphore=true;
 
     let errors = false;
     carousel.forward.style.opacity="0.5"
+    
     fetch(url)
     .then(function(response) {                     
         if(response.ok)
