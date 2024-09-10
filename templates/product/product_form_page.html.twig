@@ -1,4 +1,4 @@
-{% extends 'pageFrame.html.twig' %}
+{% extends 'bases/page_frame.html.twig' %}
 
 {% block title %}
     Nike Air Force Limited edition
@@ -112,7 +112,7 @@
     -moz-appearance: textfield;
 }
 
-input, textarea, select {
+form input, textarea, select {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
@@ -122,7 +122,7 @@ input, textarea, select {
     transition: all .3s ease;
 }
 
-input[type=checkbox]{
+form input[type=checkbox]{
     width: 4vw;
     margin-bottom: 2vh;
 }
@@ -132,7 +132,7 @@ input[type=checkbox]{
     opacity: 0;
 }
 
-label {
+form label {
     cursor: text;
     z-index: 2;
     font-size: 1vw;
@@ -156,7 +156,7 @@ label[for=product_form_otherImages]{
     background-size: cover;
     margin-top: 1vh;
 
-    background-image: url(/build/Images/file-arrow-up-solid.bca87184.png);
+    background-image: url(/build/images/file-arrow-up-solid.bca87184.png);
 }
 
 label[for=product_form_mainImage],label[for=product_form_otherImages]{
@@ -287,10 +287,6 @@ label[for=product_form_price] {
     border-radius: 100px;
 }
 
-
-
-
-
 </style>
 {% endblock %}
 
@@ -298,12 +294,12 @@ label[for=product_form_price] {
     <div class="column" style="padding-left: 2vw; padding-top: 2vh;">
             <div class="slideShowContainer row center">
 
-                <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" id="goBack">
+                <img src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" id="goBack">
                 <div class="row" id="slideShowContainer2">
 
                     
                 </div>
-                <img src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}"  id="goForward">
+                <img src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}"  id="goForward">
             </div>
         {{form_start(form)}}
         

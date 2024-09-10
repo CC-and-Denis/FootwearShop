@@ -1,1 +1,1 @@
-import './JS/productCreation.ts'
+import './js/productCreation.ts'

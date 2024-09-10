@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'bases/base.html.twig' %}
 
 {% block title %}
     FS
@@ -18,28 +18,33 @@
 
 {% block body %}
 <div id="searchContainer">
-    <img src="{{ asset('build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="height: 10vh;width: 10vh; position: absolute; top: 0; left: 0; margin-top: 2vh; margin-left: 10vw;" class="buttonForSearch">
+    <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="height: 10vh;width: 10vh; position: absolute; top: 0; left: 0; margin-top: 2vh; margin-left: 10vw;" class="buttonForSearch">
+    <div id="alertsContainer">
     {% block alerts %}
 
     {% endblock %}
+    </div>
     <div class="row" id="searchBarContainer" > 
         <div>
             <input id="filterMenuCheckbox" type="checkbox" style="opacity: 0;position: absolute;">
             <label for="filterMenuCheckbox">
-                <img src="{{ asset('/build/Images/filter-solid.8f86f99e.png')}}"></label>
+                <img src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}"></label>
             
         </div>
         <input type="text">
         <div>
-            <img src="{{ asset('/build/Images/magnifying-glass-solid.2b32bcc1.png')}}">
+            <img src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
         </div>
     </div>
     <div id="filterMenu">
         <div class="column">
             Gender
-            <label>
-                <input type="checkbox" id="maleCheckbox">Male
-            </label>
+            <div class="row">
+                <label>
+                    <input type="checkbox" id="maleCheckbox">Male
+                </label>
+            </div>
+            
             <label>
                 <input type="checkbox" id="femaleCheckbox">Female
             </label>
@@ -61,12 +66,12 @@
 
     </div>
 </div>
-<div class="row background" style="background-image:url({{asset('/build/Images/background.ab9f0388.png')}}) ;">
+<div class="row background" style="background-image:url({{asset('/build/images/background.ab9f0388.png')}}) ;">
     <div class="sidebar">
         <div class="column" id="top">
             <div>
                 <input id="searchContainerCheckbox" type="checkbox" style="opacity: 0;position: absolute;">
-                    <img src="{{ asset('/build/Images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
+                    <img src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
                 
             </div>
         </div>
@@ -81,9 +86,9 @@
             <a>Support</a>
             <a>Copyright</a>
             {% if app.user %}
-            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/Images/user-regularB.df1377b9.png')}});" href="/user/{{app.user.userIdentifier}}"></a>
+            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href="/user/{{app.user.userIdentifier}}"></a>
             {% else %}
-            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/Images/user-regularB.df1377b9.png')}});" href="/login"></a>
+            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href="/login"></a>
             {% endif %}
 
 

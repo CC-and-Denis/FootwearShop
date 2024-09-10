@@ -1,86 +1,78 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductFormType;
+use App\Form\PaymentType;
+use App\Repository\ProductRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Filesystem\Filesystem;    
-use App\Form\ProductFormType;
-use App\Repository\ProductRepository;
+use Symfony\Component\Filesystem\Filesystem;  
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-
-
+use Doctrine\ORM\EntityManagerInterface;
 
 class HomeController extends AbstractController
 {
     private $entityManager;
-    private $filesystem;
 
     public function __construct(EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
         $this->entityManager = $entityManager;
-        $this->filesystem = $filesystem;
     }
 
     #[Route('/home', name:'home')]
     public function loadHomePage(): Response
     {
-        /*
-        $data = [];
-        $this->filesystem->dumpFile('testFile.json', json_encode(($data)));
-
-        $queryResult = $this -> createQuery('trekking', 'Salomon', 'pink', 1);
-        $queryResult2 = $this -> createQuery('trekking', 'Salomon', 'yellow', 1);
-
-        if ($queryResult === $queryResult2) {
-            // Log or debug here
-            dump('Query returned null');
-            
-            $items = [
-                'query' => 'error, null',
-            ];
-
-            return $this->render('homePage.html.twig', ['items' => $items]);
-        }
-        else {
-            // Log or debug the actual result
-            dump($queryResult);
-            dump($queryResult->getColors());
-            $string = (string)$queryResult->getColors();
-            
-            $items = [
-                'query' => $string,
-            ];
-            return $this->render('homePage.html.twig', ['items' => $items]);
-        }
-        */
-        return $this->render('homePage.html.twig', [
+        return $this->render('homepage.html.twig', [
             'item'=> [
                 'model' => 'hey',
             ]
-        ]);;
+        ]);
     }
 
     #[Route('product/{productId}', )]
-    public function loadProductPage($productId): Response
+    public function loadProductPage($productId, Request $request): Response
     {
+
         $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
+        $remainingProducts = ( $targetProduct->getQuantity() - $targetProduct->getItemsSold() );
+        $form = $this->createForm(PaymentType::class);
+        $form->handleRequest($request);
+
+        
+
+        if( $form->isSubmitted() && $form->isValid() ){
+            if( $remainingProducts ){
+                $response = new Response('There are no items left', 500);
+                return $response;
+            }
+
+            $mainImagePath=$form->get('cardNumber')->getData();
+            $otherImages=$form->get('expMonth')->getData();
+            $otherImages=$form->get('expYear')->getData();
+            $quantity = $form->get('cvc')->getData();
+
+            //use stripe here  
+            return $this->redirectToRoute('homepage');
+        }
 
         if($targetProduct){
-            return $this->render('productpage.html.twig',[
-                'product'=>$targetProduct,
+            return $this->render('product/product_view_page.html.twig',[
+                'product' => $targetProduct,
+                'form' => $form,
             ]
         );
         }else{
-            return $this->render('notFound.html.twig',[
-                'entity'=>"Product"
+            return $this->render('not_found.html.twig',[
+                'entity' => 'Product'
             ]);
         }
         
@@ -96,31 +88,30 @@ class HomeController extends AbstractController
         //dd($form->getErrors());
         if($form->isSubmitted() && $form->isValid()){
             
-            $newProduct=$form->getData();
-            $mainImagePath=$form->get('mainImage')->getData();
-            $otherImages=$form->get('otherImages')->getData();
+            $newProduct = $form->getData();
+            $mainImagePath = $form->get('mainImage')->getData();
+            $otherImages = $form->get('otherImages')->getData();
             $quantity = $form->get('quantity')->getData();
             
 
 
             if($mainImagePath){
-                $newMainIMageName=uniqid().'.'.$mainImagePath->guessExtension();
+
+                $newMainIMageName=uniqid() . '.' . $mainImagePath->guessExtension();
 
                 try{
                     $mainImagePath->move(
-                        $this->getParameter('kernel.project_dir').'/public/uploads',
+                        $this->getParameter('kernel.project_dir') . '/public/uploads',
                         $newMainIMageName
                     );
+
                 }catch(FileException $e){
-                    dd($e);
                     return new Response($e->getMessage());
                 }
             
                 if ($otherImages) {
                     foreach ($otherImages as $image) {
-                    
                             $newFilename = uniqid() . '.' . $image->guessExtension();
-        
                             try {
                                 $image->move(
                                     $this->getParameter('kernel.project_dir') . '/public/uploads',
@@ -158,7 +149,7 @@ class HomeController extends AbstractController
             ]);
         } 
         
-        return $this->render('editProductPage.html.twig',[
+        return $this->render('product/product_form_page.html.twig',[
             'form'=>$form->createView()
         ]);
     }
@@ -166,7 +157,7 @@ class HomeController extends AbstractController
 
     #[Route('deleteproduct/{id}',name:"delete_product")]
     public function deleteProduct(int $id){
-        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $id]);
         if( (! $targetProduct) || $targetProduct->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
             $response = new Response("This item can't be deleted",500);
@@ -185,17 +176,14 @@ class HomeController extends AbstractController
         return $response;
     }
 
-    #[Route('editproduct/{id}',name:"edit_product")]
+    #[Route('editproduct/{id}',name:'edit_product')]
     public function editProduct(int $id,Request $request){
         $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
-        if( (! $product) || $product->getSellerUsername()->getUsername()!=$this->getUser()->getUsername()){
-            
-        }
 
         if( (! $product) || $product->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() ){
-            return $this->render('notFound.html.twig',[
-                'entity'=>"Product"
+            return $this->render('not_found.html.twig',[
+                'entity' => 'Product'
             ]);
         }
 
@@ -246,7 +234,7 @@ class HomeController extends AbstractController
                "username"=> $this->getUser()->getUsername()
             ]);
         } 
-        return $this->render('editProductPage.html.twig',[
+        return $this->render('product/product_form_page.html.twig',[
             'form'=>$form->createView(),
             'product'=>$product,
         ]);
@@ -264,13 +252,13 @@ class HomeController extends AbstractController
         $targetUser = $userRepository->findOneBy(['username' => $username]);
 
         if($targetUser){
-            return $this->render('userPage.html.twig',[
+            return $this->render('user/user_page.html.twig',[
                 'username'=>$username,
                 'isVendor'=>$targetUser->isVendor(),
                 'products'=>$targetUser->getSellingProducts(),
             ]);
         }else{
-            return $this->render('notFound.html.twig',[
+            return $this->render('not_found.html.twig',[
                 'entity'=>"User"
             ]);
         }
@@ -284,7 +272,7 @@ class HomeController extends AbstractController
         $products = $productRepository->findPopularProducts($qta, $position);
         $hasMore = count($products) === $qta;
 
-        return $this->render('productCardComponent.html.twig',[
+        return $this->render('product/product_card_component.html.twig',[
             "products"=>$products,
             'hasMore' => $hasMore,
         ]);
@@ -295,7 +283,7 @@ class HomeController extends AbstractController
 
 #[Route('/populars',name:"load_popular_products_page")]
 public function loadPopularProductsPage(){
-    return $this->render('populars.html.twig',[]);}
+    return $this->render('populars_page.html.twig',[]);}
 
     #[Route('/api/fyp-function',)]
     public function fyp_function(Request $request): JsonResponse

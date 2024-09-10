@@ -16,11 +16,7 @@ use  Symfony\Component\HttpFoundation\Cookie;
 
 class accessController extends AbstractController
 {
-    #[Route('/access',)]
-    public function loadAccessPage(): Response
-    {
-        return $this->render('accessPage.html.twig');
-    }
+
 
     #[Route('/access/signup',)]
     public function signUp(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response

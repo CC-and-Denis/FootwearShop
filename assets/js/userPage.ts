@@ -31,7 +31,7 @@ deleteButtons1.forEach(button=>{
     id = null
     document.getElementById("itemToBeDeleted").innerText=model
     document.getElementById("searchBarContainer").style.display="none"
-    document.getElementById("alertBox1").style.display="block"
+    document.getElementById("alertsContainer").style.display="block"
     document.getElementById("buttonDelete2").setAttribute("name",productId)
     clearInterval(id)
     id=setInterval(frame,10)

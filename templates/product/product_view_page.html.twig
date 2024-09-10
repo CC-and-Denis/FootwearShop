@@ -1,4 +1,4 @@
-{% extends 'pageFrame.html.twig' %}
+{% extends 'bases/page_frame.html.twig' %}
 
 {% block title %}
     Nike Air Force Limited edition
@@ -105,19 +105,126 @@
         margin-top: 1vh;
     }
 
+    .column.container.center{
+        width: 20vw;
+        background-color: white;
+    }
+    
+    form label,select,input{
+        margin:1vh 0vh;
+        font-size: larger;
+        background-color: white;
+        
+    }
+
+    .column.container.center>h1{
+        font-size: 5vh;
+        margin-bottom: 2vh;
+    }
+
+    form input,select{
+        border: none;
+        outline: none;
+        border-bottom: 1px solid black;
+    }
+
+    .column.container.center>button{
+        margin-top: 1vh;
+    }
+    
+    
+
+    select{
+        margin-right: 0.5vw;
+    }
+
+    #payment_cvc{
+        width: 4.5vw;
+    }
+
+    #errorsAlert{
+        position: absolute;
+        right: 0;
+        background-color: rgba(255,0,0,0.7);
+        border-left: 10px solid red;
+        color: white;
+        font-size: large;
+        padding: 2vh;
+        justify-content: left;
+
+    }
+
+    #closeErrors{
+        font-weight: 600;
+        margin-bottom: 2vh;
+    }
+
+    #closeErrors:hover{
+        cursor: pointer;
+    }
+
+
 
 </style>
+{% endblock %}
+
+{% block alerts %}
+
+    {% if (product.quantity - product.itemsSold)>0 %}
+    {% if form.cardNumber.vars.errors | length %}
+    <div id="errorsAlert" class="column">
+        <div id="closeErrors">
+            x
+        </div>
+        {% for error in form.cardNumber.vars.errors %}
+            <div class="error">{{ error.message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+        {{form_start(form)}}
+            <div class="column container center" >
+                <h1>Payment</h1>
+                    <div class="reverseColumn">
+                        {{ form_widget(form.ccOwner) }}
+                        <label>Credit card owner</label>
+                    </div>
+                    <div class="reverseColumn">
+                        {{ form_widget(form.cardNumber) }}
+                        <label>Cardnumber</label>
+                    </div>
+                    <div class="reverseColumn">
+                    <div class="row">
+                        {{form_widget(form.expMonth)}}
+                        {{form_widget(form.expYear)}}
+                    </div>
+                    <label>Expiration Date</label>
+                    </div>
+
+                    <div class="reverseColumn">
+                        {{ form_widget(form.cvc) }}
+                        <label for="payment_cvc">CVC/CVV</label>
+                    </div>
+
+                    <button type="submit" style="width: 9vw;">Buy the article</button>   
+                
+                
+                    <div class="column">
+                        
+                    </div>
+            </div>
+        {{ form_end(form) }}
+    {% endif %}
 {% endblock %}
 
 
 {% block content %}
     <div class="column" style="padding-left: 2vw; padding-top: 2vh;">
             <div class="slideShowContainer row center">
-                <img id="goBack" src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}">
+                <img id="goBack" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}">
                 <div class="slideShowContainer2 row" id="otherImagesPreview">
 
                 </div>
-            <img  id="goForward" src="{{asset('/build/Images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
+            <img  id="goForward" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
             
             <div style="display: none;" id="otherImagesList">
                 {% for image in product.otherImages %}
@@ -126,6 +233,8 @@
                 {% endfor %}
             </div>
         </div>
+
+    
 
         <div class="row">
             <div class="column container" style="width: 40vw; margin-right: 2vw;" >
@@ -145,7 +254,7 @@
                         </div>
                     </div> 
                     <div class="column">
-                        <a class="aButton"> Buy now</a>
+                        <a class="aButton" id="buyButton1"> Buy now</a>
                     </div>
                 </div>
 

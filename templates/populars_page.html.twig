@@ -1,4 +1,4 @@
-{% extends 'pageFrame.html.twig' %}
+{% extends 'bases/page_frame.html.twig' %}
 
 {% block style %}
 <style>
@@ -6,23 +6,27 @@
     #grid-container {
       display: grid;
       grid-template-columns: repeat(4, auto);
-      grid-gap: 2vh 1vh;
-      padding: 1vh 1vh;
+      row-gap: 1vh;
+      column-gap: 2.5vw;
       padding-right: 0vh;
-      height: 85vh;
+    padding-left: 1vh;
+    margin-right: 1vw;
+      height: 84.5vh;
+      max-width: 92vw;
     }
 
     .productCard{
+    background-color: rgba(255,255,255,0.4);
+    backdrop-filter: blur(20px);
     display:block;
     padding-right: 0;
     background-size: cover; 
     background-repeat: no-repeat;
     background-position: center;
-    height: 44vh;
-    width: 44vh;
+    height: 42vh;
+    width: 42vh;
     border-radius: 15px;
-    margin-right: 1.5vw;
-    border: 1px solid rgba(255,255,255,0.1);"
+    border: 1px solid rgba(255,255,255,0.1);
     }
 
 
@@ -34,7 +38,7 @@
         opacity: 0;
         border-radius: 0px 0px 15px 15px;
         margin-top: 17.5vh;
-        height:22vh;
+        height:19.5vh;
         background-color: rgba(255,255,255,0.4);
         backdrop-filter: blur(20px);
         padding: 0.5vh 1vh ;
@@ -56,13 +60,32 @@
 
     .productInfo>.user{
         font-size: 2.5vh;
-        margin-top: 1vh;
+        margin-top: 0.5vh;
         text-decoration: underline;
     }
 
     .scrollable{
+        margin-top: 8vh;
+    }
+
+    @media (min-height: 935px) {
+    .productCard{
+        height: 37vh;
+        width: 37vh;
         margin-top: 5vh;
     }
+
+    .productInfo{
+        height:18.8vh;
+        margin-top: 13.5vh;
+    }
+
+    #grid-container{
+        height: 85vh;
+    }
+
+    
+}
 
 
 

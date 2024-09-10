@@ -1,10 +1,10 @@
 import './styles/frame.css';
 
-import './JS/frame.js';
-import './JS/userPage.ts'
-import './JS/homePage.ts'
-import './JS/populars.ts'
-import './JS/cookie.js'
+import './js/frame.ts';
+import './js/userPage.ts'
+import './js/homePage.ts'
+import './js/populars.ts'
+import './js/cookie.js'
 
 
 

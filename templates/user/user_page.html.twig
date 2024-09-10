@@ -1,4 +1,4 @@
-{% extends 'pageFrame.html.twig' %}
+{% extends 'bases/page_frame.html.twig' %}
 
 {% block title %}
  {{username}} profile
@@ -7,9 +7,6 @@
 
 {% block style %}
 <style>
-
-
-
 
 .row > .column.container{
     height: 88vh;
@@ -35,9 +32,8 @@
 }
 
 .productDescription{
-    width: 37vw;
-    max-width: 37vw;
-    margin-right: 1vw;
+    width: 33vw;
+    margin-right: 0.5vw;
     height: 20vh;
     word-wrap: break-word;
     word-break: break-word;
@@ -63,11 +59,13 @@
 .mainImage{
     background-color: rgba(255,255,255,0.2);
     backdrop-filter: blur(20px);
-    max-width: 20vh;
-    max-height: 20vh;
-    object-fit: cover;
+    width: 20vh;
+    height: 20vh;
     border-radius: 12px;
     margin-right: 1vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
@@ -163,12 +161,11 @@
 
 }
 
-
 </style>
 {% endblock %}
 
 {% block alerts %}
-    <div class="coloumn container center" id="alertBox1" style="display:none ;">
+    <div class="column container center" id="alertBox1">
         <h1>Attention, this action is irreversible!</h1>
         <h3>Are you sure that you want to delete the selected item:</h3>
         <h3 id="itemToBeDeleted">Unknown</h3>
@@ -186,7 +183,7 @@
     overflow-y: hidden;">
 
     <div class="column container" style=" width: 20vw;margin-right: 2.9vh; align-items: center;">
-        <div id="profilePic" class="userImage" style="background-image: url({{asset('/build/Images/user-regularB.df1377b9.png')}});">
+        <div id="profilePic" class="userImage" style="background-image: url({{asset('/build/images/user-regularB.df1377b9.png')}});">
 
         </div>
         <div id="userName">
@@ -204,11 +201,11 @@
                 {% if products|length %}
                 <h1>Averange</h1>
                 <div class="row avgRating">
-                    <img src="/build/Images/star-regular.6a90c9dc.png">
-                    <img src="/build/Images/star-regular.6a90c9dc.png">
-                    <img src="/build/Images/star-regular.6a90c9dc.png">
-                    <img src="/build/Images/star-regular.6a90c9dc.png">
-                    <img src="/build/Images/star-regular.6a90c9dc.png">
+                    <img src="/build/images/star-regular.6a90c9dc.png">
+                    <img src="/build/images/star-regular.6a90c9dc.png">
+                    <img src="/build/images/star-regular.6a90c9dc.png">
+                    <img src="/build/images/star-regular.6a90c9dc.png">
+                    <img src="/build/images/star-regular.6a90c9dc.png">
                 </div>
                 <h1>Individual ratings</h1>
                 <div class="coloumn individualRatings">
@@ -218,7 +215,7 @@
                         0
                         </div>
                         {% for j in range(1,i) %}
-                        <img src="/build/Images/star-solid.86d1454e.png">
+                        <img src="/build/images/star-solid.86d1454e.png">
                         {% endfor %}
                     </div>
                     {% endfor%}
@@ -248,17 +245,15 @@
         <div class="coloumn scrollable">
                 {% for product in products %}
                 <div class="container row productContainer" id={{product.id}}>
-                    <img class="mainImage" src="{{product.mainImage}}">
+                    <div class="mainImage" style="background-image: url({{product.mainImage}});"></div>
                     <div class="column">
                         <h1>{{product.Model}}</h1>
                         <div class="productDescription">{{product.description}}</div>
                         <div class="row">
                             <div class="priceContainer container">€ {{product.price}}</div>
                             <div class="priceContainer container">In stock: {{product.quantity}}</div>
-                            <div class="priceContainer container"><img src="/build/Images/eye-regular.30a447c7.png"> {{product.views}}</div>
-                            <div class="priceContainer container"><img src="/build/Images/cart-shopping-solid.5de20d86.png"> {{product.itemsSold}}</div>
-
-                            
+                            <div class="priceContainer container"><img src="/build/images/eye-regular.30a447c7.png"> {{product.views}}</div>
+                            <div class="priceContainer container"><img src="/build/images/cart-shopping-solid.5de20d86.png"> {{product.itemsSold}}</div>     
                         </div>
                     </div>
                     <div class="column">

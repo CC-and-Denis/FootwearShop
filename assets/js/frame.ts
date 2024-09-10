@@ -3,14 +3,16 @@ var step = 1;
 var end = 10;
 var opacity = 0;
 var id = null
+const overlay = document.getElementById("searchContainer") as HTMLDivElement;
 const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
     
     function displayFilters(){
         element = document.getElementById("filterMenu")
+        let filterMenuCheckbox = document.getElementById("filterMenuCheckbox") as HTMLInputElement
         id = null
         clearInterval(id)
         id=setInterval(frame,10)
-        if(document.getElementById("filterMenuCheckbox").checked){
+        if(filterMenuCheckbox.checked){
             step = 1
             end = 10
             opacity = 0
@@ -32,26 +34,27 @@ const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
         
         
 
-        function displaySearch(){
+        function displayOverlay(){
+
+        console.log("ciao1")
+            
+        let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
 
         // for some reason the listener fuck everything up if the clicked element is a label for an input so we needs to do this
-        document.getElementById("searchContainerCheckbox").checked = ! document.getElementById("searchContainerCheckbox").checked
+        searchCheckbox.checked = !searchCheckbox.checked
 
 
-        element = document.getElementById("searchContainer")
-        document.getElementById("searchBarContainer").style.display="flex"
         id = null
         clearInterval(id)
         id=setInterval(frame,10)
-    
-        if(document.getElementById("alertBox1")){
-            document.getElementById("alertBox1").style.display="none"
-        }
-        if(document.getElementById("searchContainerCheckbox").checked){
+        document.getElementById("alertsContainer").style.display="none"
+        
+        if(searchCheckbox.checked){
+            document.getElementById("searchBarContainer").style.display="flex"
+            overlay.style.display='flex'
             step = 1
             end = 10
             opacity = 0
-            element.style.display="flex"
         }else{
             step = -1
             end = 0
@@ -61,19 +64,21 @@ const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
         function frame() {
             if (opacity==end) {
               clearInterval(id);
-              if(! document.getElementById("searchContainerCheckbox").checked){
-                element.style.display="none"
+              if(! searchCheckbox.checked){
+                overlay.style.display="none"
                 }
             } else {
               opacity+=step
-              element.style.opacity=opacity/10
+              overlay.style.opacity= (opacity/10).toString() 
             }
         
         }
         }
 
-buttonsForSearch.forEach(button => {
-    button.addEventListener('click',displaySearch);
+buttonsForSearch.forEach( (button) => {
+    console.log("ciao")
+    button.addEventListener('click',displayOverlay);
 });
+
 document.getElementById("filterMenuCheckbox").addEventListener('change',displayFilters);
 

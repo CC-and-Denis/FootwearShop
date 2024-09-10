@@ -62,8 +62,8 @@ Encore
     })
 
     .copyFiles({
-        from:'./assets/Images',
-        to:'Images/[path][name].[hash:8].[ext]',
+        from:'./assets/images',
+        to:'images/[path][name].[hash:8].[ext]',
         pattern: /\.(png|jpg|jpeg)$/
     })
 
