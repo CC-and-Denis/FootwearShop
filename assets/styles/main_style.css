@@ -1,7 +1,6 @@
 
 *{
     font-family: "Lato", sans-serif;
-    font-weight: 400;
     font-style: normal;
     margin: 0px;
     padding: 0px;
@@ -131,8 +130,13 @@ body{
 }
 
 
-.bg-semitrasparent{
+.bg-semitransparent{
     background-color: rgba(255,255,255,0.2);
+
+}
+
+.bg-semitransparent-white{
+    background-color: rgba(255,255,255,0.6);
 
 }
 
@@ -209,6 +213,10 @@ label:hover{
     padding-left: 1vh;
 }
 
+.accessPage input[type="text"]{
+    width: 20vw;
+}
+
 .accessPage label{
     color: whitesmoke
 }
@@ -220,3 +228,4 @@ label:hover{
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+

@@ -22,9 +22,14 @@ class RegistrationFormType extends AbstractType
         $builder
         ->add('email', EmailType::class,[
             'label' => false,
+            'attr' => [
+            ],
         ])
             ->add('username', TextType::class,[
                 'label' => false,
+                'attr' => [
+                ],
+
             ])
             ->add('password', RepeatedType::class, [
                 
@@ -33,7 +38,9 @@ class RegistrationFormType extends AbstractType
                 'first_options' => [
                 'label' => false,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -48,7 +55,10 @@ class RegistrationFormType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => false,
-                    'attr' => ['autocomplete' => 'new-password'],
+                    'attr' => [
+                        'autocomplete' => 'new-password',
+                        'class'=> 'w-5' 
+                    ],
                 ],
             ]);
         ;
