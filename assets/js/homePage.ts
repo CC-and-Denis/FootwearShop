@@ -93,6 +93,7 @@ if( carouselPopular.container ){
         })
         if(document.getElementById("end-message")){
           document.getElementById("end-message").remove();
+          carouselFy.forward.style.opacity="0.5"
         }
        
         if(! tempContainer.children.length){
@@ -120,6 +121,7 @@ if( carouselFy.container ){
       })
       if(document.getElementById("end-message")){
         document.getElementById("end-message").remove();
+        carouselFy.forward.style.opacity="0.5"
       }
      
       if(! tempContainer.children.length){

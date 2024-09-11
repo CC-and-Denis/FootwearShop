@@ -64,6 +64,7 @@ input[type="text"],input[type="password"],input[type="email"],textarea{
 a{
     text-decoration: none;
     color: black;
+    transform: all .3s ease;
 }
 
 body{
@@ -111,6 +112,7 @@ body{
     background-color: var(--highlight-color);
     font-size: 2vh;
     font-weight: 800;
+    opacity: 0.8;
     height: fit-content;
     width: fit-content;
     text-align: center;
@@ -119,6 +121,11 @@ body{
     color: rgba(255, 255, 255, 1);
     cursor: pointer;
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+    transform:all .3s ease;
+}
+
+.aButton:hover{
+    opacity: 1;
 }
 
 .bg-red{

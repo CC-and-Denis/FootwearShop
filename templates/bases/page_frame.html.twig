@@ -59,7 +59,7 @@
             </label>
         </div>
         <div class="column">
-            
+
 
         </div>
 
@@ -67,7 +67,7 @@
     </div>
 </div>
 <div class="row background" >
-    <div id="sidebar" class="column bg-semitransparent h-full w-60">
+    <div id="sidebar" class="column bg-semitransparent h-full w-32">
         <div class="column w-max " >
                 <input id="searchContainerCheckbox" type="checkbox" class="hidden" >
                     <img class="ml-3 max-w-14 buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
@@ -83,7 +83,7 @@
             <a>About</a>
             <a>Support</a>
             <a>Copyright</a>
-            <a class="generic-img h-20 rounded-full bg-semitransparent mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
+            <a class="generic-img size-20 rounded-full bg-semitransparent mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
             {% if app.user %}
                 "/user/{{app.user.userIdentifier}}"
             {% else %}
@@ -94,7 +94,7 @@
         </div>
 
     </div>
-    <div>
+    <div class="w-full">
         {% block content %}
         {% endblock %}
     </div>
