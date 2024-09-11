@@ -53,7 +53,11 @@ get_product_by_popular:
 delete_product:
     path: deleteproduct/{id}
     controller: App\Controller\HomeController::deleteProduct
-    
+
+load_fy_products_page:
+    path: /fyp
+    controller: App\Controller\HomeController::loadFyProductsPage    
+
 load_popular_products_page:
     path: /populars
     controller: App\Controller\HomeController::loadPopularProductsPage

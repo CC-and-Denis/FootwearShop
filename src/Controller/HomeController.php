@@ -206,7 +206,37 @@ class HomeController extends AbstractController
         return $response;
     }
 
-    #[Route('editproduct/{id}',name:'edit_product')]
+/*
+    #[Route('/research', name:'research')]
+    public function research(Request $request) :Response{
+        //form creation
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $researchData = $form->getData();
+            $data = [
+                'type' => $researchData->type,
+                'brand' => $researchData->brand,
+                'color' => $researchData->color,
+                'gender' => $researchData->gender,
+                'researchbar' => $researchData->researchbar,
+            ];
+            return $data;
+        }
+    }
+
+*/
+    #[Route('/getProductByResearch', name:'get_product_by_research')]
+    public function getProductByResearch(int $qta, int $position, array $data, ProductRepository $productRepository) :Response{
+        $products = $productRepository -> get_product_by_research();
+        $hasMore = count($products) === $qta;
+
+        return $this->render('product/product_card_component.html.twig',[
+            "products"=>$products,
+            'hasMore' => $hasMore,
+        ]);
+    }
+
+    #[Route('editproduct/{id}', name:'edit_product')]
     public function editProduct(int $id,Request $request){
         $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
@@ -316,13 +346,17 @@ class HomeController extends AbstractController
 
 
 
-
+    #[Route('/fyp',name:"load_popular_products_page")]
+    public function loadFyProductsPage(){
+        return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'fyp']]);}
 
 
 
     #[Route('/populars',name:"load_popular_products_page")]
     public function loadPopularProductsPage(){
-        return $this->render('populars_page.html.twig',[]);}
+        return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'populars']]);}
+
+
 
     #[Route('/api/getProductForFyp/{qta}-{position}', name: 'get_product_for_fyp', methods: ['GET'])]
     public function getProductForFyp(int $qta, int $position, ProductRepository $productRepository, Request $request): Response
@@ -404,6 +438,14 @@ class HomeController extends AbstractController
         return intval($first / $second);
     }
     
+    public function calculatePriorities($array) {
+        for ($i=0; $i<count($array)-1; $i++) {
+            for ($j = $i+1; $j<count($array); $j++) {
+                $array[$i] *= $array[$j];
+            }
+        }
+        return $array;
+    }
     // Function to calculate and simulate the for loops described
     private function calculateItems($types, $brands, $colors, $startingIndex, $productCount, $productRepository) {
 
@@ -471,11 +513,15 @@ class HomeController extends AbstractController
             $totalColorItems ++;
         }
 
-        //dump("typeDivisions: ", $types, $typeDivisions);
-        //dump("brandDivisions: ", $brands, $brandDivisions);
-        //dump("colorDivisions: ", $colors, $colorDivisions);
-        //dump($pickedTypeNames, $pickedBrandNames, $pickedColorNames);
-        
+        $typeDivisions = $this->calculatePriorities($typeDivisions);
+        $brandDivisions = $this->calculatePriorities($brandDivisions);
+        $colorDivisions = $this->calculatePriorities($colorDivisions);
+
+        dump("typeDivisions: ", $types, $typeDivisions);
+        dump("brandDivisions: ", $brands, $brandDivisions);
+        dump("colorDivisions: ", $colors, $colorDivisions);
+        dump($pickedTypeNames, $pickedBrandNames, $pickedColorNames);
+    
         $typeList = ['type1', 'type2', 'type3'];  // Example types
         $brand = 'some_brand';
         $color = 'some_color';
@@ -494,7 +540,7 @@ class HomeController extends AbstractController
 
         $totalRecords = $query->getSingleScalarResult() - $startingIndex;
 
-        //dump('totalRecords', $totalRecords);
+        dump('totalRecords', $totalRecords);
 
         //$this->entityManager->getConnection()->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         // Step 4: Use loops based on the divisions found
@@ -523,10 +569,9 @@ class HomeController extends AbstractController
                                     if (!isset($combinationCounter[$combinationKey])) {
                                         $combinationCounter[$combinationKey] = 0; //null offset is 1
                                     }
-                                    //dump($type, $brand, $color, $combinationCounter[$combinationKey]);
-                                    //dump("combinationCounter", $combinationCounter);
+                                    dump($type, $brand, $color, $combinationCounter[$combinationKey]);
+                                    dump("combinationCounter", $combinationCounter);
                                     if ($combinationCounter[$combinationKey] != -1) {
-                                        if ($startingIndex == 0){
 
                                             //$queryResult = $productRepository -> findFavouriteProduct($type, $brand, $color, $combinationCounter[$combinationKey]);
                                             $query = $this->entityManager->createQuery(
@@ -551,11 +596,11 @@ class HomeController extends AbstractController
                                             }
                                             else{
 
-                                                //dump("productCount", $productCount);
+                                                dump("productCount", $productCount);
                                                 
-                                                if ($productCount >= 1) {
+                                                if ($startingIndex == 0 && $productCount >= 1) {
 
-                                                    //dump("Pinkyeah", $type, $brand, $color, $combinationCounter[$combinationKey]);
+                                                    dump("Pinkyeah", $type, $brand, $color, $combinationCounter[$combinationKey]);
                                                     $results[] = $queryResult;
                                                     $counter ++;
                                                     /*
@@ -568,17 +613,18 @@ class HomeController extends AbstractController
                                                     */
                                                     $productCount --;
                                                 }
+                                                else
+                                                    $startingIndex --;
                                                 $combinationCounter[$combinationKey]++;
                                             }
                                             if ($productCount == 0) {
-                                                //dump("combinationCounter", $combinationCounter);
+                                                dump("combinationCounter", $combinationCounter);
+                                                dump($results);
                                                 return $results;
                                             }
-                                        }
-                                        else
-                                            $startingIndex --;
                                         if ($counter == $totalRecords){
-                                            //dump("combinationCounter", $combinationCounter);
+                                            dump("combinationCounter", $combinationCounter);
+                                            dump($results);
                                             return $results;
                                         }
                                     }

@@ -14,19 +14,13 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, auto);
-            row-gap: 1h;
-            column-gap: vw;
+            grid-template-columns: repeat(3, auto);
+            row-gap: 2vh;
+            column-gap: 1vw;
+            padding: 2vh;
         }
 
-        .grid-item {
-            backdrop-filter: blur(35px);
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid black;
-            padding: 20px;
-            position: relative;
-        }
+
 
         /* Image styling */
         .grid-item img {    
@@ -51,13 +45,17 @@
         }
 
         .item-details .date,
-        .item-details .object-name,
+        .item-details .product,
         .item-details .price {
             margin-bottom: 10px;
         }
 
-        .item-details .object-name {
+        .item-details .product {
             font-weight: bold;
+        }
+        .item-details .product {
+            font-weight: bold;
+            font-color: blue;
         }
 
         .item-details .price {
@@ -69,44 +67,54 @@
 
 {% block content %}
 
-    <div style= "width = 100%">
+    <div>
         <div class="grid-container">
-            <!-- First Item -->
-            <div class="grid-item" data-number="1">
-                <img src="imagelink" alt="Image 1">
-                <div class="item-details">
-                    <div class="date">Date: 27/01/24</div>
-                    <div class="object-name">Object Name: Nike Air</div>
-                    <div class="price">Price: $56</div>
+            {% for transaction in transactions %}
+                <div class="container">
+                    <div class="item-details">
+                        <div class="date">Date: {{transaction.date}}</div>
+                        <div class="product">Product: {{transaction.product_name}} </div>
+                        <div class="price">Price:{{transaction.price}}</div>
+                        {% if (transiction.result) %}
+                            <div class="result">The payment was successfull</div>
+                        {% else %}
+                            <div class="result">The payment wasn't successfull</div>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
+                <!-- First Item -->
+                <div class="container">
+                    <div class="item-details">
+                        <div class="date">Date: 27/01/24</div>
+                        <div class="object-name">Product: Nike Air</div>
+                        <div class="price">Price: $56</div>
+                    </div>
+                </div>
 
             <!-- Second Item -->
-            <div class="grid-item" data-number="2">
-                <img src="imagelink" alt="Image 2">
+            <div class="container">
                 <div class="item-details">
                     <div class="date">Date: --/--/--</div>
-                    <div class="object-name">Object Name: --</div>
+                    <div class="object-name">Product: --</div>
                     <div class="price">Price: --</div>
                 </div>
             </div>
 
             <!-- Third Item -->
-            <div class="grid-item" data-number="3">
-                <img src="imagelink" alt="Image 3">
+            <div class="container">
                 <div class="item-details">
                     <div class="date">Date: --/--/--</div>
-                    <div class="object-name">Object Name: --</div>
+                    <div class="object-name">Product: --</div>
                     <div class="price">Price: --</div>
                 </div>
             </div>
 
             <!-- Fourth Item -->
-            <div class="grid-item" data-number="4">
-                <img src="imagelink" alt="Image 4">
+            <div class="container">
                 <div class="item-details">
                     <div class="date">Date: --/--/--</div>
-                    <div class="object-name">Object Name: --</div>
+                    <div class="object-name">Product: --</div>
                     <div class="price">Price: --</div>
                 </div>
             </div>

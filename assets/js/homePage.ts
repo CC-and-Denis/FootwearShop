@@ -138,7 +138,7 @@ function loadMoreProducts(direction:number,carousel:Carousel){
     
    
     if(carousel==carouselFy){
-        url="/api/fyp-function/"
+        url="/api/fyp-function/2-"
     }
 
     if( carousel.semaphore || (direction<0 && carousel.counter==0) || (direction>0 && carousel.forward.style.opacity=="0.5") ){

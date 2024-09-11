@@ -27,6 +27,20 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findResearchedProduct(String $type, String $brand, String $color, int $offset)
+    {
+        return $this -> createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->andWhere('p.brand = :brand')
+            ->andWhere('p.color = :color')
+            ->setParameter('type', $type)
+            ->setParameter('brand', $brand)
+            ->setParameter('color', $color)
+            ->setMaxResults(1)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
     public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
     {
         return $this -> createQueryBuilder('p')
