@@ -6,6 +6,8 @@
  * which should already be in your base.html.twig.
  */
 
-import './styles/mainStyle.css';
+import './styles/main_style.css';
+
+import './js/app.ts'
 
 

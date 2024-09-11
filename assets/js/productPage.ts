@@ -3,7 +3,6 @@ const list = document.getElementById("otherImagesList") as HTMLDivElement;
 var counter = 0;
 const searchbar = document.getElementById("searchBarContainer") as HTMLDivElement
 const paymentFormContainer = document.getElementById("alertsContainer") as HTMLDivElement
-const errors = document.getElementById("errorsAlert") as HTMLDivElement
 var element=null;
 var step = 1;
 var end = 10;
@@ -73,27 +72,8 @@ if (preview && list) {
 }
 
 if(paymentFormContainer){
-    if(errors){
+    if(document.getElementById("errorsBox")){
         displayPayment()
-    
-        document.getElementById("closeErrors").addEventListener("click",()=>{
-            let position=0;
-            id = null
-            clearInterval(id)
-            id=setInterval(frame,1)
-            
-            function frame() {
-        
-               if(position==-400){
-                clearInterval(id)
-                errors.style.display="none"
-               }else{
-                position-=40
-                errors.style.right=position+"px"
-               }
-            
-            }
-            })
     }
 
     document.getElementById("buyButton1").addEventListener("click",()=>{

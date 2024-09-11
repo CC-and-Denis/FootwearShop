@@ -50,6 +50,7 @@ const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
         document.getElementById("alertsContainer").style.display="none"
         
         if(searchCheckbox.checked){
+            console.log("hi")
             document.getElementById("searchBarContainer").style.display="flex"
             overlay.style.display='flex'
             step = 1
@@ -76,7 +77,6 @@ const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
         }
 
 buttonsForSearch.forEach( (button) => {
-    console.log("ciao")
     button.addEventListener('click',displayOverlay);
 });
 

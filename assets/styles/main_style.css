@@ -1,0 +1,214 @@
+
+*{
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0px;
+    padding: 0px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+:root{
+    --highlight-color:#00509E;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
+    border-radius: 120px;
+ 
+  }
+
+  ::-webkit-scrollbar-track{
+    background:  rgba(255,255,255,0.05);
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background:  rgba(255,255,255,0.2);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5); 
+  }
+
+  ::-moz-selection { 
+    color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    background:rgba(255,255,255,0.5) ;
+  }
+  
+  ::selection {
+    color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    background:rgba(255,255,255,0.5);
+  }
+
+input{
+    outline: none;
+    border: none;
+}
+
+input[type="text"],input[type="password"],input[type="email"],textarea{
+    background-color: transparent;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+body{
+    overflow-y: hidden;
+}
+
+.row, .column, .reverseColumn,.centered{
+    display: flex;
+}
+.row{
+    flex-direction: row;
+}
+
+.column{
+    flex-direction: column;
+}
+
+.reverseColumn{
+    flex-direction: column-reverse;
+}
+
+.centered{
+    justify-content: center;
+    align-items: center;
+}
+
+.background{
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position:center ;
+    background-image: url('/public/build/images/background.ab9f0388.png');
+}
+
+
+.container{
+    background-color: rgba(255,255,255,0.2);
+    backdrop-filter: blur(35px);
+    border-radius: 20px;
+    padding: 2vh 5vh;
+}
+
+.aButton{
+    border-radius: 0.75rem;
+    background-color: var(--highlight-color);
+    font-size: 2vh;
+    font-weight: 800;
+    height: fit-content;
+    width: fit-content;
+    text-align: center;
+    border: none;
+    padding:2vh;
+    color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.bg-red{
+ background-color: red;
+}
+
+.bg-highlight{
+    background-color: var(--highlight-color);
+}
+
+
+.bg-semitrasparent{
+    background-color: rgba(255,255,255,0.2);
+
+}
+
+
+
+.small-img{
+    height: 5vh;
+    width: 4.8vh;
+}
+
+
+.aButton:hover{
+    cursor: pointer;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+label:hover{
+    cursor: pointer;
+}
+
+.scrollable{
+    overflow-y: scroll;
+}
+
+.h1{
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.underline-grey{
+    border-bottom: 2px solid #CFCFCF;
+}
+
+
+/* this are login and signup exclusive styles */
+
+.accessPage form .column .column>.row{
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    padding-bottom: 1vh;
+    border-bottom: 1px solid #CFCFCF;
+}
+
+
+.accessPage input{
+    padding-left: 1vh;
+}
+
+.accessPage label{
+    color: whitesmoke
+}
+
+
+#errorsBox{
+    background-color: rgba(255,0,0,0.7);
+    border-left: 10px solid red;
+    color: white;
+    position: fixed;
+    right: 0;
+    top:20%;
+    font-size: large;
+    padding: 1vh;
+    padding-top: 0.5vh;
+    justify-content: left;
+    z-index:4;
+}
+
+#closeErrorsBtn{
+    font-weight: 600;
+    margin-bottom: 2vh;
+}
+
+#closeErrorsBtn:hover{
+    cursor: pointer;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{parent()}}
 {{ encore_entry_script_tags('frame') }}
 {% endblock %}
 
@@ -66,14 +67,12 @@
 
     </div>
 </div>
-<div class="row background" style="background-image:url({{asset('/build/images/background.ab9f0388.png')}}) ;">
+<div class="row background" >
     <div class="sidebar">
-        <div class="column" id="top">
-            <div>
-                <input id="searchContainerCheckbox" type="checkbox" style="opacity: 0;position: absolute;">
-                    <img src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
+        <div class="column w-max" >
+                <input id="searchContainerCheckbox" type="checkbox" class="hidden" >
+                    <img class="small-img buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
                 
-            </div>
         </div>
         <div class="column">
             <a href="/home">Home</a>
@@ -85,11 +84,14 @@
             <a>About</a>
             <a>Support</a>
             <a>Copyright</a>
+            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
             {% if app.user %}
-            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href="/user/{{app.user.userIdentifier}}"></a>
+                "/user/{{app.user.userIdentifier}}"
             {% else %}
-            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href="/login"></a>
+                "/login"
             {% endif %}
+            >
+        </a>
 
 
         </div>

@@ -22,8 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('frame', './assets/frame.js')
-    .addEntry('productCreation', './assets/productCreation.js')
-    .addEntry('productPage', './assets/productPage.js')
+    .addEntry('product_form', './assets/product_form.js')
+    .addEntry('product_view_page', './assets/product_view_page.js')
 
 
 
@@ -73,6 +73,8 @@ Encore
 
     // uncomment if you use TypeScript
     .enableTypeScriptLoader()
+
+    .enablePostCssLoader()
 
     // uncomment if you use React
     //.enableReactPreset()
