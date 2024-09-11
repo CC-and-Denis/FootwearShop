@@ -5,34 +5,47 @@ Login
 {% endblock %}
 
 
-{% block content %}
-<form method="post">
+{% block alert %}
     {% if error %}
-        <div class="row">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div id="errorsBox">
+                <div id="closeErrorsBtn">x</div>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
     {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+    <div class="column centered">
+    
 
     {% if app.user %}
-        <div class="row" style="">
+        <div class="row">
             You are logged in as {{ app.user.userIdentifier }},
         </div>
 
         <a class="aButton" href="/home">Home</a>
-        <a class="aButton" href="/access/logout" style="background-color: red;">Log out</a>
+        <a class="aButton bg-red" href="/access/logout">Log out</a>
 
     {% else %}
     <div class="column">
         <label for="inputUsername">Username</label>
         <div class="row">
-            <img src="{{asset('/build/Images/user-regular.246ab86a.png')}}">
-            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+            <label for="inputUsername">
+                <img class="small-img" src="{{asset('/build/images/user-regular.246ab86a.png')}}">
+            </label>
+            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control w-[30rem]" autocomplete="username" required autofocus>
         </div>
         </div>
         
         <div class="column">
             <label for="inputPassword">Password</label>
-            <div class="row">
-                <img src="{{asset('/build/Images/key-solid.792a57bf.png')}}">
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <div class="row">
+            <label for="inputPassword">
+                <img class="small-img" src="{{asset('/build/images/key-solid.792a57bf.png')}}">
+            </label>
+                <input type="password" name="password" id="inputPassword" class="form-control w-[30rem]" autocomplete="current-password" required>
             </div>
         
         </div>
@@ -50,15 +63,16 @@ Login
             
         </div>
     
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+        <button class="aButton py-2 my-10" type="submit">
+            Login
         </button>
+    </div>
     </form>
     <div class="row">
-        <div id="login" class="aButton" style="border-radius:17px 0px 0px 17px ;">
+        <div id="login" class="aButton rounded-none rounded-l-xl shadow-none">
             Login
         </div>
-    <a href="/signup" id="SignUp" class="aButton" style="border-radius:0px 17px 17px 0px; opacity: 0.5;">
+    <a href="/signup" class="aButton opacity-50 rounded-none rounded-r-xl " >
             Sign up
     </a>
     {% endif %}

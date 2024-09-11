@@ -13,26 +13,15 @@
         font-size: medium;
     }
 
-    .slideShowContainer{
-        height: 30vh;
-        margin-top: 3vh;
-        margin-bottom: 1.5vh;
 
-    }
 
-    .slideShowContainer>img{
-        height: 5vh;
-        width: 5vh;
-    }
 
     .aButton{
         height: 2.5vh;
         padding: 0vh;
     }
 
-    .slideShowContainer2>:last-child{
-        margin-right: 0vw;
-    }
+
 
     .slideShowContainer2{
         width: 70vw;
@@ -96,6 +85,7 @@
         margin-top: 1vh;
         text-decoration: underline;
     }
+
     .aButton{
         margin-top: 3vh;
     }
@@ -107,33 +97,33 @@
 
 
 {% block content %}
-<div class="column center" style="width: 94vw">
+<div class="column centered" style="width: 94vw">
 
-    <div class="container column center">
+    <div class="container column centered">
         Popular
     
-        <div class="slideShowContainer row center">
-            <img id="goBackPopular" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
+        <div class="row centered">
+            <img class="small-img" id="goBackPopular" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
             <div class="slideShowContainer2 row" id="popularSlideshow">
 
                 
 
             </div>
-        <img id="goForwardPopular" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
+        <img class="small-img" id="goForwardPopular" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
         
             
         </div>
         <a class="aButton" href="/populars">See more</a>
     </div>
 
-<div class="container column center">
+<div class="container column centered">
         For you
-        <div class="slideShowContainer row center">
-            <img id="goBackFy" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
+        <div class="row centered">
+            <img  class="small-img"id="goBackFy" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
             <div class="slideShowContainer2 row" id="fySlideshow">
 
             </div>
-        <img id="goForwardFy" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
+        <img  class="small-img" id="goForwardFy" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
         
             
         </div>
