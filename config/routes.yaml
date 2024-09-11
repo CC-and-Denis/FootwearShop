@@ -19,6 +19,11 @@ api_fyp_function:
     path: /api/fyp-function/{qta}-{position}
     controller: App\Controller\HomeController::fyp_function
 
+transactions_history:
+    path: /transactions_history
+    controller: App\Controller\HomeController::loadTransactionsHistoryPage
+
+
 productPage:
     path: /product/{productId}
     # the controller value has the format 'controller_class::method_name'

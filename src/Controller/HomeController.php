@@ -307,9 +307,22 @@ class HomeController extends AbstractController
             'hasMore' => $hasMore,
         ]);
     }
-#[Route('/populars',name:"load_popular_products_page")]
-public function loadPopularProductsPage(){
-    return $this->render('populars_page.html.twig',[]);}
+
+    #[Route('/transactions_history', name: 'transactions_history')]
+
+    public function loadTransactionsHistoryPage() {
+        return $this->render('transactions_history.html.twig');
+    }
+
+
+
+
+
+
+
+    #[Route('/populars',name:"load_popular_products_page")]
+    public function loadPopularProductsPage(){
+        return $this->render('populars_page.html.twig',[]);}
 
     #[Route('/api/getProductForFyp/{qta}-{position}', name: 'get_product_for_fyp', methods: ['GET'])]
     public function getProductForFyp(int $qta, int $position, ProductRepository $productRepository, Request $request): Response
@@ -578,86 +591,6 @@ public function loadPopularProductsPage(){
         }
     }
 
-
-
-
-
-
-
-    
-
-    private function createQuery($type, $brand, $color, $offset) {
-        $queryBuilder = $this -> entityManager->getRepository(Product::class)->createQueryBuilder('e');
-
-        // Filter on multiple fields
-        /*
-        $queryBuilder
-            ->where($queryBuilder->expr()->andX(
-                $queryBuilder->expr()->eq('e.type', ':field1'),
-                $queryBuilder->expr()->eq('e.brand', ':field2'),
-                $queryBuilder->expr()->eq('e.color', ':field3')
-            ))
-            ->setParameter('field1', $type)
-            ->setParameter('field2', $brand)
-            ->setParameter('field3', $color)
-            ->setFirstResult($offset) // offset (0-based)
-            ->setMaxResults(1); // number of result rows
-            return $queryBuilder->getQuery()->getOneOrNullResult();
-        */
-        return $this -> entityManager->getRepository(Product::class)->createQueryBuilder('p')
-            ->where('p.type = :type')
-            ->andWhere('p.brand = :brand')
-            ->andWhere('p.color = :color')
-            ->setParameter('type', $type)
-            ->setParameter('brand', $brand)
-            ->setParameter('color', $color)
-            ->setMaxResults(1)
-            ->setFirstResult($offset) // Using the offset parameter
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    // Step 2: Normalize the probabilities (fractions)
-    private function normalizeProbabilities($names) {
-        $totalProbability = array_sum($names); // Get the total sum of all probabilities
-        $probabilities = [];
-
-        // For each name, calculate its relative probability
-        foreach ($names as $name => $value) {
-            $probabilities[$name] = $value / $totalProbability;
-        }
-
-        return $probabilities;
-    }
-
-    // Step 3: Pick a random name based on the probability distribution
-    private function pickName($probabilities) {
-        $rand = mt_rand() / mt_getrandmax(); // Generate a random float between 0 and 1
-        $cumulativeProbability = 0;
-
-        // Loop through each name and its probability
-        foreach ($probabilities as $name => $probability) {
-            $cumulativeProbability += $probability;
-
-            // If the random value is less than the cumulative probability, return the name
-            if ($rand < $cumulativeProbability) {
-                return $name;
-            }
-        }
-
-        return null; // Fallback in case of an issue
-    }
-
-    // Step 4: Pick 3 names using the method of extraction
-    private function pickNames($probabilities, $n) {
-        $selectedNames = [];
-
-        for ($i = 0; $i < $n; $i++) {
-            $selectedNames[$i] = $this -> pickName($probabilities); // Pick a name using the probabilities
-        }
-
-        return $selectedNames;
-    }
 
 
     private function read_json_file($name) {

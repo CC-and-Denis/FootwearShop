@@ -1,0 +1,115 @@
+{% extends 'bases/page_frame.html.twig' %}
+
+{% block title %}
+    TRANSACTION RIEPILOGUE
+{% endblock %}
+
+{% block style %}
+<style>
+    body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            row-gap: 1h;
+            column-gap: vw;
+        }
+
+        .grid-item {
+            backdrop-filter: blur(35px);
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid black;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Image styling */
+        .grid-item img {    
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        /* Item details */
+        .item-details {
+            margin-left: 20px;
+        }
+
+        /* Numbering inside the box */
+        .grid-item::before {
+            content: attr(data-number);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .item-details .date,
+        .item-details .object-name,
+        .item-details .price {
+            margin-bottom: 10px;
+        }
+
+        .item-details .object-name {
+            font-weight: bold;
+        }
+
+        .item-details .price {
+            color: green;
+            font-weight: bold;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+
+    <div style= "width = 100%">
+        <div class="grid-container">
+            <!-- First Item -->
+            <div class="grid-item" data-number="1">
+                <img src="imagelink" alt="Image 1">
+                <div class="item-details">
+                    <div class="date">Date: 27/01/24</div>
+                    <div class="object-name">Object Name: Nike Air</div>
+                    <div class="price">Price: $56</div>
+                </div>
+            </div>
+
+            <!-- Second Item -->
+            <div class="grid-item" data-number="2">
+                <img src="imagelink" alt="Image 2">
+                <div class="item-details">
+                    <div class="date">Date: --/--/--</div>
+                    <div class="object-name">Object Name: --</div>
+                    <div class="price">Price: --</div>
+                </div>
+            </div>
+
+            <!-- Third Item -->
+            <div class="grid-item" data-number="3">
+                <img src="imagelink" alt="Image 3">
+                <div class="item-details">
+                    <div class="date">Date: --/--/--</div>
+                    <div class="object-name">Object Name: --</div>
+                    <div class="price">Price: --</div>
+                </div>
+            </div>
+
+            <!-- Fourth Item -->
+            <div class="grid-item" data-number="4">
+                <img src="imagelink" alt="Image 4">
+                <div class="item-details">
+                    <div class="date">Date: --/--/--</div>
+                    <div class="object-name">Object Name: --</div>
+                    <div class="price">Price: --</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

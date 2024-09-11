@@ -47,6 +47,10 @@
         width: 3vw;
     }
 
+    .full{
+        width: 100%;
+    }
+
     #searchContainer{
         overflow-x: hidden;
         opacity: 0;
