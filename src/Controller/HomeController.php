@@ -64,7 +64,7 @@ class HomeController extends AbstractController
 
         if($targetProduct){
             $this -> cookie_update($targetProduct, $request, $response);
-            return $this->render('product_view_page.html.twig',[
+            return $this->render('product/product_view_page.html.twig',[
                 'product'=>$targetProduct,
             ], $response
         );

@@ -1,32 +1,42 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\RegistrationFormType;
+use App\Security\LoginAuthenticator;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use App\Entity\User;
-use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Security\LoginAuthenticator;
-use  Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Cookie;
+
+use Doctrine\ORM\EntityManagerInterface;
+
+
 
 class accessController extends AbstractController
 {
 
+    public function __construct()
+    {
+    }
 
     #[Route('/access/signup',)]
     public function signUp(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator): Response
-    {
+    {   
+
         if ($this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+
+        $errorsList = $form->getErrors(true);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -110,6 +120,7 @@ class accessController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
+            'errorsList'=>$errorsList,
         ]);
         
     }
@@ -122,10 +133,17 @@ class accessController extends AbstractController
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
+        if($error){
+            $error=$error->getMessage();
+        }
+        
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername, 
+            'error' => $error,
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
@@ -134,11 +152,5 @@ class accessController extends AbstractController
         #throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-
-    #[Route('access/debug')]
-    public function debug(){
-        echo "debug";
-        return $this->render("base.html.twig");
-    }
 }
 ?>

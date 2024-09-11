@@ -49,12 +49,17 @@
   }
 
 input{
-    outline: none;
     border: none;
+}
+
+input:focus{
+    outline: none;
+    
 }
 
 input[type="text"],input[type="password"],input[type="email"],textarea{
     background-color: transparent;
+
 }
 
 a{
@@ -166,25 +171,6 @@ label:hover{
 }
 
 
-/* this are login and signup exclusive styles */
-
-.accessPage form .column .column>.row{
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    padding-bottom: 1vh;
-    border-bottom: 1px solid #CFCFCF;
-}
-
-
-.accessPage input{
-    padding-left: 1vh;
-}
-
-.accessPage label{
-    color: whitesmoke
-}
-
-
 #errorsBox{
     background-color: rgba(255,0,0,0.7);
     border-left: 10px solid red;
@@ -207,6 +193,28 @@ label:hover{
 #closeErrorsBtn:hover{
     cursor: pointer;
 }
+
+
+/* this are login and signup exclusive styles */
+
+.accessPage form .column .column>.row{
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    padding-bottom: 1vh;
+    border-bottom: 1px solid #CFCFCF;
+}
+
+
+.accessPage input{
+    padding-left: 1vh;
+}
+
+.accessPage label{
+    color: whitesmoke
+}
+
+
+
 
 
 @tailwind base;

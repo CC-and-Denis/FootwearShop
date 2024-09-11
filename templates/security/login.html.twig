@@ -7,10 +7,14 @@ Login
 
 {% block alert %}
     {% if error %}
-            <div id="errorsBox">
-                <div id="closeErrorsBtn">x</div>
-                {{ error.messageKey|trans(error.messageData, 'security') }}
+        <div id="errorsBox">
+            <div class="closeErrorsBtn">
+                x
             </div>
+                <div>
+                    {{error}}
+                </div>
+        </div>
     {% endif %}
 {% endblock %}
 
@@ -30,7 +34,7 @@ Login
 
     {% else %}
     <div class="column">
-        <label for="inputUsername">Username</label>
+    <label for="inputUsername">Username</label>
         <div class="row">
             <label for="inputUsername">
                 <img class="small-img" src="{{asset('/build/images/user-regular.246ab86a.png')}}">

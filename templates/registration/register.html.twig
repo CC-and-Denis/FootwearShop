@@ -4,14 +4,17 @@
 Sign up
 {% endblock %}
 
-{% block alerts %}
-    {% if form_errors(registrationForm)%}
+{% block alert %}
+    {% if errorsList | length %}
         <div id="errorsBox">
-            <div class="closeErrorsBtn">
+            <div id="closeErrorsBtn">
                 x
             </div>
-            {{ form_errors(registrationForm) }}
-
+            {% for error in errorsList %}
+                <div>
+                    - {{ error.message }}
+                </div>
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}
