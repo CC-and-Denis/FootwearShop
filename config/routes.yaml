@@ -15,14 +15,9 @@ home:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadHomePage
 
-api_fyp_function:
-    path: /api/fyp-function/{qta}-{position}
-    controller: App\Controller\HomeController::fyp_function
-
 transactions_history:
     path: /transactions_history
     controller: App\Controller\HomeController::loadTransactionsHistoryPage
-
 
 productPage:
     path: /product/{productId}
@@ -48,7 +43,15 @@ app_logout:
 
 get_product_by_popular:
     path: /api/getProductByPopular/{qta}-{position}
-    controller: App\Controller\HomeController::getProductByPopular
+    controller: App\Controller\ApiController::getProductByPopular
+
+api_fyp_function:
+    path: /api/fyp-function/{qta}-{position}
+    controller: App\Controller\ApiController::fyp_function
+
+get_product_by_research:
+    path: /api/getProductByResearch/{qta}-{position}
+    controller: App\Controller\ApiController::getProductByResearch
 
 delete_product:
     path: deleteproduct/{id}
