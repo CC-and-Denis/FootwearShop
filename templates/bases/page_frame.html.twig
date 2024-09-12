@@ -14,43 +14,38 @@
 {{ encore_entry_script_tags('frame') }}
 {% endblock %}
 
-
-
-
 {% block body %}
-<div id="searchContainer">
-    <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="height: 10vh;width: 10vh; position: absolute; top: 0; left: 0; margin-top: 2vh; margin-left: 10vw;" class="buttonForSearch">
+<div id="overlay" class="size-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center pt-40 z-10">
+    <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" class="absolute left-0 top-0 size-20 mt-5 ml-32 buttonForSearch">
     <div id="alertsContainer">
     {% block alerts %}
 
     {% endblock %}
     </div>
-    <div class="row" id="searchBarContainer" > 
-        <div>
-            <input id="filterMenuCheckbox" type="checkbox" style="opacity: 0;position: absolute;">
+    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full w-9/12 bg-white opacity-100"> 
+            <input id="filterMenuCheckbox" class="hidden" type="checkbox">
             <label for="filterMenuCheckbox">
-                <img src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}"></label>
-            
-        </div>
-        <input type="text">
+                <img class="small-img" src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}">
+            </label>
+        <input type="text" class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid">
         <div>
-            <img src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
+            <img class="small-img" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
         </div>
     </div>
-    <div id="filterMenu">
+    <div id="filterMenu" class="row opacity-0 bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
         <div class="column">
             Gender
-            <div class="row">
+            
                 <label>
                     <input type="checkbox" id="maleCheckbox">Male
                 </label>
-            </div>
+           
             
             <label>
                 <input type="checkbox" id="femaleCheckbox">Female
             </label>
             <label>
-                <input type="checkbox" id="femaleCheckbox">Unisex
+                <input type="checkbox" id="unisexCheckbox">Unisex
             </label>
         </div>
 
@@ -63,28 +58,32 @@
                 <input type="checkbox" id="femaleCheckbox">Adult
             </label>
         </div>
+        <div class="column">
+
+
+        </div>
 
 
     </div>
 </div>
 <div class="row background" >
-    <div class="sidebar">
-        <div class="column w-max" >
+    <div id="sidebar" class="column bg-semitransparent h-full w-32">
+        <div class="column w-max " >
                 <input id="searchContainerCheckbox" type="checkbox" class="hidden" >
-                    <img class="small-img buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
+                    <img class="ml-3 max-w-14 buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
                 
         </div>
-        <div class="column">
+        <div class="column font-normal text-xl">
             <a href="/home">Home</a>
             <a href="/fyp">For you</a>
             <a href="/populars">Popular</a>
         </div>
         
-        <div class="column" id="bottom">
+        <div class="column text-gray-400 font-extralight text-lg">
             <a>About</a>
             <a>Support</a>
             <a>Copyright</a>
-            <a id="userImage" class="userImage" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
+            <a class="generic-img size-20 rounded-full bg-semitransparent mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
             {% if app.user %}
                 "/user/{{app.user.userIdentifier}}"
             {% else %}
@@ -92,12 +91,11 @@
             {% endif %}
             >
         </a>
-
-
         </div>
 
     </div>
-    <div class = 'full'>
+
+    <div class="w-full">
         {% block content %}
         {% endblock %}
     </div>

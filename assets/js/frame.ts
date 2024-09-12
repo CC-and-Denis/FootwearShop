@@ -3,7 +3,7 @@ var step = 1;
 var end = 10;
 var opacity = 0;
 var id = null
-const overlay = document.getElementById("searchContainer") as HTMLDivElement;
+const overlay = document.getElementById("overlay") as HTMLDivElement;
 const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
     
     function displayFilters(){
