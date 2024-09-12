@@ -225,23 +225,7 @@ class ApiController extends AbstractController {
                                     dump("combinationCounter", $combinationCounter);
                                     if ($combinationCounter[$combinationKey] != -1) {
 
-                                            //$queryResult = $productRepository -> findFavouriteProduct($type, $brand, $color, $combinationCounter[$combinationKey]);
-                                            $query = $this->entityManager->createQuery(
-                                                'SELECT p 
-                                                FROM App\Entity\Product p
-                                                WHERE p.type = :type 
-                                                AND p.brand = :brand 
-                                                AND p.color = :color
-                                                ORDER BY p.id ASC'  // Ensure deterministic order
-                                            );
-                                            $query->setParameter('type', $type);
-                                            $query->setParameter('brand', $brand);
-                                            $query->setParameter('color', $color);
-                                            $query->setFirstResult($combinationCounter[$combinationKey]); // Skip rows (offset)
-                                            $query->setMaxResults(1); // Get only one result
-                                            
-                                            $queryResult = $query->getOneOrNullResult();
-                                            $this->entityManager->clear();
+                                            $queryResult = $this -> fyp_query($type, $brand, $color, $combinationCounter[$combinationKey]);
 
                                             if ($queryResult === null) {
                                                 $combinationCounter[$combinationKey] = -1;
@@ -287,6 +271,27 @@ class ApiController extends AbstractController {
                 }
             }
         }
+    }
+
+    private function fyp_query(String $type, String $brand, String $color, int $offset) {
+        $query = $this->entityManager->createQuery(
+            'SELECT p 
+                                                FROM App\Entity\Product p
+                                                WHERE p.type = :type 
+                                                AND p.brand = :brand 
+                                                AND p.color = :color
+                                                ORDER BY p.id ASC'  // Ensure deterministic order
+        );
+        $query->setParameter('type', $type);
+        $query->setParameter('brand', $brand);
+        $query->setParameter('color', $color);
+        $query->setFirstResult($offset); // Skip rows (offset)
+        $query->setMaxResults(1); // Get only one result
+
+        $queryResult = $query->getOneOrNullResult();
+        $this->entityManager->clear();
+
+        return $queryResult;
     }
 
 }

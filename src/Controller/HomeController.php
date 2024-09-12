@@ -2,27 +2,24 @@
 
 namespace App\Controller;
 
+use App\Service\CookieService;
 use App\Entity\Product;
 use App\Form\ProductFormType;
 use App\Form\PaymentType;
-use App\Repository\ProductRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Filesystem\Filesystem;  
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 use Doctrine\ORM\EntityManagerInterface;
 
 class HomeController extends AbstractController
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager, Filesystem $filesystem)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -30,12 +27,12 @@ class HomeController extends AbstractController
     #[Route('/home', name:'home')]
     public function loadHomePage(): Response
     {
-        return $this->render('homepage.html.twig',);
+        return $this->render('homepage.html.twig');
 
     }
 
     #[Route('product/{productId}', )]
-    public function loadProductPage($productId, Request $request): Response
+    public function loadProductPage(CookieService $cookieService, $productId, Request $request): Response
     {
 
         $response = new Response();
@@ -45,68 +42,35 @@ class HomeController extends AbstractController
         $form = $this->createForm(PaymentType::class);
         $form->handleRequest($request);
 
-        
-
-        if( $form->isSubmitted() && $form->isValid() ){
-            if( $remainingProducts ){
-                $response = new Response('There are no items left', 500);
-                return $response;
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($remainingProducts) {
+                return new Response('There are no items left', 500);
             }
 
-            $mainImagePath=$form->get('cardNumber')->getData();
-            $otherImages=$form->get('expMonth')->getData();
-            $otherImages=$form->get('expYear')->getData();
+            $mainImagePath = $form->get('cardNumber')->getData();
+            $otherImages = $form->get('expMonth')->getData();
+            $otherImages = $form->get('expYear')->getData();
             $quantity = $form->get('cvc')->getData();
 
-            //use stripe here  
+            //use stripe here
+
+
             return $this->redirectToRoute('homepage');
         }
 
-        if($targetProduct){
-            $this -> cookie_update($targetProduct, $request, $response);
-            return $this->render('product/product_view_page.html.twig',[
+        if ($targetProduct) {
+            $cookieService->cookie_update($targetProduct, $request, $response);
+            return $this->render('product/product_view_page.html.twig', [
                 'form' => $form->createView(),
-                'product'=>$targetProduct,
-            ], $response );
-        }
-        else{
-            return $this->render('not_found.html.twig',[
+                'product' => $targetProduct,
+            ], $response);
+        } else {
+            return $this->render('not_found.html.twig', [
                 'form' => $form->createView(),
-                'entity'=>"Product"
+                'entity' => "Product"
             ], $response);
         }
-        
-    }
 
-
-
-    private function cookie_update(Product $product, Request $request, $response) {
-    
-        $typeCookie = $request->cookies->get('type');
-        $brandCookie = $request->cookies->get('brand');
-        $colorCookie = $request->cookies->get('color');
-
-
-        $types = json_decode($typeCookie, true);
-        $brands = json_decode($brandCookie, true);
-        $colors = json_decode($colorCookie, true);
-
-        $types[$product->getType()] ++;
-        $brands[$product->getBrand()] ++;
-        $colors[$product->getColor()] ++;
-
-        //dump($types, $brands, $colors);
-        
-        $typeJSON = json_encode($types);
-        $brandJSON = json_encode($brands);
-        $colorJSON = json_encode($colors);
-
-        $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
-        $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
-        $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));
-        
-    
-        return $response;
     }
 
     #[Route('createproduct'),]
