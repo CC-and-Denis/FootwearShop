@@ -39,7 +39,7 @@ Login
             <label for="inputUsername">
                 <img class="small-img" src="{{asset('/build/images/user-regular.246ab86a.png')}}">
             </label>
-            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control w-[30rem]" autocomplete="username" required autofocus>
+            <input class="form-control w-96" type="text" value="{{ last_username }}" name="username" id="inputUsername"  autocomplete="username" required autofocus>
         </div>
         </div>
         
@@ -49,7 +49,7 @@ Login
             <label for="inputPassword">
                 <img class="small-img" src="{{asset('/build/images/key-solid.792a57bf.png')}}">
             </label>
-                <input type="password" name="password" id="inputPassword" class="form-control w-[30rem]" autocomplete="current-password" required>
+                <input class="form-control w-96" type="password" name="password" id="inputPassword"  autocomplete="current-password" required>
             </div>
         
         </div>
@@ -73,7 +73,7 @@ Login
     </div>
     </form>
     <div class="row">
-        <div id="login" class="aButton rounded-none rounded-l-xl shadow-none">
+        <div id="login" class="aButton rounded-none rounded-l-xl shadow-none opacity-100">
             Login
         </div>
     <a href="/signup" class="aButton opacity-50 rounded-none rounded-r-xl " >

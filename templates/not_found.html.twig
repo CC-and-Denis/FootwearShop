@@ -1,29 +1,9 @@
-{% extends 'pageFrame.html.twig' %}
+{% extends 'bases/page_frame.html.twig' %}
 
-{% block style %}
-<style>
-.container{
-        background-color: rgba(255,255,255,0.2);
-        backdrop-filter: blur(35px);
-        border-radius: 20px;
-        padding: 5vh;
-        height: fit-content;
-}
-
-.container>div{
-    margin-bottom: 2vh;
-}
-
-.container>div:last-child{
-    margin-bottom: 0vh;
-}
-
-</style>
-{% endblock %}
 
 {% block content %}
-    <div class="center" style="width: 90vw;">
-        <div class="container column center">
+    <div class="center size-full centered " >
+        <div class="container column centered w-fit h-fit">
             <div>{{entity}} not found :(</div>
             <div> enjoy this dancing skeleton </div>
             <iframe src="https://giphy.com/embed/3ohhwfAa9rbXaZe86c" width="322" height="480" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/dance-halloween-twerk-3ohhwfAa9rbXaZe86c"></a></p>

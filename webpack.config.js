@@ -22,8 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('frame', './assets/frame.js')
-    .addEntry('product_form', './assets/product_form.js')
-    .addEntry('product_view_page', './assets/product_view_page.js')
+    .addEntry('product_form_page', './assets/products_form_page.js')
+    .addEntry('products', './assets/products.js')
 
 
 

@@ -220,17 +220,9 @@ label:hover{
     padding-left: 1vh;
 }
 
-.accessPage input[type="text"]{
-    width: 20vw;
-}
-
 .accessPage label{
     color: whitesmoke
 }
-
-
-
-
 
 @tailwind base;
 @tailwind components;

@@ -103,4 +103,34 @@
         width: fit-content;
     }
 
-    
+    .wip{
+        display: flex;
+        position: absolute;
+        background-color: rgba(0,0,0,0.7);
+        top:0;
+        left:0;
+        padding: 2vh 5vh;
+        backdrop-filter: blur(5px);
+        color: white;
+        align-items: center;
+        justify-content: center;
+        font-size: larger;
+    }
+
+    .priceContainer{
+        height: fit-content;
+        border-radius: 120px;
+        width: fit-content;
+        padding: 1vh 0.5vw;
+        margin-right: 1vw;
+        background-color: rgba(255,255,255,0.3);
+    }
+
+    .productContainer:hover{
+        background-color: rgba(255,255,255,0.3);
+    }
+
+    #rating img{
+        max-height: 3vh;
+        margin-right: 0.2rem;
+    }
