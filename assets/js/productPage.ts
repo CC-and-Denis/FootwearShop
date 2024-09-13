@@ -85,7 +85,7 @@ if(paymentFormContainer){
 
 
 function displayPayment(){
-    element = document.getElementById("searchContainer")
+    element = document.getElementById("overlay")
     let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
     chekboxElement.checked= ! chekboxElement.checked
     paymentFormContainer.style.display="block"

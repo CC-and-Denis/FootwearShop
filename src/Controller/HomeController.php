@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\CookieService;
 use App\Entity\Product;
+use App\Entity\Order;
 use App\Form\ProductFormType;
 use App\Form\PaymentType;
 
@@ -34,7 +35,6 @@ class HomeController extends AbstractController
     #[Route('product/{productId}', )]
     public function loadProductPage(CookieService $cookieService, $productId, Request $request): Response
     {
-
         $response = new Response();
         $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
@@ -42,20 +42,34 @@ class HomeController extends AbstractController
         $form = $this->createForm(PaymentType::class);
         $form->handleRequest($request);
 
+        if ($remainingProducts == 0) {
+            return new Response('There are no items left', 500);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($remainingProducts) {
-                return new Response('There are no items left', 500);
-            }
 
             $mainImagePath = $form->get('cardNumber')->getData();
             $otherImages = $form->get('expMonth')->getData();
             $otherImages = $form->get('expYear')->getData();
             $quantity = $form->get('cvc')->getData();
 
-            //use stripe here
+            //give to stripe the data here and get a response in return
 
+            $stripe_response = json_encode('Successfully purchased ' . $targetProduct->getBrand() . ' ' . $targetProduct->getModel()); // fake stripe's response
 
-            return $this->redirectToRoute('homepage');
+            $order = new Order();
+            $order->setProduct($targetProduct);
+            $order->setUser($this->getUser());
+            $order->setPurchaseDate(new \DateTime());
+            $order->setPaymentStatus($stripe_response); // fake stripe's response
+            $this->entityManager->persist($order);
+            $this->entityManager->flush();
+
+            if (str_contains(json_decode($stripe_response), 'Successfull')) {
+                $targetProduct->setItemsSold($targetProduct->getItemsSold() + 1);
+            }
+
+            return $this->redirectToRoute('home');
         }
 
         if ($targetProduct) {

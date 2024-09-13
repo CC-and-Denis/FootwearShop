@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240902133600 extends AbstractMigration
+final class Version20240913124310 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,15 +20,12 @@ final class Version20240902133600 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD40DEB3DF FOREIGN KEY (seller_username_id) REFERENCES user (id)');
-        $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD9C5F5D01 FOREIGN KEY (carted_by_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE `order` CHANGE payment_status payment_status VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD40DEB3DF');
-        $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD9C5F5D01');
-        $this->addSql('DROP TABLE product');
+        $this->addSql('ALTER TABLE `order` CHANGE payment_status payment_status JSON NOT NULL COMMENT \'(DC2Type:json)\'');
     }
 }
