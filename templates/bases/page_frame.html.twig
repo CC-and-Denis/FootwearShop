@@ -1,106 +1,105 @@
 {% extends 'bases/base.html.twig' %}
-{% form_theme form "form/registration_form_theme.html.twig" %}
-
 
 {% block title %}
     FS
 {% endblock %}
 
 {% block stylesheets %}
-{{parent()}}
-{{ encore_entry_link_tags('frame') }}
+    {{parent()}}
+    {{ encore_entry_link_tags('frame') }}
 {% endblock %}
 
 {% block javascripts %}
-{{parent()}}
-{{ encore_entry_script_tags('frame') }}
+    {{parent()}}
+    {{ encore_entry_script_tags('frame') }}
 {% endblock %}
 
 {% block body %}
-<div id="overlay" class="size-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center pt-40 z-10">
-    <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" class="absolute left-0 top-0 size-20 mt-5 ml-32 buttonForSearch">
-    <div id="alertsContainer">
-    {% block alerts %}
+    <div id="overlay" class="size-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center pt-40 z-10">
+        <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" class="absolute left-0 top-0 size-20 mt-5 ml-32 buttonForSearch">
+        <div id="alertsContainer">
+            {% block alerts %}
 
-    {% endblock %}
-    </div>
-    {{ form_start(form) }}
-    <div id="searchBarContainer" class="m-auto row h-30 px-5 py-4 w-full rounded-r-full bg-white opacity-100">
+            {% endblock %}
+        </div>
+        <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full w-9/12 bg-white opacity-100">
             <input id="filterMenuCheckbox" class="hidden" type="checkbox">
             <label for="filterMenuCheckbox">
                 <img class="small-img" src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}">
             </label>
-        {{ form_widget(form.research_content) }}
-        <div>
-            <input type="image"
-                   class="small-img"
-                   src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}"
-                   alt="Submit">
+            <input id = "researchText" type="text" class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid">
+            <div id="errorMessage" style="color: red; display: none;">Please fill in the text input.</div>
+            <div>
+                <img id = "magnifying-glass" class="small-img" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
+            </div>
+        </div>
+        <div id="filterMenu" class="row opacity-0 bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
+            <div class="column">
+                Gender
+
+                <label>
+                    <input type="checkbox" id="maleCheckbox">Male
+                </label>
+                <label>
+                    <input type="checkbox" id="femaleCheckbox">Female
+                </label>
+                <label>
+                    <input type="checkbox" id="unisexCheckbox">Unisex
+                </label>
+            </div>
+
+            <div class="column">
+                Age
+                <label>
+                    <input type="checkbox" id="kidCheckbox">Kid
+                </label>
+                <label>
+                    <input type="checkbox" id="adultCheckbox">Adult
+                </label>
+            </div>
+            <div class="column">
+
+
+            </div>
+
+
         </div>
     </div>
-    <div id="filterMenu" class="row opacity-0 bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
-        <div class="column">
-            Gender
-            <label>
-                {{ form_widget(form.male) }} Male
-            </label>
-            <label>
-                {{ form_widget(form.female) }} Female
-            </label>
-            <label>
-                {{ form_widget(form.unisex) }} Unisex
-            </label>
-        </div>
-
-        <div class="column">
-            Age
-            <label>
-                {{ form_widget(form.adult) }} Adult
-            </label>
-            <label>
-                {{ form_widget(form.kid) }} Kid
-            </label>
-        </div>
-
-    </div>
-    {{ form_end(form) }}
-
-</div>
-<div class="row background" >
-    <div id="sidebar" class="column bg-semitransparent h-full w-32">
-        <div class="column w-max " >
+    <div class="row background" >
+        <div id="sidebar" class="column bg-semitransparent h-full w-32">
+            <div class="column w-max " >
                 <input id="searchContainerCheckbox" type="checkbox" class="hidden" >
-                    <img class="ml-3 max-w-14 buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
-                
-        </div>
-        <div class="column font-normal text-xl">
-            <a href="/home">Home</a>
-            <a href="/fyp">For you</a>
-            <a href="/populars">Popular</a>
-        </div>
-        
-        <div class="column text-gray-400 font-extralight text-lg">
-            <a>About</a>
-            <a>Support</a>
-            <a>Copyright</a>
-            <a class="generic-img size-20 rounded-full bg-semitransparent mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
-            {% if app.user %}
+                <img class="ml-3 max-w-14 buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
+
+            </div>
+            <div class="column font-normal text-xl">
+                <a href="/home">Home</a>
+                <a href="/fyp">For you</a>
+                <a href="/populars">Popular</a>
+            </div>
+
+            <div class="column text-gray-400 font-extralight text-lg">
+                <a>About</a>
+                <a>Support</a>
+                <a>Copyright</a>
+                <a class="generic-img size-20 rounded-full bg-semitransparent mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
+                {% if app.user %}
                 "/user/{{app.user.userIdentifier}}"
-            {% else %}
-                "/login"
-            {% endif %}
-            >
-        </a>
+                {% else %}
+                    "/login"
+                {% endif %}
+                >
+                </a>
+            </div>
+
         </div>
 
+        <div class="w-full">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
     </div>
-
-    <div class="w-full">
-        {% block content %}
-        {% endblock %}
-    </div>
-
-
-</div>
 
 {% endblock %}

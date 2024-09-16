@@ -77,6 +77,8 @@ class HomeController extends AbstractController
 
     }
 
+
+
     #[Route('product/{productId}', )]
     public function loadProductPage(CookieService $cookieService, $productId, Request $request): Response
     {
