@@ -29,51 +29,7 @@ class HomeController extends AbstractController
     #[Route('/home', name:'home')]
     public function loadHomePage(Request $request): Response
     {
-        $form = $this->createForm(ResearchType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            //gender
-            $genderSelected = [];
-            foreach (['male', 'female', 'unisex'] as $gender) {
-                if ($form->get($gender)->getData()) {
-                    $genderSelected[] = $gender;
-                }
-            }
-            //age
-            $ageSelected = [];
-            foreach (['adult', 'kid'] as $age) {
-                if ($form->get($age)->getData()) {
-                    $ageSelected[] = $age;
-                }
-            }
-            if (count($ageSelected) == 2){
-                $ageSelected = [0, 1];
-            }
-            elseif ($ageSelected[0] == 'adult'){
-                $ageSelected = [0];
-            }
-            else{
-                $ageSelected = [1];
-            }
-            dump($genderSelected, $ageSelected);
-            $products = $this->entityManager->getRepository(Product::class)->findResearchedProduct($form->get('research_content')->getData(), $genderSelected, $ageSelected, 4, 0);
-            $hasMore = count($products) == 4;
-            dump($products);
-
-            return $this->render('product/product_card_component.html.twig',[
-                "products"=>$products,
-                'hasMore' => $hasMore,
-                'form' => $form->createView(), // Add this lines
-            ]);
-
-
-
-            //chiamata api alla funzione che caricherà i products
-            dump('hey');
-        }
-        else {
-            return $this->render('homepage.html.twig', ['form' => $form->createView()]);
-        }
+        return $this->render('homepage.html.twig',);
 
     }
 
@@ -89,9 +45,7 @@ class HomeController extends AbstractController
         $form = $this->createForm(PaymentType::class);
         $form->handleRequest($request);
 
-        if ($remainingProducts == 0) {
-            return new Response('There are no items left', 500);
-        }
+        $errorsList = $form->getErrors(true);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -141,7 +95,9 @@ class HomeController extends AbstractController
         $form = $this->createForm(ProductFormType::class, $product);
         
         $form->handleRequest($request);
-        //dd($form->getErrors());
+
+        $errorsList = $form->getErrors(true);
+
         if($form->isSubmitted() && $form->isValid()){
             
             $newProduct = $form->getData();
@@ -206,7 +162,8 @@ class HomeController extends AbstractController
         } 
         
         return $this->render('product/product_form_page.html.twig',[
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'errorsList'=>$errorsList,
         ]);
     }
 
@@ -342,7 +299,7 @@ class HomeController extends AbstractController
     }
 
 
-   
+
 
     #[Route('/transactions_history', name: 'transactions_history')]
 

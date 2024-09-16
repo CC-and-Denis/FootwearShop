@@ -4,9 +4,15 @@
     Nike Air Force Limited edition
 {% endblock %}
 
+
+{% block stylesheets %}
+{{parent()}}
+{{ encore_entry_link_tags('product_form_page') }}
+{% endblock %}
+
 {% block javascripts %}
 {{parent()}}
-{{ encore_entry_script_tags('product_form') }}
+{{ encore_entry_script_tags('products') }}
 {% endblock %}
 
 
@@ -290,21 +296,32 @@ label[for=product_form_price] {
 </style>
 {% endblock %}
 
+
+
 {% block content %}
-    <div class="column" style="padding-left: 2vw; padding-top: 2vh;">
-            <div class="slideShowContainer row center">
+    {% if errorsList | length %}
+    <div id="errorsBox">
+        <div id="closeErrorsBtn">
+            x
+        </div>
+        {% for error in errorsList %}
+        <div>- {{error.message}}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="column size-full p-5">
+        <div class="slider container row centered">
 
-                <img src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" id="goBack">
-                <div class="row" id="slideShowContainer2">
+            <img id="goBack" class="small-img" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" >
+            <div id="slideShowContainer2" class="row w-full h-fit" >
 
-                    
-                </div>
-                <img src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}"  id="goForward">
             </div>
+            <img id="goForward" class="small-img rotate-180" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}"  >
+        </div>
         {{form_start(form)}}
         
-        <div class="row">
-            <div class="column container" style="width: 40vw; margin-right: 2vw;" >
+        <div class="row w-full">
+            <div class="column container w-2/5 mr-20" >
                 <div class="row" style="margin-bottom: 2vh;">
                     {% if product is not defined %}
                         {{form_widget(form.mainImage)}}
@@ -331,19 +348,7 @@ label[for=product_form_price] {
                             Price
                         </label>
                         </div>
-                        {% if form_errors(form.price)%}
-                        <div class="errorContainer">
-                            <p>{{form_errors(form.price)}}</p>
                         </div>
-                        {% endif %}
-                        </div>
-
-                        {% if (form.mainImage is defined and form_errors(form.mainImage)) or (form.otherImages is defined and form_errors(form.otherImages) )%}
-                        <div class="errorContainer">
-                        <p>{{form_errors(form.mainImage)}}</p>
-                        <p>{{form_errors(form.otherImages)}}</p>
-                        </div>
-                        {% endif %}
 
                     </div> 
                     <div class="column">
@@ -360,7 +365,7 @@ label[for=product_form_price] {
                 </div>
             </div>
 
-            <div class="row container" style="width: 44vw;">
+            <div class="row container w-3/5">
                 <div class="column">
                     <div class="reverseColumn">
                         {{form_widget(form.color)}}

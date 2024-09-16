@@ -29,7 +29,7 @@ Login
             You are logged in as {{ app.user.userIdentifier }},
         </div>
 
-        <a class="aButton" href="/home">Home</a>
+        <a class="aButton my-5" href="/home">Home</a>
         <a class="aButton bg-red" href="/access/logout">Log out</a>
 
     {% else %}
@@ -39,17 +39,16 @@ Login
             <label for="inputUsername">
                 <img class="small-img" src="{{asset('/build/images/user-regular.246ab86a.png')}}">
             </label>
-            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control w-[30rem]" autocomplete="username" required autofocus>
+            <input class="form-control lg:w-96 w-full" type="text" value="{{ last_username }}" name="username" id="inputUsername"  autocomplete="username" required autofocus>
         </div>
         </div>
-        
         <div class="column">
             <label for="inputPassword">Password</label>
                 <div class="row">
             <label for="inputPassword">
                 <img class="small-img" src="{{asset('/build/images/key-solid.792a57bf.png')}}">
             </label>
-                <input type="password" name="password" id="inputPassword" class="form-control w-[30rem]" autocomplete="current-password" required>
+                <input class="form-control lg:w-96 w-full" type="password" name="password" id="inputPassword"  autocomplete="current-password" required>
             </div>
         
         </div>
@@ -73,7 +72,7 @@ Login
     </div>
     </form>
     <div class="row">
-        <div id="login" class="aButton rounded-none rounded-l-xl shadow-none">
+        <div id="login" class="aButton rounded-none rounded-l-xl shadow-none opacity-100">
             Login
         </div>
     <a href="/signup" class="aButton opacity-50 rounded-none rounded-r-xl " >

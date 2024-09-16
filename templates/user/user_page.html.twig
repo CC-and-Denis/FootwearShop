@@ -5,213 +5,59 @@
 {% endblock %}
 
 
-{% block style %}
-<style>
-
-.row > .column.container{
-    height: 88vh;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
-
-}
-
-.container>.scrollable{
-    padding-right: 0.5vw;
-    height: 88vh;
-    overflow-x: hidden;
-}
-
-.productContainer{
-    height: 20vh;
-    margin-bottom: 2.5vh;
-    cursor: pointer;
-    transform: all .3s ease;
-}
-
-.productContainer:hover{
-    background-color: rgba(255,255,255,0.3);
-}
-
-.productDescription{
-    width: 33vw;
-    margin-right: 0.5vw;
-    height: 20vh;
-    word-wrap: break-word;
-    word-break: break-word;
-    overflow-wrap: break-word;
-}
-
-.priceContainer{
-    height: fit-content;
-    border-radius: 120px;
-    width: fit-content;
-    padding: 1vh 0.5vw;
-    margin-right: 1vw;
-}
-
-.priceContainer>img{
-    max-height: 1.5vh;
-}
-
-.productContainer>.column:last-child>.aButton{
-    width: 3vw;
-}
-
-.mainImage{
-    background-color: rgba(255,255,255,0.2);
-    backdrop-filter: blur(20px);
-    width: 20vh;
-    height: 20vh;
-    border-radius: 12px;
-    margin-right: 1vw;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-
-#profilePic{
-    width: 20vh;
-    height: 20vh;
-    margin-bottom: 2vh;
-}
-
-#rating{
-        border-radius: 18px;
-        padding: 2vh 5vh;
-        height: 40vh;
-        width: 15vw;
-        margin-bottom: 2vh;
-        position: relative;
-
-}
-
-#rating>.center{
-    height: 35vh;
-}
-
-#rating>h1{
-    display: block;
-    font-size: 2vw;
-    text-align: center;
-    font-weight: 500;
-}
-
-#userName{
-    font-size: 4vh;
-    margin-bottom: 2vh;
-    font-weight: 600;
-    
-}
-
-.aButton{
-    margin-top: 2vh;
-    height: 3vh;
-    padding-top: 0.3vh;
-    padding-bottom: 0vh;
-}
-
-.avgRating{
-    height: 4vh;
-    max-height: 4vh;
-}
-
-.individualRatings{
-    justify-content: left;
-   width: 10vw;
-}
-
-.reviewNumber{
-    font-weight: 700;
-    margin-right: 1vw;
-    width: 2.5vw;
-}
-.individualRatings>.row{
-    max-height: 2vh ;
-    height: 2vh;
-    margin-bottom: 0.5vh;
-}
-
-.column .center > h1{
-    margin-top: 2vh;
-    margin-bottom: 0.5vh;
-    font-size: 1.5vw;
-}
-
-.wip{
-    display: flex;
-    position: absolute;
-    background-color: rgba(0,0,0,0.7);
-    top:0;
-    left:0;
-    border-radius: 18px;
-    height: 40vh;
-    width: 15vw;
-    padding: 2vh 5vh;
-    backdrop-filter: blur(5px);
-    color: white;
-    align-items: center;
-    justify-content: center;
-    font-size: larger;
-}
-
-#alertBox1{
-    background-color: whitesmoke;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
-    height: fit-content;
-
-}
-
-</style>
-{% endblock %}
-
 {% block alerts %}
-    <div class="column container center" id="alertBox1">
-        <h1>Attention, this action is irreversible!</h1>
+    <div id="errorsBox" class="hidden">
+        <div class="closeErrorsBtn">
+            x
+        </div>
+        The product can't be deleted
+    </div>
+
+        <div class="column std-container centered bg-white shadow h-fit" id="alertBox1">
+        <h1 class="text-3xl font-bold">Attention, this action is irreversible!</h1>
         <h3>Are you sure that you want to delete the selected item:</h3>
         <h3 id="itemToBeDeleted">Unknown</h3>
 
-        <div class="row" style="justify-content: center;">
-            <a class="aButton" id="buttonDelete2" style="background-color: red;">Delete</a>
-            <div style="width: 5vw;"></div>
+        <div class="row mt-3 justify-center" >
+            <a class="aButton bg-red mr-10 w-32" id="buttonDelete2">Delete</a>
             <a class="aButton" id="noDelete">Don't delete</a>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-<div class="row" style="padding: 5vh;overflow-x: hidden;
-    overflow-y: hidden;">
+<div class="row size-full p-10 ">
 
-    <div class="column container" style=" width: 20vw;margin-right: 2.9vh; align-items: center;">
-        <div id="profilePic" class="userImage" style="background-image: url({{asset('/build/images/user-regularB.df1377b9.png')}});">
+    <div class="column std-container w-3/12 items-center mr-10">
+        <div id="profilePic" class="rounded-full generic-img bg-semitransparent size-40" style="background-image: url({{asset('/build/images/user-regularB.df1377b9.png')}});">
 
         </div>
-        <div id="userName">
+        <div class="text-3xl font-bold my-5">
             {{username}}
         </div>
 
-        <div id="rating" class="container coloumn">
-            <div class="wip">
+        <div id="rating" class="std-container column centered w-full py-5 mb-3 h-96">
+            <div class="wip size-full rounded-xl z-10">
                 <div>
                 This feature is coming soon...
                  </div>
             </div>
-            <h1>Ratings</h1>
-            <div class="column centered">
+
+            <h1 class="text-2xl mb-2">Ratings</h1>
                 {% if products|length %}
-                <h1>Averange</h1>
-                <div class="row avgRating">
+                <h1 class="my-1">Averange</h1>
+                <div class="row mb-3">
                     <img src="/build/images/star-regular.6a90c9dc.png">
                     <img src="/build/images/star-regular.6a90c9dc.png">
                     <img src="/build/images/star-regular.6a90c9dc.png">
                     <img src="/build/images/star-regular.6a90c9dc.png">
                     <img src="/build/images/star-regular.6a90c9dc.png">
                 </div>
-                <h1>Individual ratings</h1>
-                <div class="coloumn individualRatings">
+                <h1 class="my-1">Individual ratings</h1>
+                <div class="coloumn">
                     {% for i in range(1,5)%}
-                    <div class="row">
-                        <div class="reviewNumber">
+                    <div class="row mb-1">
+                        <div class="mr-2">
                         0
                         </div>
                         {% for j in range(1,i) %}
@@ -220,7 +66,7 @@
                     </div>
                     {% endfor%}
                 </div>
-                <a class="aButton">Read them!</a>
+                <a class="aButton p-1 mt-5">Read them!</a>
                 {% else %}
                         {% if app.user.userIdentifier | lower == username | lower%}
                         <p>You have not sold anything</p>
@@ -229,37 +75,37 @@
                         This User has not sold anything
                         {% endif %}
                 {% endif %}
-            </div>
+            
             
 
         </div>
         {% if app.user.userIdentifier | lower == username | lower %}
-            <a class="aButton" href="/createproduct/">Add product</a>
-            <a href="/access/logout" class="aButton" style="background-color: red;">Log out</a>
+            <a class="aButton p-2 mb-5" href="/createproduct/">Add product</a>
+            <a class="aButton bg-red p-2" href="/access/logout">Log out</a>
 
         {% endif %}
     </div>
     
-    <div class="container" style="width: 58vw; padding-right: 0.5vw;">
+    <div class="std-container w-full p-10">
         {% if products|length %}
-        <div class="coloumn scrollable">
+        <div class="coloumn scrollable h-full pr-2">
                 {% for product in products %}
-                <div class="container row productContainer" id={{product.id}}>
-                    <div class="mainImage" style="background-image: url({{product.mainImage}});"></div>
-                    <div class="column">
-                        <h1>{{product.Model}}</h1>
-                        <div class="productDescription">{{product.description}}</div>
+                <div class="std-container row h-52 mb-5 productContainer hover:bg-[rgba(255,255,255,0.4)]" id={{product.id}}>
+                    <div class="size-44 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{product.mainImage}});"></div>
+                    <div class="column w-9/12">
+                        <h1 class="w-full text-2xl">{{product.Model}}</h1>
+                        <div class=" h-full">{{product.description}}</div>
                         <div class="row">
-                            <div class="priceContainer container">€ {{product.price}}</div>
-                            <div class="priceContainer container">In stock: {{product.quantity}}</div>
-                            <div class="priceContainer container"><img src="/build/images/eye-regular.30a447c7.png"> {{product.views}}</div>
-                            <div class="priceContainer container"><img src="/build/images/cart-shopping-solid.5de20d86.png"> {{product.itemsSold}}</div>     
+                            <div class="priceContainer">€ {{product.price}}</div>
+                            <div class="priceContainer">In stock: {{product.quantity}}</div>
+                            <div class="priceContainer row"><img class="h-6 mr-1 w-7" src="/build/images/eye-regular.30a447c7.png"> {{product.views}}</div>
+                            <div class="priceContainer row"><img class="size-6 mr-1" src="/build/images/cart-shopping-solid.5de20d86.png"> {{product.itemsSold}}</div>     
                         </div>
                     </div>
                     <div class="column">
                     {% if ( app.user.userIdentifier | lower == username | lower ) and product.itemsSold==0 %}
-                    <a class="aButton deleteButton1" name="{{product.model}}" id="{{product.id}}"  style="background-color: red;">Delete</a>
-                    <a class="aButton" href="/editproduct/{{product.id}}" >Edit</a>
+                    <a  id="{{product.id}}" class="aButton bg-red deleteButton1 mb-7 " name="{{product.model}}">Delete</a>
+                    <a class="aButton size-fit w-24" href="/editproduct/{{product.id}}">Edit</a>
 
                     {% endif %}
                     </div>
@@ -268,7 +114,7 @@
                 {% endfor %}
             </div>
                 {% else %}
-    <div class="center column" style="z-index: 2; height: 88vh;">
+    <div class="centered column h-full" >
                         {% if app.user.userIdentifier | lower == username | lower %}
                         <p>Here, products sold by you will appear</p>
                         {% else %}

@@ -1,179 +1,91 @@
 
+
+
 *{
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    margin: 0px;
-    padding: 0px;
-    background-position: center;
-    background-repeat: no-repeat;
+    @apply font-lato m-0 p-0
 }
 
-:root{
-    --highlight-color:#00509E;
+body,html{
+    @apply overflow-hidden h-full m-0 p-0
 }
-
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    @apply size-3
   }
   
   ::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
-    border-radius: 120px;
- 
+    @apply rounded-3xl
   }
 
   ::-webkit-scrollbar-track{
-    background:  rgba(255,255,255,0.05);
-  }
+    @apply bg-semi-transparent-1
+}
    
   ::-webkit-scrollbar-thumb {
-    background:  rgba(255,255,255,0.2);
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.5); 
-  }
+    @apply bg-semi-transparent-2 hover:bg-semi-transparent-3
+}
 
   ::-moz-selection { 
-    color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px);
-    background:rgba(255,255,255,0.5) ;
-  }
+    @apply bg-semi-transparent-3 text-shadow
+}
   
   ::selection {
-    color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px);
-    background:rgba(255,255,255,0.5);
-  }
+   @apply bg-semi-transparent-3 text-shadow
+}
 
 input{
-    border: none;
+    @apply border-none focus:outline-none
 }
 
-input:focus{
-    outline: none;
-    
-}
 
 input[type="text"],input[type="password"],input[type="email"],textarea{
-    background-color: transparent;
-
+    @apply bg-transparent
 }
 
 a{
-    text-decoration: none;
-    color: black;
-    transform: all .3s ease;
+    @apply text-black no-underline
 }
 
-body{
-    overflow-y: hidden;
-}
-
-.row, .column, .reverseColumn,.centered{
-    display: flex;
-}
 .row{
-    flex-direction: row;
+    @apply flex flex-row
 }
 
 .column{
-    flex-direction: column;
+    @apply flex flex-col
 }
 
 .reverseColumn{
-    flex-direction: column-reverse;
+    @apply flex flex-col-reverse
 }
 
 .centered{
-    justify-content: center;
-    align-items: center;
+    @apply flex items-center justify-center
 }
 
 .background{
-    height: 100vh;
-    background-size: cover;
-    background-repeat: no-repeat; 
-    background-position:center ;
+    @apply h-full max-h-full bg-cover bg-no-repeat bg-center
+}
+
+.background{
     background-image: url('/public/build/images/background.ab9f0388.png');
 }
 
-
-.container{
-    background-color: rgba(255,255,255,0.2);
-    backdrop-filter: blur(35px);
-    border-radius: 20px;
-    padding: 2vh 5vh;
+.std-container{
+    @apply bg-semi-transparent-2 backdrop-blur-xl rounded-3xl w-fit py-5 px-10
 }
 
 .aButton{
-    border-radius: 0.75rem;
-    background-color: var(--highlight-color);
-    font-size: 2vh;
-    font-weight: 800;
-    opacity: 0.8;
-    height: fit-content;
-    width: fit-content;
-    text-align: center;
-    border: none;
-    padding:2vh;
-    color: rgba(255, 255, 255, 1);
-    cursor: pointer;
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
-    transform:all .3s ease;
+    @apply rounded-xl bg-blue text-xl font-bold opacity-80 size-fit text-center border-none p-4 text-white hover:cursor-pointer hover:opacity-100
 }
-
-.aButton:hover{
-    opacity: 1;
-}
-
-.bg-red{
- background-color: red;
-}
-
-.bg-highlight{
-    background-color: var(--highlight-color);
-}
-
-
-.bg-semitransparent{
-    background-color: rgba(255,255,255,0.2);
-
-}
-
-.bg-semitransparent-white{
-    background-color: rgba(255,255,255,0.6);
-
-}
-
 
 .small-img{
-    height: 5vh;
-    width: 4.8vh;
+    @apply size-[5vh]
 }
 
 
-.aButton:hover{
-    cursor: pointer;
-}
 
-img{
-    max-width: 100%;
-    max-height: 100%;
-}
-
-label:hover{
-    cursor: pointer;
-}
-
-.scrollable{
-    overflow-y: scroll;
-}
-
-.h1{
-    font-size: 4rem;
-    font-weight: 600;
+label{
+    @apply hover:cursor-pointer
 }
 
 .underline-grey{
@@ -182,56 +94,32 @@ label:hover{
 
 
 #errorsBox{
-    background-color: rgba(255,0,0,0.7);
-    border-left: 10px solid red;
-    color: white;
-    position: fixed;
-    right: 0;
-    top:20%;
-    font-size: large;
-    padding: 1vh;
-    padding-top: 0.5vh;
-    justify-content: left;
-    z-index:4;
+    @apply bg-red bg-opacity-70 text-white border-l-8 border-l-red fixed right-0 top-[20%] text-xl px-10 pb-3 z-10
 }
 
 #closeErrorsBtn{
-    font-weight: 600;
-    margin-bottom: 2vh;
+    @apply hover:cursor-pointer font-semibold mb-4 pt-5
 }
-
-#closeErrorsBtn:hover{
-    cursor: pointer;
-}
-
 
 /* this are login and signup exclusive styles */
 
 .accessPage form .column .column>.row{
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    padding-bottom: 1vh;
-    border-bottom: 1px solid #CFCFCF;
+    @apply mt-5 lg:mb-10 mb-5  lg:pb-5 pb-2 border-b-2 border-grey
 }
 
 
 .accessPage input{
-    padding-left: 1vh;
-}
-
-.accessPage input[type="text"]{
-    width: 20vw;
+    @apply pl-5
 }
 
 .accessPage label{
-    color: whitesmoke
+    @apply text-white
 }
-
-
-
-
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
 

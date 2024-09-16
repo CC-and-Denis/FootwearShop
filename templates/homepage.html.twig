@@ -1,35 +1,31 @@
 {% extends 'bases/page_frame.html.twig' %}
 
+
+
 {% block content %}
+
+
+
+
 <div class="column centered">
 
-    <div class="container column centered mt-6 mb-4">
-        <h1 class="font-semibold text-4xl mb-2">Popular</h1>
-    
-        <div class="row centered">
-            <img class="small-img" id="goBackPopular" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
-            <div class="slider w-11/12 mx-[1vw] row" id="popularSlideshow">
-            </div>
-        <img class="small-img" id="goForwardPopular" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
-        
-            
-        </div>
-        <a class="aButton h-max py-1 mt-2" href="/populars">See more</a>
-    </div>
+    {% include 'components/carousel_component.html.twig' with {
+        title: 'Popular',
+        type: 'Popular',
+        link: 'populars'
+    } %}
 
-<div class="slider container column centered">
-        <h1 class="font-semibold text-4xl mb-2">For you</h1>
-        <div class="row centered">
-            <img  class="small-img"id="goBackFy" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="opacity: 0.5;">
-            <div class="w-11/12 mx-[1vw] row" id="fySlideshow">
-
-            </div>
-        <img  class="small-img" id="goForwardFy" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
+    {% include 'components/carousel_component.html.twig' with {
         
-            
-        </div>
-        <a class="aButton h-max py-1 mt-2" href="/fyp">See more</a>
-    </div>
+        title: 'For you',
+        type: 'Fy',
+        link: 'fy'
+            } %}
+
+</div>
 
 {% endblock %}
+
+
+
 

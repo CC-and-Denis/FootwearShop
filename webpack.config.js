@@ -22,8 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('frame', './assets/frame.js')
-    .addEntry('product_form', './assets/product_form.js')
-    .addEntry('product_view_page', './assets/product_view_page.js')
+    .addEntry('product_form_page', './assets/products_form_page.js')
+    .addEntry('products', './assets/products.js')
 
 
 
@@ -67,7 +67,7 @@ Encore
         pattern: /\.(png|jpg|jpeg)$/
     })
 
-    //.enableVueLoader()
+    .enableVueLoader(() => {}, { runtimeCompilerBuild: true })
     // enables Sass/SCSS support
     //.enableSassLoader()
 
@@ -86,5 +86,6 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;
-
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.resolve.conditionNames = ['browser', 'import', 'svelte'];
+module.exports = config;

@@ -25,7 +25,7 @@ deleteButtons1.forEach(button=>{
 })
 
  function displayDeleteAlert(productId ="unknown", model="unknown"){
-    element = document.getElementById("searchContainer")
+    element = document.getElementById("overlay")
     let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
     chekboxElement.checked= ! chekboxElement.checked
     id = null
@@ -72,7 +72,7 @@ if(document.getElementById("noDelete") && document.getElementById("buttonDelete2
               displayDeleteAlert()
     
             }else{
-              alert("The product could not be deleted")
+              document.getElementById("errorsBox").style.display="flex"
             }
             })
     })
