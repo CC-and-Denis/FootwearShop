@@ -18,22 +18,24 @@ class ProductRepository extends ServiceEntityRepository
 
     public function findPopularProducts(int $qta, int $position): array
     {
-        $qb=$this->createQueryBuilder('p')
-            ->orderBy('p.views', 'DESC')
+        $query=$this->createQueryBuilder('product')
             //->addOrderBy('p.items_sold', 'DESC')
-            ->setFirstResult($position);
+            ->orderBy('product.views', 'DESC');
+            
 
-        $l=(clone $qb)->select('count(p.id)')
+        $productsAvaiable=(clone $query)->select('count(product.id)')
             ->getQuery()
             ->getSingleScalarResult();
         
 
-        $results=$qb->setMaxResults($qta)      
-           ->getQuery()
-           ->getResult();
+        $productsToLoad=$query
+            ->setFirstResult($position)
+            ->setMaxResults($qta) 
+            ->getQuery()
+            ->getResult();
 
-        $lista=[$l-$position-$qta>0,$results];
-        return $lista;
+        $result=[$productsAvaiable-$position-$qta>0,$productsToLoad];
+        return $result;
     }
     public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
     {
