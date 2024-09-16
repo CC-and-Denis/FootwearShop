@@ -88,9 +88,9 @@
     
     <div class="std-container w-full p-10">
         {% if products|length %}
-        <div class="coloumn scrollable h-full pr-2">
+        <div class="coloumn overflow-y-scroll h-full pr-2">
                 {% for product in products %}
-                <div class="std-container row h-52 mb-5 productContainer hover:bg-[rgba(255,255,255,0.4)]" id={{product.id}}>
+                <div class="std-container row h-52 mb-5 productContainer hover:bg-semi-transparent-3 transition-all w-full" id={{product.id}}>
                     <div class="size-44 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{product.mainImage}});"></div>
                     <div class="column w-9/12">
                         <h1 class="w-full text-2xl">{{product.Model}}</h1>

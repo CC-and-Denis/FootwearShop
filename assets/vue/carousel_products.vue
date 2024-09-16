@@ -4,8 +4,7 @@
         <img class="small-img" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
     <div ref="container" class="productCarouselInner">
-      <!-- Dynamically render carousel items -->
-      <div v-for="product in items" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5"
+      <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5"
       :style="{ backgroundImage: `url(${product.image})` }">
               <div class="priceContainer m-3">
                   €{{product.price}}
@@ -24,7 +23,7 @@ y-0 transition-opacity hover:cursor-pointer">
           </div>
       </div>
         
-    <button @click="loadMore(1)" :disabled="isLoading || !hasMoreItems" :class="{ 'opacity-50': !hasMoreItems || isLoading }">
+    <button @click="loadMore(1)" :disabled="isLoading || !hasMoreproducts" :class="{ 'opacity-50': !hasMoreproducts || isLoading }">
         <img class="small-img rotate-180" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
   
@@ -35,14 +34,14 @@ export default {
   data() {
     return {
       counter: 0,
-      items: [],
+      products: [],
       isLoading: false,
-      hasMoreItems: true
+      hasMoreproducts: true
     };
   },
   methods: {
     async loadMore(direction) {
-      if (this.isLoading || (direction < 0 && this.counter === 0) || (direction > 0 && !this.hasMoreItems)) {
+      if (this.isLoading || (direction < 0 && this.counter === 0) || (direction > 0 && !this.hasMoreproducts)) {
         return;
       }
 
@@ -57,7 +56,7 @@ export default {
         }
         
         const data = await response.json();
-        this.updateItems(data, direction);
+        this.updateproducts(data, direction);
       } catch (error) {
         console.error('Error loading products:', error);
       } finally {
@@ -86,18 +85,18 @@ export default {
       return `${baseApiUrl}/1-${this.counter - 1}`;
     },
 
-    updateItems(data, direction) {
+    updateproducts(data, direction) {
       const { products, hasMore } = data;
 
       if (direction < 0) {
-        this.items = [...products, ...this.items.slice(0, -products.length)];
+        this.products = [...products, ...this.products.slice(0, -products.length)];
       } else if (direction > 0) {
-        this.items = [...this.items.slice(products.length), ...products];
+        this.products = [...this.products.slice(products.length), ...products];
       } else {
-        this.items = products; 
+        this.products = products; 
       }
       this.counter+=direction;
-      this.hasMoreItems = hasMore;
+      this.hasMoreproducts = hasMore;
 
     }
   },

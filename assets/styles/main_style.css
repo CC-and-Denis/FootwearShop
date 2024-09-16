@@ -75,7 +75,7 @@ a{
 }
 
 .aButton{
-    @apply rounded-xl bg-blue text-xl font-bold opacity-80 size-fit text-center border-none p-4 text-white hover:cursor-pointer hover:opacity-100
+    @apply rounded-xl bg-blue text-xl font-bold opacity-80 size-fit text-center border-none p-4 text-white hover:cursor-pointer hover:opacity-100 transition-all
 }
 
 .small-img{

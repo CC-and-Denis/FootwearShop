@@ -19,7 +19,7 @@
 
 deleteButtons1.forEach(button=>{
     button.addEventListener('click',()=>{
-        this.stopPropagation()
+        event.stopPropagation()
         displayDeleteAlert(button.id,button.getAttribute("name"))
     } )
 })
