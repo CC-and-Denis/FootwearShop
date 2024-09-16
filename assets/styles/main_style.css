@@ -11,26 +11,26 @@ body,html{
 
 ::-webkit-scrollbar {
     @apply size-3
-  }
-  
-  ::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
-    @apply rounded-3xl
-  }
+}
 
-  ::-webkit-scrollbar-track{
+::-webkit-scrollbar-track,::-webkit-scrollbar-thumb {
+    @apply rounded-3xl
+}
+
+::-webkit-scrollbar-track{
     @apply bg-semi-transparent-1
 }
-   
-  ::-webkit-scrollbar-thumb {
+
+::-webkit-scrollbar-thumb {
     @apply bg-semi-transparent-2 hover:bg-semi-transparent-3
 }
 
-  ::-moz-selection { 
+::-moz-selection {
     @apply bg-semi-transparent-3 text-shadow
 }
-  
-  ::selection {
-   @apply bg-semi-transparent-3 text-shadow
+
+::selection {
+    @apply bg-semi-transparent-3 text-shadow
 }
 
 input{
@@ -116,10 +116,13 @@ label{
     @apply text-white
 }
 
+.productCarouselInner{
+    @apply grid overflow-y-hidden h-[33vh] lg:grid-cols-4 grid-cols-1
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 
 

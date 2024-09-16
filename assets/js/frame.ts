@@ -11,7 +11,7 @@ const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
 
 // Function to check screen width and perform actions
 function checkScreenWidth() {
-    const screenWidth = window.innerWidth;
+    let screenWidth = window.innerWidth;
     console.log(screenWidth)
         
     if (screenWidth < 1000 && screenType!="md" ) {

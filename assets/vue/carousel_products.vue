@@ -1,17 +1,17 @@
 <template>
-    
-    <button @click="loadMore(-1)" :disabled="isLoading || counter === 0">
-        <img class="small-img opacity-50" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
-    </button>
-    <div ref="container" class="carousel-container row">
+
+  <button @click="loadMore(-1)" :disabled="isLoading || counter === 0" :class="{ 'opacity-50': counter === 0 }">
+    <img class="small-img" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
+  </button>
+  <div ref="container" class="productCarouselInner">
       <!-- Dynamically render carousel items -->
-      <div v-for="product in items" :key="product.id" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5"
+    <div v-for="product in items" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5"
       :style="{ backgroundImage: `url(${product.image})` }">
               <div class="priceContainer m-3">
                   €{{product.price}}
               </div>
-            
-              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
+
+      <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
                   <a class="h-full" :href="`/product/${product.id}`" >
                       <h1 class="text-xl underline">{{product.model}}</h1>
                       <p class="text-lg h-full"> {{product.description}}</p>
@@ -22,10 +22,10 @@
               </div>
           </div>
       </div>
-        
-    <button @click="loadMore(1)" :disabled="isLoading || !hasMoreItems">
-        <img class="small-img opacity-50 rotate-180" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
-    </button>
+
+  <button @click="loadMore(1)" :disabled="isLoading || !hasMoreItems" :class="{ 'opacity-50': !hasMoreItems || isLoading }">
+    <img class="small-img rotate-180" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
+  </button>
   
 </template>
 
@@ -67,10 +67,16 @@ export default {
     getApiUrl(direction) {
       const baseApiUrl = this.$props.apiUrl;
       if(direction==0){
+        if(window.innerWidth<1000){
+          return `${baseApiUrl}/1-0`
+        }
         return `${baseApiUrl}/4-0`
       }
       
       if(direction>0){
+        if( window.innerWidth<1000){
+          return `${baseApiUrl}/1-${this.counter + 1}`
+        }
         return `${baseApiUrl}/1-${this.counter + 4}`
       }
 
@@ -82,13 +88,12 @@ export default {
 
       if (direction < 0) {
         this.items = [...products, ...this.items.slice(0, -products.length)];
-        this.counter -= 4; 
       } else if (direction > 0) {
         this.items = [...this.items.slice(products.length), ...products];
-        this.counter += 4; 
       } else {
         this.items = products; 
       }
+      this.counter+=direction;
       this.hasMoreItems = hasMore;
     }
   },

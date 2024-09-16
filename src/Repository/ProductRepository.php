@@ -18,36 +18,23 @@ class ProductRepository extends ServiceEntityRepository
 
     public function findPopularProducts(int $qta, int $position): array
     {
-        $qb=$this->createQueryBuilder('p')
-            ->orderBy('p.views', 'DESC')
+        $query=$this->createQueryBuilder('product')
             //->addOrderBy('p.items_sold', 'DESC')
-            ->setFirstResult($position);
+            ->orderBy('product.views', 'DESC');
 
-        $l=(clone $qb)->select('count(p.id)')
+
+        $productsAvaible=(clone $query)->select('count(product.id)')
             ->getQuery()
             ->getSingleScalarResult();
-        
 
-        $results=$qb->setMaxResults($qta)      
-           ->getQuery()
-           ->getResult();
 
-        $lista=[$l-$position-$qta>0,$results];
-        return $lista;
-    }
-    public function findResearchedProduct(String $research, array $gender, array $age, int $qta, int $offset)
-    {
-        return $this -> createQueryBuilder('p')
-            ->where('p.description LIKE :research')
-            ->andWhere('p.gender IN (:gender)')
-            ->andWhere('p.forKids IN (:age)')
-            ->setParameter('research', '%' . $research . '%')
-            ->setParameter('gender', $gender)
-            ->setParameter('age', $age)
+        $productsToLoad=$query
+            ->setFirstResult($position)
             ->setMaxResults($qta)
-            ->setFirstResult($offset)
             ->getQuery()
             ->getResult();
+
+        return [$productsAvaible-$position-$qta>0,$productsToLoad];
     }
     public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
     {
@@ -64,3 +51,5 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 }
+
+?>

@@ -4,46 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/js/animations.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/products.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/vue/carousel_products.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/components/product_card_component.html.twig" afterDir="false" />
+    <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="merging">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/frame.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/frame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/cookie.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/frame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/frame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/homePage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/homePage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/populars.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/product_cards_loaders.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/productCreation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/products.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/userPage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/product_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/products_form_page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/product_view_page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/productPage.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/frame.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/frame.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/main_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/main_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/importmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/importmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/vue/carousel_products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/carousel_products.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bases/access_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bases/access_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bases/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bases/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bases/page_frame.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bases/page_frame.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/not_found.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/not_found.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product/product_card_component.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product/product_form_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/product_form_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product/product_view_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/product_view_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product_grid_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product_grid_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/prova.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/register.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/register.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/security/login.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/security/login.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/user_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/user_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,13 +182,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging denis",
+    "git-widget-placeholder": "denis",
     "last_opened_file_path": "/home/one-am/Scrivania/FootwearShop/migrations",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/home/one-am/.PhpStorm-242.21829.154/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "/home/one-am/Scrivania/FootwearShop/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -250,8 +224,17 @@
       <workItem from="1726228347011" duration="3641000" />
       <workItem from="1726232013623" duration="7686000" />
       <workItem from="1726468993337" duration="13074000" />
-      <workItem from="1726487332584" duration="8807000" />
+      <workItem from="1726487332584" duration="13916000" />
     </task>
+    <task id="LOCAL-00001" summary="merging">
+      <option name="closed" value="true" />
+      <created>1726496216786</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726496216786</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,6 +261,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="merging" />
+    <option name="LAST_COMMIT_MESSAGE" value="merging" />
   </component>
 </project>

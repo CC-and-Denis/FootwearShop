@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,15 +21,26 @@ class ApiController extends AbstractController {
     }
 
     #[Route('/api/getProductByPopular/{qta}-{position}', name: 'get_product_by_popular', methods: ['GET'])]
-    public function getProductByPopular(int $qta, int $position, ProductRepository $productRepository): Response
+    public function getProductByPopular(int $qta, int $position, ProductRepository $productRepository): JsonResponse
     {
-        // Fetch the popular products from the repository
-        $products = $productRepository->findPopularProducts($qta, $position);
-        $hasMore = count($products) == $qta;
+        [$hasMore, $products] = $productRepository->findPopularProducts($qta, $position);
 
-        return $this->render('product/product_card_component.html.twig',[
-            "products"=>$products,
+        $productData = array_map(function ($product) {
+            return [
+                'id' => $product->getId(),
+                'model' => $product->getModel(),
+                'image' => $product->getMainImage(),
+                'price' => $product->getPrice(),
+                'description' => $product->getDescription(),
+                'seller'=>[
+                    'username'=>$product->getSellerUsername()->getUsername(),
+                ]
+            ];
+        }, $products);
+
+        return new JsonResponse([
             'hasMore' => $hasMore,
+            'products' =>    $productData,
         ]);
     }
 
@@ -60,13 +71,24 @@ class ApiController extends AbstractController {
         }
     
         // Calculate items based on the provided conditions
-        $items = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
+        [$hasMore, $items] = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
 
-        $hasMore = count($items ) == $qta;
+        $productData = array_map(function ($product) {
+            return [
+                'id' => $product->getId(),
+                'model' => $product->getModel(),
+                'image' => $product->getMainImage(),
+                'price' => $product->getPrice(),
+                'description' => $product->getDescription(),
+                'seller'=>[
+                    'username'=>$product->getSellerUsername()->getUsername(),
+                ]
+            ];
+        }, $items);
 
-        return $this->render('product/product_card_component.html.twig',[
-            "products"=>$items,
-            'hasMore' => $hasMore,  
+        return new JsonResponse([
+            'hasMore' => $hasMore,
+            'products' => $productData,
         ]);
     }
 
@@ -179,12 +201,12 @@ class ApiController extends AbstractController {
                                         if ($productCount == 0) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            return $results;
+                                            return [$totalRecords>$productCount, $results];
                                         }
                                         if ($counter == $totalRecords) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            return $results;
+                                            return [$totalRecords>$productCount, $results];
                                         }
                                     }
                                 } //color loop

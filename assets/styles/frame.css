@@ -1,111 +1,111 @@
 
-    #sidebar>.column{
-        margin-top: 4vh;
-        padding: 2.5vh 1.5vh;
-        padding-bottom: 0vh;
-        height: 100vh;
-    }
+#sidebar>.column{
+    margin-top: 4vh;
+    padding: 2.5vh 1.5vh;
+    padding-bottom: 0vh;
+    height: 100vh;
+}
 
-    #sidebar a{
-        margin-bottom: 2vh;
-    }
+#sidebar a{
+    margin-bottom: 2vh;
+}
 
-    #sidebar a:hover{
-        font-size: larger;
-    }
-    
-    #filterMenu>.column{
-        border-right: 1px solid black;
-        padding: 1vh;
-        font-size: large;
-        font-weight: 700;
-        height: 18vh;
-    }
+#sidebar a:hover{
+    font-size: larger;
+}
 
-    #filterMenu>.column>label{
-        font-size: medium;
-        margin-top: 1vh;
-        margin-bottom: 1vh;
+#filterMenu>.column{
+    border-right: 1px solid black;
+    padding: 1vh;
+    font-size: large;
+    font-weight: 700;
+    height: 18vh;
+}
 
-    }
+#filterMenu>.column>label{
+    font-size: medium;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 
-    #filterMenu>.column>label>input{
-        margin-right: 1vh;
-    }
+}
 
-    .productCard:hover>.productInfo{
-        opacity: 1;
-    }
+#filterMenu>.column>label>input{
+    margin-right: 1vh;
+}
 
-    /* only for homepage */
+.productCard:hover>.productInfo{
+    opacity: 1;
+}
 
-        .slider .productCard{
-        width: 33vh;
-        height: 33vh;
-        
-        }
-    
-        .slider .productInfo{
-            opacity: 0;
-            border-radius: 0px 0px 15px 15px;
-            height:21vh;
-            background-color: rgba(255,255,255,0.2);
-    
-        }
-    
-        .slider .productPriceFast{
-            margin-top: 1vh;
-            margin-left: 1vh;
-            width: max-content;
-            padding-left:1vw ;
-            padding-right: 1vw;
-            border-radius: 100px;
-            font-size: 2.5vh;
-            background-color: rgba(255,255,255,0.2);
-            backdrop-filter: blur(20px);
-            color: rgba(0,0,0,0.7);
-        }
-    
+/* only for homepage */
 
-    
-    
-    /* reusables */
+.slider .productCard{
+    width: 33vh;
+    height: 33vh;
 
-    .generic-img{
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size:contain;
-    }
+}
 
-    input[type="checkbox"]{
-        width: fit-content;
-    }
+.slider .productInfo{
+    opacity: 0;
+    border-radius: 0px 0px 15px 15px;
+    height:21vh;
+    background-color: rgba(255,255,255,0.2);
 
-    .wip{
-        display: flex;
-        position: absolute;
-        background-color: rgba(0,0,0,0.7);
-        top:0;
-        left:0;
-        padding: 2vh 5vh;
-        backdrop-filter: blur(5px);
-        color: white;
-        align-items: center;
-        justify-content: center;
-        font-size: larger;
-    }
+}
 
-    .priceContainer{
-        height: fit-content;
-        border-radius: 120px;
-        width: fit-content;
-        padding: 1vh 0.5vw;
-        margin-right: 1vw;
-        backdrop-filter: blur(25px);
-        background-color: rgba(255,255,255,0.4);
-    }
+.slider .productPriceFast{
+    margin-top: 1vh;
+    margin-left: 1vh;
+    width: max-content;
+    padding-left:1vw ;
+    padding-right: 1vw;
+    border-radius: 100px;
+    font-size: 2.5vh;
+    background-color: rgba(255,255,255,0.2);
+    backdrop-filter: blur(20px);
+    color: rgba(0,0,0,0.7);
+}
 
-    #rating img{
-        max-height: 3vh;
-        margin-right: 0.2rem;
-    }
+
+
+
+/* reusables */
+
+.generic-img{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:contain;
+}
+
+input[type="checkbox"]{
+    width: fit-content;
+}
+
+.wip{
+    display: flex;
+    position: absolute;
+    background-color: rgba(0,0,0,0.7);
+    top:0;
+    left:0;
+    padding: 2vh 5vh;
+    backdrop-filter: blur(5px);
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+}
+
+.priceContainer{
+    height: fit-content;
+    border-radius: 120px;
+    width: fit-content;
+    padding: 1vh 0.5vw;
+    margin-right: 1vw;
+    backdrop-filter: blur(25px);
+    background-color: rgba(255,255,255,0.4);
+}
+
+#rating img{
+    max-height: 3vh;
+    margin-right: 0.2rem;
+}
