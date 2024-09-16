@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Form/ResearchType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/productPage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/productPage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240902133600.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240902133600.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PaymentType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PaymentType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product/product_view_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/product_view_page.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/bases/page_frame.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bases/page_frame.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/form/registration_form_theme.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/registration_form_theme.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +217,9 @@
       <workItem from="1726209077617" duration="14046000" />
       <workItem from="1726223782243" duration="26000" />
       <workItem from="1726228347011" duration="3641000" />
-      <workItem from="1726232013623" duration="6240000" />
+      <workItem from="1726232013623" duration="7686000" />
+      <workItem from="1726468993337" duration="13074000" />
+      <workItem from="1726487332584" duration="2326000" />
     </task>
     <servers />
   </component>

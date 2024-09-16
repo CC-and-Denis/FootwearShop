@@ -35,7 +35,7 @@ class ApiController extends AbstractController {
 
     #[Route('/api/getProductByResearch', name:'get_product_by_research')]
     public function getProductByResearch(int $qta, int $position, array $data, ProductRepository $productRepository) :Response{
-        $products = $productRepository -> get_product_by_research();
+        $products = $productRepository -> findResearchedProduct();
         $hasMore = count($products) == $qta;
 
         return $this->render('product/product_card_component.html.twig',[

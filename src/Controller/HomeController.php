@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ResearchType;
 use App\Service\CookieService;
 use App\Entity\Product;
 use App\Entity\Order;
@@ -26,9 +27,53 @@ class HomeController extends AbstractController
     }
 
     #[Route('/home', name:'home')]
-    public function loadHomePage(): Response
+    public function loadHomePage(Request $request): Response
     {
-        return $this->render('homepage.html.twig');
+        $form = $this->createForm(ResearchType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //gender
+            $genderSelected = [];
+            foreach (['male', 'female', 'unisex'] as $gender) {
+                if ($form->get($gender)->getData()) {
+                    $genderSelected[] = $gender;
+                }
+            }
+            //age
+            $ageSelected = [];
+            foreach (['adult', 'kid'] as $age) {
+                if ($form->get($age)->getData()) {
+                    $ageSelected[] = $age;
+                }
+            }
+            if (count($ageSelected) == 2){
+                $ageSelected = [0, 1];
+            }
+            elseif ($ageSelected[0] == 'adult'){
+                $ageSelected = [0];
+            }
+            else{
+                $ageSelected = [1];
+            }
+            dump($genderSelected, $ageSelected);
+            $products = $this->entityManager->getRepository(Product::class)->findResearchedProduct($form->get('research_content')->getData(), $genderSelected, $ageSelected, 4, 0);
+            $hasMore = count($products) == 4;
+            dump($products);
+
+            return $this->render('product/product_card_component.html.twig',[
+                "products"=>$products,
+                'hasMore' => $hasMore,
+                'form' => $form->createView(), // Add this lines
+            ]);
+
+
+
+            //chiamata api alla funzione che caricherà i products
+            dump('hey');
+        }
+        else {
+            return $this->render('homepage.html.twig', ['form' => $form->createView()]);
+        }
 
     }
 
