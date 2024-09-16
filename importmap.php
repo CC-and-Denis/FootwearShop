@@ -25,4 +25,35 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'svelte/internal' => [
+        'version' => '3.59.2',
+    ],
+    '@symfony/ux-svelte' => [
+        'path' => './vendor/symfony/ux-svelte/assets/dist/loader.js',
+    ],
+    'vue' => [
+        'version' => '3.5.6',
+        'package_specifier' => 'vue/dist/vue.esm-bundler.js',
+    ],
+    '@vue/runtime-dom' => [
+        'version' => '3.5.6',
+    ],
+    '@vue/compiler-dom' => [
+        'version' => '3.5.6',
+    ],
+    '@vue/shared' => [
+        'version' => '3.5.6',
+    ],
+    '@vue/runtime-core' => [
+        'version' => '3.5.6',
+    ],
+    '@vue/compiler-core' => [
+        'version' => '3.5.6',
+    ],
+    '@vue/reactivity' => [
+        'version' => '3.5.6',
+    ],
+    '@symfony/ux-vue' => [
+        'path' => './vendor/symfony/ux-vue/assets/dist/loader.js',
+    ],
 ];

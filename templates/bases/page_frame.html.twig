@@ -15,14 +15,14 @@
 {% endblock %}
 
 {% block body %}
-<div id="overlay" class="size-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center pt-40 z-10">
+<div id="overlay" class="size-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center pt-40 z-30">
     <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" class="absolute left-0 top-0 size-20 mt-5 ml-32 buttonForSearch">
     <div id="alertsContainer">
     {% block alerts %}
 
     {% endblock %}
     </div>
-    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full w-9/12 bg-white opacity-100"> 
+    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100"> 
             <input id="filterMenuCheckbox" class="hidden" type="checkbox">
             <label for="filterMenuCheckbox">
                 <img class="small-img" src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}">
@@ -66,8 +66,11 @@
 
     </div>
 </div>
-<div class="row background" >
-    <div id="sidebar" class="column bg-semitransparent h-full w-32">
+<div class="row background size-full overflow-auto " >
+    <div id="show-navigation" class="absolute top-1/2 left-0 bg-white bg-opacity-70 py-10 pr-5 pl-2 z-20 hidden">
+        ->
+    </div>
+    <div id="sidebar" class="column bg-semi-transparent-2 h-full w-36 z-10 lg:items-baseline items-center backdrop-blur-md">
         <div class="column w-max " >
                 <input id="searchContainerCheckbox" type="checkbox" class="hidden" >
                     <img class="ml-3 max-w-14 buttonForSearch" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}" class="buttonForSearch">
@@ -83,7 +86,7 @@
             <a>About</a>
             <a>Support</a>
             <a>Copyright</a>
-            <a class="generic-img size-20 rounded-full bg-semitransparent mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
+            <a class="generic-img size-20 rounded-full bg-semi-transparent-1 mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
             {% if app.user %}
                 "/user/{{app.user.userIdentifier}}"
             {% else %}

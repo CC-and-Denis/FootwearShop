@@ -67,7 +67,7 @@ Encore
         pattern: /\.(png|jpg|jpeg)$/
     })
 
-    //.enableVueLoader()
+    .enableVueLoader(() => {}, { runtimeCompilerBuild: true })
     // enables Sass/SCSS support
     //.enableSassLoader()
 
@@ -86,5 +86,6 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;
-
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.resolve.conditionNames = ['browser', 'import', 'svelte'];
+module.exports = config;

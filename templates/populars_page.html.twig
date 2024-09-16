@@ -4,8 +4,6 @@
 <style>
 
     #grid-container {
-        display: grid;
-        grid-template-columns: repeat(4, auto);
         row-gap: 1vh;
         column-gap: 2.5vw;
         padding-right: 0vh;
@@ -66,25 +64,6 @@
         margin-top: 8vh;
     }
 
-    @media (min-height: 935px) {
-    .productCard{
-        height: 37vh;
-        width: 37vh;
-        margin-top: 5vh;
-    }
-
-    .productInfo{
-        height:18.8vh;
-        margin-top: 13.5vh;
-    }
-
-    #grid-container{
-        height: 85vh;
-    }
-
-    
-}
-
 
 
 
@@ -95,8 +74,8 @@
 
 
 {% block content %}
-<div class="scrollable" id="scrollable">
-    <div id="grid-container">
+<div id="scrollable" class="mt-10">
+    <div id="grid-container" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
 
     </div>
 </div>

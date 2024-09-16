@@ -1,84 +1,57 @@
-var element=null;
-var step = 1;
-var end = 10;
-var opacity = 0;
-var id = null
-const overlay = document.getElementById("overlay") as HTMLDivElement;
+import { displayOverlay, displayFilters, displayMenu } from './animations';
+
+
+var screenType="lg"
+const displayMenuBtn = document.getElementById("show-navigation")
+const sidebar= document.getElementById("sidebar")
+
+
+
 const buttonsForSearch = document.querySelectorAll('.buttonForSearch');
-    
-    function displayFilters(){
-        element = document.getElementById("filterMenu")
-        let filterMenuCheckbox = document.getElementById("filterMenuCheckbox") as HTMLInputElement
-        id = null
-        clearInterval(id)
-        id=setInterval(frame,10)
-        if(filterMenuCheckbox.checked){
-            step = 1
-            end = 10
-            opacity = 0
-        }else{
-            step = -1
-            end = 0
-            opacity = 10
-        }
-        function frame() {
-            if (opacity==end) {
-              clearInterval(id);
-            } else {
-              opacity+=step
-              element.style.opacity=opacity/10
-            }
 
-        }
-        }
+// Function to check screen width and perform actions
+function checkScreenWidth() {
+    const screenWidth = window.innerWidth;
+    console.log(screenWidth)
         
+    if (screenWidth < 1000 && screenType!="md" ) {
+        screenType="md" 
+        displayMenuBtn.style.display="block"
+        sidebar.style.display="none"
+        sidebar.style.position="absolute"
+        displayMenuBtn.addEventListener('click',()=>{
+            displayMenu()
+        })
+    } else if(screenWidth>=1000 && screenType!="lg") {
+        screenType="lg" 
+        displayMenuBtn.style.display="none"
+        sidebar.style.display="flex"
+        sidebar.style.position="static"
+        sidebar.style.width="9rem"
+        displayMenuBtn.removeEventListener("click",()=>{
+            displayMenu()})
         
 
-        function displayOverlay(){
-
-        console.log("ciao1")
-            
-        let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
-
-        // for some reason the listener fuck everything up if the clicked element is a label for an input so we needs to do this
-        searchCheckbox.checked = !searchCheckbox.checked
+        // Perform actions for large screens
+    }
+}
 
 
-        id = null
-        clearInterval(id)
-        id=setInterval(frame,10)
-        document.getElementById("alertsContainer").style.display="none"
-        
-        if(searchCheckbox.checked){
-            console.log("hi")
-            document.getElementById("searchBarContainer").style.display="flex"
-            overlay.style.display='flex'
-            step = 1
-            end = 10
-            opacity = 0
-        }else{
-            step = -1
-            end = 0
-            opacity = 10
-        }
-       
-        function frame() {
-            if (opacity==end) {
-              clearInterval(id);
-              if(! searchCheckbox.checked){
-                overlay.style.display="none"
-                }
-            } else {
-              opacity+=step
-              overlay.style.opacity= (opacity/10).toString() 
-            }
-        
-        }
-        }
+
+checkScreenWidth();
 
 buttonsForSearch.forEach( (button) => {
-    button.addEventListener('click',displayOverlay);
+    button.addEventListener('click',()=>{
+        displayOverlay()
+    });
 });
 
-document.getElementById("filterMenuCheckbox").addEventListener('change',displayFilters);
+
+// Event listener for window resize
+window.addEventListener('resize', checkScreenWidth);
+
+// Initial check on page load
+document.getElementById("filterMenuCheckbox").addEventListener('change',()=>{
+    displayFilters()
+});
 

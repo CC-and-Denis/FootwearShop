@@ -26,21 +26,21 @@ Sign up
 
     {{ form_start(registrationForm) }}
     <div class="centered column">
-    <div class="column w-[30rem]">
+    <div class="column lg:w-[30rem] w-full">
         <label>Email</label>
         <div class="row">
             <img class="small-img" src="{{asset('/build/images/envelope-regular.8640d6ad.png')}}">
             {{ form_widget(registrationForm.email) }}
         </div>
     </div>
-    <div class="column  w-[30rem]">
+    <div class="column lg:w-[30rem] w-full">
         <label for="username">Username</label>
         <div class="row">
             <img class="small-img" src="{{asset('/build/images/user-regular.246ab86a.png')}}">
             {{ form_widget(registrationForm.username) }}
         </div>
     </div>
-    <div class="row">
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-x-5">
         <div class="column w-[14rem]">
             <label>Password</label>
             <div class="row">
@@ -49,7 +49,7 @@ Sign up
             </div>
         </div>
     
-        <div class="column ml-10 w-[14rem]">
+        <div class="column  w-[14rem]">
             <label> Confirm password</label>
             <div class="row">
                 <img class="small-img" src="{{asset('/build/images/key-solid.792a57bf.png')}}">
@@ -57,7 +57,7 @@ Sign up
             </div>
         </div>
     </div>
-    <button type="submit" class="aButton py-2 my-10">Register</button>
+    <button type="submit" class="aButton py-2 lg:my-10 my-2">Register</button>
     {{ form_end(registrationForm) }}
 
     <div class="row">

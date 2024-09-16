@@ -72,7 +72,7 @@ if(document.getElementById("noDelete") && document.getElementById("buttonDelete2
               displayDeleteAlert()
     
             }else{
-              alert("The product could not be deleted")
+              document.getElementById("errorsBox").style.display="flex"
             }
             })
     })

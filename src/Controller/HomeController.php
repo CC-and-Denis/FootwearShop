@@ -45,7 +45,7 @@ class HomeController extends AbstractController
         $form = $this->createForm(PaymentType::class);
         $form->handleRequest($request);
 
-        
+        $errorsList = $form->getErrors(true);
 
         if( $form->isSubmitted() && $form->isValid() ){
             if( $remainingProducts ){
@@ -64,6 +64,8 @@ class HomeController extends AbstractController
 
         if($targetProduct){
             $this -> cookie_update($targetProduct, $request, $response);
+            $targetProduct->setViews($targetProduct->getViews()+1);
+            
             return $this->render('product/product_view_page.html.twig',[
                 'product'=>$targetProduct,
             ], $response
@@ -84,7 +86,6 @@ class HomeController extends AbstractController
         $typeCookie = $request->cookies->get('type');
         $brandCookie = $request->cookies->get('brand');
         $colorCookie = $request->cookies->get('color');
-
 
         $types = json_decode($typeCookie, true);
         $brands = json_decode($brandCookie, true);
@@ -115,7 +116,9 @@ class HomeController extends AbstractController
         $form = $this->createForm(ProductFormType::class, $product);
         
         $form->handleRequest($request);
-        //dd($form->getErrors());
+
+        $errorsList = $form->getErrors(true);
+
         if($form->isSubmitted() && $form->isValid()){
             
             $newProduct = $form->getData();
@@ -180,7 +183,8 @@ class HomeController extends AbstractController
         } 
         
         return $this->render('product/product_form_page.html.twig',[
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'errorsList'=>$errorsList,
         ]);
     }
 
@@ -298,14 +302,25 @@ class HomeController extends AbstractController
     #[Route('/api/getProductByPopular/{qta}-{position}', name: 'get_product_by_popular', methods: ['GET'])]
     public function getProductByPopular(int $qta, int $position, ProductRepository $productRepository): Response
     {
-        // Fetch the popular products from the repository
-        $products = $productRepository->findPopularProducts($qta, $position);
-        $hasMore = count($products) === $qta;
+    [$hasMore, $products] = $productRepository->findPopularProducts($qta, $position);
 
-        return $this->render('product/product_card_component.html.twig',[
-            "products"=>$products,
-            'hasMore' => $hasMore,
-        ]);
+    $productData = array_map(function ($product) {
+        return [
+            'id' => $product->getId(),
+            'model' => $product->getModel(),
+            'image' => $product->getMainImage(), 
+            'price' => $product->getPrice(),
+            'description' => $product->getDescription(),
+            'seller'=>[
+                'username'=>$product->getSellerUsername()->getUsername(),
+            ]
+        ];
+    }, $products);
+
+    return new JsonResponse([
+        'hasMore' => $hasMore,
+        'products' => $productData,
+    ]);
     }
 #[Route('/populars',name:"load_popular_products_page")]
 public function loadPopularProductsPage(){
@@ -331,7 +346,7 @@ public function loadPopularProductsPage(){
         $products = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
         $hasMore = count($products) === $qta;
 
-        return $this->render('product/product_card_component.html.twig',[
+        return $this->render('components/product_card_component.html.twig',[
             "products"=>$products,
             'hasMore' => $hasMore,
         ]);
@@ -357,17 +372,9 @@ public function loadPopularProductsPage(){
         // Calculate items based on the provided conditions
         $items = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
 
-        //dump($items);
-    
-        // Render the items (for now, just print them)
-        /*
-        foreach ($items as $index => $item) {
-            dd( ($index + 1) . ": Type: " . $item['type'] . ", Brand: " . $item['brand'] . ", Color: " . $item['color'] . " | Offset: " . $item['offset'] . "<br>");
-        }
-        */
-        $hasMore = count($items ) === $qta;
+  
 
-        return $this->render('product/product_card_component.html.twig',[
+        return $this->render('components/product_card_component.html.twig',[
             "products"=>$items,
             'hasMore' => $hasMore,  
         ]);
