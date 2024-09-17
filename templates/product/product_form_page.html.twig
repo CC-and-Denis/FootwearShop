@@ -18,254 +18,6 @@
 {{ encore_entry_script_tags('products') }}
 {% endblock %}
 
-
-
-{% block style %}
-<style>
-
-
-
-
-.mainImage{
-        width: 20vh;
-        height: 20vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        border-radius: 12px ;
-}
-
-.slideShowContainer {
-    height: 40vh;
-    margin-top: 0vh;
-    margin-bottom: 1.5vh;
-    width: 90vw;
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-}
-
-.slideShowContainer>img {
-    height: 5vh;
-    width: 5vh;
-    opacity: 50%;
-}
-
-.slideShowContainer>img:last-child {
-    rotate: 180deg;
-}
-
-#slideShowContainer2 {
-    width: 80vw;
-    margin-left: 1vw;
-    margin-right: 1vw;
-}
-
-#slideShowContainer2>:last-child {
-    margin-right: 0vw;
-}
-
-.previewImages {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 18px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 38vh;
-    width: 50vh;
-    margin-right: 2vw;
-}
-
-.container {
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(35px);
-    border-radius: 20px;
-    padding: 2vh;
-    height: 50vh;
-}
-
-
-
-#product_form_price {
-    -moz-appearance: textfield;
-}
-
-form input, textarea, select {
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-    outline: none;
-    transition: all .3s ease;
-    padding: 0.2vh 0.5vw;
-    resize: none;
-    transition: all .3s ease;
-}
-
-form input[type=checkbox]{
-    width: 4vw;
-    margin-bottom: 2vh;
-}
-
-
-form label {
-    cursor: text;
-    z-index: 2;
-    font-size: 1vw;
-    color: rgba(255, 255, 255, 0.5);
-    transition: all .3s ease;
-}
-
-
-label[for=product_form_otherImages]{
-    margin-left: 15vh;
-    margin-top: 1vh;
-    text-align: center;
-    color: black;
-}
-#otherImagesUploadButton{
-    width: 40vh;
-    height: 40vh;
-    border-radius: 20px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin-top: 1vh;
-
-    background-image: url(/build/images/file-arrow-up-solid.bca87184.png);
-}
-
-label[for=product_form_mainImage],label[for=product_form_otherImages]{
-    cursor: pointer;
-}
-
-label[for=product_form_mainImage]>div {
-    width: 20vh;
-    height: 20vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 12px;
-}
-
-
-label[for=product_form_mainImage]>.container {
-    height: 4vh;
-    width: 18vh;
-    position: absolute;
-    top: 15vh;
-    font-size: 0.8vw;
-    padding: 0.5vh 1vh;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 0px 0px 12px 12px;
-    color: black;
-    border-radius: 0px;
-    opacity: 0;
-    backdrop-filter: blur(10px);
-}
-
-label[for=product_form_mainImage]:hover>.container {
-    opacity: 1;
-}
-
-#product_form_description {
-    height: 23vh;
-    overflow-y: scroll;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-right: none;
-    border-radius: 8px;
-    padding: 1vh 1vw;
-    font-size: 0.8vw;
-}
-
-#product_form_model {
-    font-size: 1vw;
-    margin-bottom: 3vh;
-    margin-top: 3vh;
-    width: 16vw;
-}
-
-#product_form_model:focus,#product_form_quantity:focus,select:focus {
-    border-bottom: 1px solid var(--higlight-color);
-}
-
-#product_form_model:focus + label, #product_form_model:not(:placeholder-shown) + label {
-    font-size: 0.8vw;
-    top: 0.7vh;
-}
-
-select,#product_form_model,#product_form_quantity{
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-select,#product_form_quantity{
-    margin-bottom: 2vh;
-    width: 7vw;
-
-}
-
-
-#product_form_colors{
-    border-radius: 120px;
-    background-color: white;
-}
-
-
-
-input:focus + label, select:focus + label {
-    color: var(--higlight-color);
-}
-
-label[for=product_form_price],label[for=product_form_description],label[for=product_form_model]{
-    position: absolute;
-    top: 3vh;
-    left: 1vw;
-    padding: 0 0.5vw;
-}
-label[for=product_form_price], label[for=product_form_description] {
-    top: 0.3vh;
-}
-
-label[for=product_form_price] {
-    color: black;
-    font-size: smaller;
-}
-
-#product_form_price:focus + label, #product_form_price:not(:placeholder-shown) + label,
-#product_form_description:focus + label, #product_form_description:not(:placeholder-shown) + label {
-    top: -2vh;
-    color: var(--higlight-color);
-}
-
-#product_form_price:not(:focus):not(:placeholder-shown) + label, #product_form_description:not(:focus):not(:placeholder-shown) + label {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-#product_form_description:focus{
-    border-color: var(--higlight-color)
-}
-
-#vendor {
-    text-decoration: underline;
-    margin-top: 2vh;
-}
-
-.aButton {
-    margin-top: 1vh;
-}
-
-.container>.row>.column>div>.row {
-    margin-left: -1vh;
-    background-color: rgba(255, 255, 255, 0.5);
-    width: fit-content;
-    height: 2vh;
-    padding: 0.5vh 1vw;
-    border-radius: 100px;
-}
-
-</style>
-{% endblock %}
-
-
-
 {% block content %}
     {% if errorsList | length %}
     <div id="errorsBox">
@@ -277,66 +29,56 @@ label[for=product_form_price] {
         {% endfor %}
     </div>
     {% endif %}
-    <div class="column size-full p-5">
-        <div class="slider container row centered w-full">
+    <div class="column size-full lg:p-5 p-2 h-fit">
+        <div id="slideshow-container" class="slider std-container row centered w-full h-[43vh] mb-5">
 
-            <img id="goBack" class="small-img" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" >
-            <div id="slideShowContainer2" class="row w-full h-fit" >
-
-            </div>
-            <img id="goForward" class="small-img rotate-180" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}"  >
         </div>
         {{form_start(form)}}
         
-        <div class="row w-full flex-wrap">
-            <div class="column container w-2/5 mr-20" >
-                <div class="row" style="margin-bottom: 2vh;">
+        <div class="row  w-full flex-wrap-reverse lg:h-[50vh] h-fit lg:mt-0 gap-7">
+            <div class="column std-container lg:w-[43%] h-fit w-full " >
+                <div class="row flex-wrap">
                     {% if product is not defined %}
-                    <div class="w-44">
                         {{form_widget(form.mainImage)}}
-                        <label for="product_form_mainImage" style="position: relative;">
-                            <div id="mainImagePreview" style=" background-image: {{asset(field_value(form.mainImage))}}" ></div>
-                            <div class="container">
-                                Modify the main image diplayed
+                        <label for="product_form_mainImage" class="p-0 size-fit mr-5 mb-5">
+                            <div id="mainImagePreview"  class="bg-cover bg-center bg-no-repeat rounded-2xl lg:size-56 size-32 left-0 relative" style=" background-image: {{asset(field_value(form.mainImage))}}" >
+            
+                                <div class="std-container absolute bottom-0 opacity-0 transition-opacity">Modify the main image diplayed</div>
                             </div>
+                      
                         </label>
-                    </div>
                     {% else %}
                         <div class="mainImage" style="background-image: url({{asset( product.mainImage )}});"></div>
                     {% endif %}
 
-                    <div class="column" style="width: 20vw;">
-                    <div style="position: relative;">
-                    {{form_widget(form.model)}}
-                    <label for="product_form_model" >Product model</label>
-                    </div>
-                    
-                        <div style="position: relative;" class="row">
-                        <div class="row" style="width: 5vw;">
-                        {{form_widget(form.price)}}
-                        <label for="product_form_price">
-                            Price
-                        </label>
+                    <div class="column">
+                        <div class="relative">
+                        {{form_widget(form.model)}}
+                        {{form_label(form.model)}}
                         </div>
+                    
+                        <div class="relative" class="row">
+                            <div class="row priceContainer mb-5">
+                                {{form_widget(form.price)}}
+                                {{form_label(form.price)}}
+                            </div>
                         </div>
 
                     </div> 
-                    <div class="column">
-                        <button type="submit" style="width: 9vw;">Save</button>
-                        <a class="aButton" href="/user/{{app.user.userIdentifier}}" style="background-color:red;">Cancel</a>
+                    <div class="column lg:w-fit w-full">
+                        <button type="submit" class="aButton w-full p-2 mb-5">Save</button>
+                        <a class="aButton bg-red p-2 w-full" href="/user/{{app.user.userIdentifier}}">Cancel</a>
                     </div>
                 </div>
 
-                <div class="column" style="position: relative;">
+                <div class="column relative lg:mt-0 mt-10" >
                     {{form_widget(form.description)}}
-                    <label for="product_form_description">Description
-                        
-                    </label>
+                    {{form_label(form.description)}}
                 </div>
             </div>
 
-            <div class="row container lg:w-[55%] w-full">
-                <div class="column">
+            <div class="flex lg:flex-row flex-col std-container lg:w-[55%] h-full lg:justify-normal justify-center items-center">
+                <div class="column flex-wrap">
                     <div class="reverseColumn">
                         {{form_widget(form.color)}}
                         <label>Main shoe color</label>
@@ -379,11 +121,11 @@ label[for=product_form_price] {
                         </label>
                     </div>
             </div>
-            <div class="column">
+            <div class="ml-10 column">
                 {% if form.otherImages is defined%}
-                <label for="product_form_otherImages" style="position: relative;">
+                <label for="product_form_otherImages">
                     Other images
-                    <div id="otherImagesUploadButton" ></div>
+                    <div id="otherImagesUploadButton" class="bg-cover bg-center bg-no-repeat h-[40vh] w-[30vh]" style="background-image: url({{asset('/build/images/file-arrow-up-solid.bca87184.png')}});" ></div>
                 </label>
                 {{form_widget(form.otherImages)}}
                 {% endif %}

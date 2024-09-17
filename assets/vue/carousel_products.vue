@@ -1,7 +1,7 @@
 <template>
     
     <button @click="loadMore(-1)" :disabled="isLoading || counter === 0" :class="{ 'opacity-50': counter === 0 }">
-        <img class="small-img" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
+        <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
     <div ref="container" class="productCarouselInner">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5"

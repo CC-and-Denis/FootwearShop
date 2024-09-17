@@ -36,14 +36,14 @@ body,html{
     @apply bg-semi-transparent-3 text-shadow
 }
 
-input{
-    @apply border-none focus:outline-none
+input,select{
+    @apply border-none focus:outline-none bg-transparent
 }
 
-
-input[type="text"],input[type="password"],input[type="email"],textarea{
-    @apply bg-transparent
+textarea{
+    @apply focus:outline-none bg-transparent
 }
+
 
 a{
     @apply text-black no-underline

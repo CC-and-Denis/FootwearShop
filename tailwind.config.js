@@ -6,6 +6,7 @@ module.exports = {
     "./assets/js/*.js",
     "./templates/**/*.html.twig",
     "./templates/*.html.twig",
+    "./assets/vue/*.vue",
 
   ],
   theme: {

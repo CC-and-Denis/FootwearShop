@@ -1,0 +1,136 @@
+::placeholder {
+    opacity: 0;
+    color: transparent;
+    font-size: 0px;
+}
+
+.previewImages {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 38vh;
+    width: 50vh;
+    margin-right: 2vw;
+}
+
+.errorContainer {
+    padding: 0.5vh 1vw;
+    background-color: rgba(255, 110, 0, 0.5);
+    backdrop-filter: blur(0px);
+    margin-top: 0;
+    font-size: small;
+    height: 3.5vh;
+    border-radius: 120px;
+    margin-left: 0.5vw;
+}
+
+.errorContainer > ul {
+    list-style: none;
+}
+
+.container > .row > .column {
+    margin-left: 1vw;
+    height: 20vh;
+    font-size: large;
+}
+
+form label {
+    cursor: text;
+    z-index: 2;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all .3s ease;
+}
+
+#product_form_model {
+    font-size: 15px;
+    padding-bottom: 2px;
+    margin: 30px 0;
+    width: 200px;
+}
+
+#product_form_model:focus,
+#product_form_quantity:focus,
+select:focus {
+    border-bottom: 1px solid #00509E;
+}
+
+#product_form_model:focus + label,
+#product_form_model:not(:placeholder-shown) + label {
+    top: 7px;
+}
+
+select,
+#product_form_model,
+#product_form_quantity {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+select,
+#product_form_quantity {
+    margin-bottom: 20px;
+    width: 120px;
+}
+
+#product_form_color {
+    border-radius: 120px;
+    background-color: white;
+}
+
+input:focus + label,
+select:focus + label {
+    color: #00509E;
+}
+
+label[for=product_form_model] {
+    position: absolute;
+    top: 3vh;
+    left: 1vw;
+    padding: 0 15px;
+}
+
+label[for=product_form_price],
+label[for=product_form_description] {
+    position: absolute;
+    top: 0.7vh;
+    padding: 0 15px;
+
+}
+
+label[for=product_form_price] {
+    color: black;
+    font-size: large;
+}
+
+#product_form_price:focus + label,
+#product_form_price:not(:placeholder-shown) + label,
+#product_form_description:focus + label,
+#product_form_description:not(:placeholder-shown) + label {
+    top: -25px;
+    color: #00509E;
+}
+
+#product_form_price:not(:focus):not(:placeholder-shown) + label,
+#product_form_description:not(:focus):not(:placeholder-shown) + label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+textarea {
+    height: 20vh;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    border-right: none;
+    overflow-y: scroll;
+    padding: 5px 1rem;
+    resize: none;
+}
+
+#product_form_description:focus {
+    border-color: #00509E;
+}
+
+#product_form_price{
+    padding-left: 5px;
+}

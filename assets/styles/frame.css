@@ -136,3 +136,9 @@ input[type="checkbox"]{
     max-height: 3vh;
     margin-right: 0.2rem;
 }
+
+/* product form */
+#mainImagePreview:hover>div{
+    opacity: 1;
+
+}

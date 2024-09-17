@@ -1,4 +1,4 @@
-const colorSelection = document.getElementById("product_form_colors") as HTMLSelectElement;
+const colorSelection = document.getElementById("product_form_color") as HTMLSelectElement;
 const mainImage = document.getElementById("product_form_mainImage") as HTMLInputElement;
 const mainImagePreview = document.getElementById("mainImagePreview") as HTMLDivElement;
 const quantity = document.getElementById("product_form_quantity") as HTMLInputElement

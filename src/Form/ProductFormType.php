@@ -32,7 +32,7 @@ class ProductFormType extends AbstractType
 
         $builder
             ->add('model',TextType::class,[                    
-                'label'=>false,
+                'label'=>"Shoe model",
                     'attr'=>[
                         'placeholder'=>".",
                         'maxlenght'=>35
@@ -41,7 +41,7 @@ class ProductFormType extends AbstractType
                     ]
                     )
             ->add('color',ChoiceType::class,[
-                'label'=>false,
+                'label'=>"Main shoe color",
                 'choices'=>[
                     'White' => 'white',
                     'Gray' => 'gray',
@@ -58,7 +58,7 @@ class ProductFormType extends AbstractType
                 ]
             ])
             ->add('material',ChoiceType::class,[
-                'label'=>false,
+                'label'=>"Main shoe material",
                 'choices'=>[
                     "Leather" => "Leather",
                     "Rubber" => "Rubber",
@@ -80,7 +80,7 @@ class ProductFormType extends AbstractType
                 ]
             ])
             ->add('brand',ChoiceType::class,[
-                'label'=>false,
+                'label'=>"Shoe brand",
                 'choices'=>[
                     "Nike" => "Nike",
                     "Adidas" => "Adidas",
@@ -108,7 +108,7 @@ class ProductFormType extends AbstractType
                 ]
             ])
             ->add('type',ChoiceType::class,[
-                'label'=>false,
+                'label'=>"Shoe type",
                 'choices'=>[
                     'Trekking' => 'trekking',
                     'Running' => 'running',
@@ -124,7 +124,7 @@ class ProductFormType extends AbstractType
                 ]
             ])
             ->add('gender',ChoiceType::class,[
-                'label'=>false,
+                'label'=>'Gender',
                 'choices'=>[
                     "Unisex"=>"unisex",
                     "Male"=>"male",
@@ -132,11 +132,11 @@ class ProductFormType extends AbstractType
                 ]
             ])
             ->add('forKids',CheckboxType::class, [
-                'label' => false,
+                'label' => "Kids shoe",
                 'required' => false,     // The checkbox is not required
             ])
             ->add('price',MoneyType::class,[
-                'label'=>false,
+                'label'=>"Price",
                 'constraints' => [
                     new Range([
                         'min' => 0.2, // Minimum value
@@ -154,7 +154,7 @@ class ProductFormType extends AbstractType
             ],
             )
             ->add('description',TextareaType::class,[
-                'label'=>false,
+                'label'=>'description',
                 
                 'attr'=>[
                     'placeholder'=>".",
@@ -163,6 +163,7 @@ class ProductFormType extends AbstractType
                 
             ])
             ->add('quantity',IntegerType::class,[
+                'label'=>'Quantity',
                 'mapped'=>false,
             ]);
             if(! $mainImg){
