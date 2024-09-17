@@ -18,8 +18,9 @@
  });
 
 deleteButtons1.forEach(button=>{
-    button.addEventListener('click',(e)=>{
-        
+
+    button.addEventListener('click',()=>{
+
         displayDeleteAlert(button.id,button.getAttribute("name"))
     } )
 })

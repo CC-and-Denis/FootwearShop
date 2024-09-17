@@ -1,9 +1,8 @@
 import './styles/frame.css';
 
 import './js/frame.ts';
-import './js/user.ts'
+import './js/user.ts';
 import './js/product_cards_loaders.ts'
-
 
 import { createApp } from 'vue'
 

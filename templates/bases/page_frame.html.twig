@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block stylesheets %}
-{{parent()}}
-{{ encore_entry_link_tags('frame') }}
+    {{parent()}}
+    {{ encore_entry_link_tags('frame') }}
 {% endblock %}
 
 {% block javascripts %}
-{{parent()}}
-{{ encore_entry_script_tags('frame') }}
+    {{parent()}}
+    {{ encore_entry_script_tags('frame') }}
 {% endblock %}
 
 {% block body %}
@@ -22,46 +22,45 @@
 
     {% endblock %}
     </div>
-    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100"> 
+    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100">
             <input id="filterMenuCheckbox" class="hidden" type="checkbox">
             <label for="filterMenuCheckbox">
                 <img class="small-img" src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}">
             </label>
-        <input type="text" class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid">
-        <div>
-            <img class="small-img" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
+            <input id = "researchText" type="text" class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid">
+            <div id="errorMessage" style="color: red; display: none;">Please fill in the text input.</div>
+            <div>
+                <img id = "magnifying-glass" class="small-img" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
+            </div>
         </div>
-    </div>
-    <div id="filterMenu" class="row opacity-0 bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
-        <div class="column">
-            Gender
-            
+        <div id="filterMenu" class="row opacity-0 bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
+            <div class="column">
+                Gender
+
                 <label>
                     <input type="checkbox" id="maleCheckbox">Male
                 </label>
-           
-            
-            <label>
-                <input type="checkbox" id="femaleCheckbox">Female
-            </label>
-            <label>
-                <input type="checkbox" id="unisexCheckbox">Unisex
-            </label>
-        </div>
+                <label>
+                    <input type="checkbox" id="femaleCheckbox">Female
+                </label>
+                <label>
+                    <input type="checkbox" id="unisexCheckbox">Unisex
+                </label>
+            </div>
 
-        <div class="column">
-            Age
-            <label>
-                <input type="checkbox" id="maleCheckbox">Kid
-            </label>
-            <label>
-                <input type="checkbox" id="femaleCheckbox">Adult
-            </label>
-        </div>
-        <div class="column">
+            <div class="column">
+                Age
+                <label>
+                    <input type="checkbox" id="kidCheckbox">Kid
+                </label>
+                <label>
+                    <input type="checkbox" id="adultCheckbox">Adult
+                </label>
+            </div>
+            <div class="column">
 
 
-        </div>
+            </div>
 
 
     </div>
@@ -89,20 +88,21 @@
             <a class="generic-img size-20 rounded-full bg-semi-transparent-1 mt-8" style="background-image: url({{ asset('build/images/user-regularB.df1377b9.png')}});" href=
             {% if app.user %}
                 "/user/{{app.user.userIdentifier}}"
-            {% else %}
-                "/login"
-            {% endif %}
-            >
-        </a>
+                {% else %}
+                    "/login"
+                {% endif %}
+                >
+                </a>
+            </div>
+
         </div>
 
-    </div>
-    <div class="w-full">
-        {% block content %}
-        {% endblock %}
-    </div>
+        <div class="w-full">
+            {% block content %}
+            {% endblock %}
+        </div>
 
 
-</div>
+    </div>
 
 {% endblock %}

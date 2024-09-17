@@ -21,12 +21,11 @@ class ProductRepository extends ServiceEntityRepository
         $query=$this->createQueryBuilder('product')
             //->addOrderBy('p.items_sold', 'DESC')
             ->orderBy('product.views', 'DESC');
-            
 
-        $productsAvaiable=(clone $query)->select('count(product.id)')
+
+        $productsAvaible=(clone $query)->select('count(product.id)')
             ->getQuery()
             ->getSingleScalarResult();
-        
 
         $productsToLoad=$query
             ->setFirstResult($position)
@@ -52,3 +51,5 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 }
+
+?>
