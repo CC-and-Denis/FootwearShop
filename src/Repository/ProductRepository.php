@@ -33,7 +33,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        $result=[$productsAvaiable-$position-$qta>0,$productsToLoad];
+        $result=[$productsAvaible-$position-$qta>0,$productsToLoad];
         return $result;
     }
     public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
