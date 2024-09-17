@@ -1,3 +1,5 @@
+const { scale } = require('svelte/transition');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -23,6 +25,12 @@ module.exports = {
       lato: ['lato', 'sans-serif'],
     },
     extend: {
+      keyframes:{
+      
+      },
+      animation: {
+       
+      },
       screens: {
         'sm': '450px',   // Small screens
         'md': '960px',   // Medium screens

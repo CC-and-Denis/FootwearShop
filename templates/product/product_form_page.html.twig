@@ -1,5 +1,8 @@
 {% extends 'bases/page_frame.html.twig' %}
 
+{% form_theme form "form/registration_form_theme.html.twig" %}
+
+
 {% block title %}
     Nike Air Force Limited edition
 {% endblock %}
@@ -20,9 +23,7 @@
 {% block style %}
 <style>
 
-::placeholder {
-    opacity: 0;
-}
+
 
 
 .mainImage{
@@ -83,36 +84,7 @@
     height: 50vh;
 }
 
-.errorContainer{
-    padding: 0.5vh 1vw;
-    background-color: rgba(255, 110, 0, 0.5);
-    backdrop-filter: blur(0px);
-    margin-top: 1vh;
-    font-size: small;
-    height: 3.5vh;
-    margin-top: 0;
-    text-decoration: none;
-    border-radius: 120px;
-    margin-left: 0.5vw
 
-}
-
-.errorContainer>ul{
-    list-style: none;
-}
-
-
-.container>.row>.column {
-    margin-left: 1vw;
-    height: 20vh;
-    font-size: large;
-}
-
-#product_form_price::-webkit-outer-spin-button,
-#product_form_price::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
 
 #product_form_price {
     -moz-appearance: textfield;
@@ -133,10 +105,6 @@ form input[type=checkbox]{
     margin-bottom: 2vh;
 }
 
-#product_form_mainImage,#product_form_otherImages {
-    position:absolute;
-    opacity: 0;
-}
 
 form label {
     cursor: text;
@@ -310,7 +278,7 @@ label[for=product_form_price] {
     </div>
     {% endif %}
     <div class="column size-full p-5">
-        <div class="slider container row centered">
+        <div class="slider container row centered w-full">
 
             <img id="goBack" class="small-img" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" >
             <div id="slideShowContainer2" class="row w-full h-fit" >
@@ -320,10 +288,11 @@ label[for=product_form_price] {
         </div>
         {{form_start(form)}}
         
-        <div class="row w-full">
+        <div class="row w-full flex-wrap">
             <div class="column container w-2/5 mr-20" >
                 <div class="row" style="margin-bottom: 2vh;">
                     {% if product is not defined %}
+                    <div class="w-44">
                         {{form_widget(form.mainImage)}}
                         <label for="product_form_mainImage" style="position: relative;">
                             <div id="mainImagePreview" style=" background-image: {{asset(field_value(form.mainImage))}}" ></div>
@@ -331,6 +300,7 @@ label[for=product_form_price] {
                                 Modify the main image diplayed
                             </div>
                         </label>
+                    </div>
                     {% else %}
                         <div class="mainImage" style="background-image: url({{asset( product.mainImage )}});"></div>
                     {% endif %}
@@ -365,7 +335,7 @@ label[for=product_form_price] {
                 </div>
             </div>
 
-            <div class="row container w-3/5">
+            <div class="row container lg:w-[55%] w-full">
                 <div class="column">
                     <div class="reverseColumn">
                         {{form_widget(form.color)}}

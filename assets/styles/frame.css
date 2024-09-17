@@ -1,4 +1,37 @@
 
+@keyframes appear{
+    from{
+        opacity: 0;scale: 0.5;
+    }
+    to{
+        opacity: 1;scale: 1;
+    }
+    
+}
+
+@keyframes disappear{
+    from{
+        opacity: 1;scale: 1;
+    }
+    to{
+        opacity: 0;scale: 0.5;
+    }
+    
+}
+
+.animation-appear {
+    animation: appear 1s linear forwards; /* Use 'forwards' to maintain final state */
+    animation-timeline: view();
+    animation-range: entry 0; /* Triggers when the element enters the viewport */
+}
+
+.animation-disappear {
+    animation: appear 1s linear reverse;
+    animation-timeline: view();
+    animation-range: exit 0; 
+}
+    
+    
     #sidebar>.column{
         margin-top: 4vh;
         padding: 2.5vh 1.5vh;

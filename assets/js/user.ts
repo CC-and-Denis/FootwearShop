@@ -12,14 +12,14 @@
 
  buttons.forEach(button => {
      button.addEventListener('click', function() {
-        let url = "/product/" + button.id;
+        let url = "/product/" + button.parentElement.id;
         window.location.replace(url);
      });
  });
 
 deleteButtons1.forEach(button=>{
-    button.addEventListener('click',()=>{
-        event.stopPropagation()
+    button.addEventListener('click',(e)=>{
+        
         displayDeleteAlert(button.id,button.getAttribute("name"))
     } )
 })
@@ -29,8 +29,10 @@ deleteButtons1.forEach(button=>{
     let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
     chekboxElement.checked= ! chekboxElement.checked
     id = null
-    document.getElementById("itemToBeDeleted").innerText=model
-    document.getElementById("searchBarContainer").style.display="none"
+    document.getElementById("itemToBeDeleted").innerText=model;
+    document.getElementById("searchBarContainer").style.display="none";
+    (document.getElementById("filterMenuCheckbox") as HTMLInputElement).checked =false;
+    document.getElementById("filterMenu").style.opacity="0"
     document.getElementById("alertsContainer").style.display="block"
     document.getElementById("buttonDelete2").setAttribute("name",productId)
     clearInterval(id)

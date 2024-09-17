@@ -1,9 +1,9 @@
 const errors = document.getElementById("errorsBox") as HTMLDivElement
+const closeErrorsBtn = document.getElementById("closeErrorsBtn")
 
+if(errors && closeErrorsBtn){
 
-if(errors){
-
-    document.getElementById("closeErrorsBtn").addEventListener("click",()=>{
+    closeErrorsBtn.addEventListener("click",()=>{
         let position=0;
         let id = null
         clearInterval(id)
