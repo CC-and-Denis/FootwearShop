@@ -111,6 +111,7 @@ class ApiController extends AbstractController {
             ];
         }, $items);
 
+        dump($hasMore);
         return new JsonResponse([
             'hasMore' => $hasMore,
             'products' => $productData,
@@ -171,7 +172,7 @@ class ApiController extends AbstractController {
 
         $totalRecords = $this -> getTotalPossibleFypProducts($typesPicked, $brandsPicked, $colorsPicked) - $startingIndex;
 
-        //dump('totalRemainingRecords', $totalRecords);
+        dump('totalRemainingRecords', $totalRecords);
 
         //$this->entityManager->getConnection()->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         // Step 4: Use loops based on the divisions found
@@ -226,12 +227,14 @@ class ApiController extends AbstractController {
                                         if ($productCount == 0) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            return [$totalRecords>$productCount, $results];
+                                            dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                            return [$totalRecords>$counter, $results];
                                         }
                                         if ($counter == $totalRecords) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            return [$totalRecords>$productCount, $results];
+                                            dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                            return [$totalRecords>$counter, $results];
                                         }
                                     }
                                 } //color loop

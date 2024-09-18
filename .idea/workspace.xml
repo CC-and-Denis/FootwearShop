@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="Merging">
-      <change afterPath="$PROJECT_DIR$/assets/vue/tipregovuefunziona.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/frame.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/frame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/frame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/frame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/research.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/research.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/frame.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/frame.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/main_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/main_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bases/page_frame.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bases/page_frame.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +231,7 @@
       <workItem from="1726556668170" duration="100000" />
       <workItem from="1726557001913" duration="11384000" />
       <workItem from="1726573717756" duration="13394000" />
-      <workItem from="1726642366539" duration="7491000" />
+      <workItem from="1726642366539" duration="10528000" />
     </task>
     <task id="LOCAL-00001" summary="merging">
       <option name="closed" value="true" />
