@@ -24,9 +24,8 @@
 
 #filterMenu>.column>label{
     font-size: medium;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
 }
 
 #filterMenu>.column>label>input{
@@ -108,4 +107,9 @@ input[type="checkbox"]{
 #rating img{
     max-height: 3vh;
     margin-right: 0.2rem;
+}
+
+.custom-select>label{
+    border-bottom: 1px solid black;
+
 }

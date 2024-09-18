@@ -7,6 +7,53 @@
 {% block stylesheets %}
     {{parent()}}
     {{ encore_entry_link_tags('frame') }}
+    <style>
+        .genre-selection-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .select-genres-button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .genres-dropdown {
+            display: none; /* Hidden by default */
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            border: 1px solid #ddd;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .genres-list {
+            padding: 10px;
+        }
+
+        .genres-list label {
+            display: block;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        .submit-genres-button {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+    </style>
 {% endblock %}
 
 {% block javascripts %}
@@ -22,48 +69,9 @@
 
     {% endblock %}
     </div>
-    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100">
-            <input id="filterMenuCheckbox" class="hidden" type="checkbox">
-            <label for="filterMenuCheckbox">
-                <img class="small-img" src="{{ asset('/build/images/filter-solid.8f86f99e.png')}}">
-            </label>
-            <input id = "researchText" type="text" class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid">
-            <div id="errorMessage" style="color: red; display: none;">Please fill in the text input.</div>
-            <div>
-                <img id = "magnifying-glass" class="small-img" src="{{ asset('/build/images/magnifying-glass-solid.2b32bcc1.png')}}">
-            </div>
-        </div>
-        <div id="filterMenu" class="row opacity-0 bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
-            <div class="column">
-                Gender
-
-                <label>
-                    <input type="checkbox" id="maleCheckbox">Male
-                </label>
-                <label>
-                    <input type="checkbox" id="femaleCheckbox">Female
-                </label>
-                <label>
-                    <input type="checkbox" id="unisexCheckbox">Unisex
-                </label>
-            </div>
-
-            <div class="column">
-                Age
-                <label>
-                    <input type="checkbox" id="kidCheckbox">Kid
-                </label>
-                <label>
-                    <input type="checkbox" id="adultCheckbox">Adult
-                </label>
-            </div>
-            <div class="column">
+    <div id="filterOptions"></div>
 
 
-            </div>
-
-
-    </div>
 </div>
 <div class="row background size-full overflow-auto " >
     <div id="show-navigation" class="absolute top-1/2 left-0 bg-white bg-opacity-70 py-10 pr-5 pl-2 z-20 hidden">

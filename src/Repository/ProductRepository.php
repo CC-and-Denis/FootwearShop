@@ -36,10 +36,54 @@ class ProductRepository extends ServiceEntityRepository
 
         return [$productsAvaible-$position-$qta>0,$productsToLoad];
     }
+
+    public function findResearchedProduct(String $research, array $gender, array $age, array $types, array $brands, array $colors, int $qta, int $offset)
+    {
+        $query = $this->createQueryBuilder('p');
+
+        $filters = [
+            'gender' => $gender,
+            'forKids' => $age,
+            'type' => $types,
+            'brand' => $brands,
+            'color' => $colors
+        ];
+
+        $query
+            ->where('p.model LIKE :research OR p.description LIKE :research')
+            ->setParameter('research', '%' . $research . '%')
+            ->orderBy('CASE 
+                            WHEN p.model LIKE :research THEN 1
+                            WHEN p.description LIKE :research THEN 2
+                            ELSE 3
+                        END', 'ASC');
+// Iterate through the filters and apply them dynamically
+        foreach ($filters as $field => $values) {
+            if (!empty($values)) {
+                $query
+                    ->andWhere("p.$field IN (:$field)")
+                    ->setParameter($field, $values);
+            }
+        }
+
+
+        $productsAvaible=(clone $query)->select('count(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $query = $query
+            ->setMaxResults($qta)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+
+        return [$productsAvaible-$offset-$qta>0,$query];
+    }
+
     public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
     {
         return $this -> createQueryBuilder('p')
-            ->where('p.type = :type')
+            ->where('p.type = :(type)')
             ->andWhere('p.brand = :brand')
             ->andWhere('p.color = :color')
             ->setParameter('type', $type)
