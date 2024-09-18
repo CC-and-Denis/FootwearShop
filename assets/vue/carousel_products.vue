@@ -110,7 +110,7 @@ export default {
     }
   },
   mounted() {
-    this.loadMore(0); // Initial load
+    this.loadMore(0); 
   }
 };
 </script>

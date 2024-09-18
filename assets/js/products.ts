@@ -1,3 +1,6 @@
+import { displayPayment } from './animations';
+
+
 const colorSelection = document.getElementById("product_form_color") as HTMLSelectElement;
 const mainImage = document.getElementById("product_form_mainImage") as HTMLInputElement;
 const mainImagePreview = document.getElementById("mainImagePreview") as HTMLDivElement;
@@ -94,8 +97,7 @@ if( otherImagesInput && otherImagesPreview ){
         }
         
         counter = 0;
-        document.getElementById("goForward").style.opacity="0.5"
-        document.getElementById("goBack").style.opacity="0.5"
+       
         otherImagesPreview.replaceChildren();
 
         if(cleanFileList.files.length>3){
@@ -110,20 +112,6 @@ if( otherImagesInput && otherImagesPreview ){
         
         
     })
-}else if(otherImagesHidden && otherImagesPreview){
-    document.getElementById("goBack").addEventListener('click',()=>{
-        scrollOtherImagesHidden(-1)
-    })
-    document.getElementById("goForward").addEventListener('click',()=>{
-        scrollOtherImagesHidden(1)
-    })
-
-
-    for(let i = 0;i< 3 && i<otherImagesHidden.children.length;i++){
-        otherImagesPreview.appendChild(otherImagesHidden.children[i].cloneNode())
-    }
-
-    document.getElementById("goBack").style.opacity="0.5";
 }
 
 if(quantity){
@@ -180,160 +168,23 @@ function scrollOtherImages(direction){
         if(! counter){
             document.getElementById("goBack").style.opacity="0.5"
         }
-        
     }
-
 }
 
-function scrollOtherImagesHidden(direction){
-    if(direction>0){
-        if(counter==(otherImagesHidden.children.length - 3)){
-            return;
+if(document.getElementById("buyButton1") && document.getElementById("alertsContainer") as HTMLDivElement){
+
+        if(document.getElementById("errorsBox")){
+            displayPayment()
         }
-        otherImagesPreview.removeChild(otherImagesPreview.firstChild)
-        counter++
-        let e = otherImagesHidden.children[counter+2].cloneNode()
-        otherImagesPreview.appendChild(e)
-        document.getElementById("goBack").style.opacity="1"
-        if(counter==otherImagesHidden.children.length - 3){
-            document.getElementById("goForward").style.opacity="0.5"
-        }
-        
-    }
-    else{
-        if(! counter){
-            return;
-        }
-        otherImagesPreview.removeChild(otherImagesPreview.lastChild)
-        counter--
-        let e =otherImagesHidden.children[counter].cloneNode()
-        otherImagesPreview.insertBefore(e,otherImagesPreview.firstChild)
-        document.getElementById("goForward").style.opacity="1"
-        if(! counter){
-            document.getElementById("goBack").style.opacity="0.5"
-        }
-        
-    }
-
-}
-
-const preview = document.getElementById("otherImagesPreview") as HTMLDivElement;
-const list = document.getElementById("otherImagesList") as HTMLDivElement;
-var counter = 0;
-const searchbar = document.getElementById("searchBarContainer") as HTMLDivElement
-const paymentFormContainer = document.getElementById("alertsContainer") as HTMLDivElement
-var element=null;
-var step = 1;
-var end = 10;
-var opacity = 0;
-var id = null
-
-if (preview && list) {
-    const goBackButton = document.getElementById("goBack");
-    const goForwardButton = document.getElementById("goForward");
-
-    if (goBackButton) {
-        goBackButton.addEventListener('click', () => {
-            scrollOtherImagesInProductPage(-1);
-        });
-        goBackButton.style.opacity = "0.5";
-    }
-
-    if (goForwardButton) {
-        goForwardButton.addEventListener('click', () => {
-            scrollOtherImagesInProductPage(1);
-        });
-
-        // Initialize preview with the first 3 images
-        updatePreview();
-        updateButtonOpacity();
-    }
-
-    function updatePreview() {
-        preview.innerHTML = '';
-        for (let i = counter; i < counter + 3 && i < list.children.length; i++) {
-            let e = list.children[i].cloneNode(true);
-            preview.appendChild(e);
-        }
-    }
-
-    function updateButtonOpacity() {
-        if (counter === 0) {
-            if (goBackButton) goBackButton.style.opacity = "0.5";
-        } else {
-            if (goBackButton) goBackButton.style.opacity = "1";
-        }
-
-        if (counter >= list.children.length - 3) {
-            if (goForwardButton) goForwardButton.style.opacity = "0.5";
-        } else {
-            if (goForwardButton) goForwardButton.style.opacity = "1";
-        }
-    }
-
-    function scrollOtherImagesInProductPage(direction: number) {
-        if (direction > 0) {
-            if (counter >= list.children.length - 3) {
-                return;
-            }
-            counter++;
-        } else {
-            if (counter <= 0) {
-                return;
-            }
-            counter--;
-        }
-
-        updatePreview();
-        updateButtonOpacity();
-    }
-
-}
-
-if(paymentFormContainer){
-    if(document.getElementById("errorsBox")){
-        displayPayment()
-    }
-
-    document.getElementById("buyButton1").addEventListener("click",()=>{
-        displayPayment()
-    })
-
+    
+        document.getElementById("buyButton1").addEventListener("click",()=>{
+            displayPayment()
+        })
 
 }
 
 
-function displayPayment(){
-    element = document.getElementById("searchContainer")
-    let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
-    chekboxElement.checked= ! chekboxElement.checked
-    paymentFormContainer.style.display="block"
-    searchbar.style.display="none"
-    id = null
-    clearInterval(id)
-    id=setInterval(frame,10)
-    if(chekboxElement.checked){
-        step = 1
-        end = 10
-        opacity = 0
-        element.style.display="flex"
-    }else{
-        step = -1
-        end = 0
-        opacity = 10
-    }
-   
-    function frame() {
 
-        if (opacity==end) {
-          clearInterval(id);
-          if(! chekboxElement.checked){
-         element.style.display="none"
-            }
-        } else {
-          opacity+=step
-          element.style.opacity=opacity/10
-        }
-    }
-}
+
+
 

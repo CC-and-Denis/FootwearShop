@@ -1,11 +1,11 @@
-var element=null;
 var step = 1;
 var end = 10;
 var opacity = 0;
 var id = null
 var stop=false
 
-const sidebar = document.getElementById("sidebar") as HTMLDivElement;
+const searchbar = document.getElementById("searchBarContainer") as HTMLDivElement
+const searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
 
 export function displayFilters(){
     element = document.getElementById("filterMenu")
@@ -35,8 +35,6 @@ export function displayFilters(){
 
 export function displayOverlay(optionalElements=document.getElementById("searchBarContainer")){
     let overlay = document.getElementById("overlay") as HTMLDivElement;
-        
-    let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
 
     // for some reason the listener fuck everything up if the clicked element is a label for an input so we needs to do this
     searchCheckbox.checked = !searchCheckbox.checked
@@ -111,4 +109,38 @@ export function displayMenu(){
     }
     
     
+}
+
+
+export function displayPayment(){
+  let paymentFormContainer = document.getElementById("alertsContainer") as HTMLDivElement
+  searchCheckbox.checked= ! searchCheckbox.checked
+  paymentFormContainer.style.display="block"
+  searchbar.style.display="none"
+  id = null
+  clearInterval(id)
+  id=setInterval(frame,10)
+  if(searchCheckbox.checked){
+      step = 1
+      end = 10
+      opacity = 0
+      element.style.display="flex"
+  }else{
+      step = -1
+      end = 0
+      opacity = 10
+  }
+ 
+  function frame() {
+
+      if (opacity==end) {
+        clearInterval(id);
+        if(! searchCheckbox.checked){
+        searchbar.style.display="none"
+          }
+      } else {
+        opacity+=step
+        searchbar.style.opacity=(opacity/10).toString()
+      }
+  }
 }

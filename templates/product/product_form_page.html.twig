@@ -30,7 +30,7 @@
     </div>
     {% endif %}
     <div class="column size-full lg:p-5 p-2 h-fit">
-        <div id="slideshow-container" class="slider std-container row centered w-full h-[43vh] mb-5">
+        <div id="carouselPreviews" class="slider std-container row centered w-full h-[43vh] mb-5">
 
         </div>
         {{form_start(form)}}
@@ -140,8 +140,8 @@
     <div style="display: none;">
         <div id="hiddenOtherImages">
             {% for img in product.otherImages %}
-            <div class="previewImages" style="background-image: url({{img}});">
-
+            <div>
+                {{img}}
             </div>
             {% endfor %}
         </div>

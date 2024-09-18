@@ -44,7 +44,6 @@ textarea{
     @apply focus:outline-none bg-transparent
 }
 
-
 a{
     @apply text-black no-underline
 }
@@ -74,7 +73,7 @@ a{
 }
 
 .std-container{
-    @apply bg-semi-transparent-2 backdrop-blur-xl rounded-3xl w-fit py-5 px-10
+    @apply bg-semi-transparent-2 backdrop-blur-xl  rounded-3xl w-fit py-5 px-10
 }
 
 .aButton{
@@ -85,8 +84,6 @@ a{
     @apply size-[5vh]
 }
 
-
-
 label{
     @apply hover:cursor-pointer
 }
@@ -94,7 +91,6 @@ label{
 .underline-grey{
     border-bottom: 2px solid #CFCFCF;
 }
-
 
 #errorsBox{
     @apply bg-red bg-opacity-70 text-white border-l-8 border-l-red fixed right-0 top-[20%] text-xl px-10 pb-3 z-10

@@ -6,11 +6,8 @@
     }
     to{
         opacity: 1;scale: 1;
-    }
-    
+    }   
 }
-
-
 
 .animation-appear {
     animation: appear 1s linear forwards; /* Use 'forwards' to maintain final state */
@@ -24,14 +21,12 @@
     animation-range: exit 0; 
 }
     
-    
-    #sidebar>.column{
-        margin-top: 4vh;
-        padding: 2.5vh 1.5vh;
-        padding-bottom: 0vh;
-        height: 100vh;
-    }
-
+#sidebar>.column{
+    margin-top: 4vh;
+    padding: 2.5vh 1.5vh;
+    padding-bottom: 0vh;
+    height: 100vh;
+}
 
 #sidebar a{
     margin-bottom: 2vh;
