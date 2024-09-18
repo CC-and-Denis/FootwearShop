@@ -56,8 +56,9 @@ class ApiController extends AbstractController {
             $types = $data['types'] ?? [];        // Selected types
             $brands = $data['brands'] ?? [];      // Selected brands
             $colors = $data['colors'] ?? [];      // Selected colors
+            $sizes = $data['sizes'] ?? [];      // Selected colors
         }
-        [$hasMore, $products] = $productRepository -> findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $qta, $position);
+        [$hasMore, $products] = $productRepository -> findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $sizes, $qta, $position);
 
         $productData = array_map(function ($product) {
             return [

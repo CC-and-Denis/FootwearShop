@@ -10,7 +10,7 @@ import { createApp } from 'vue';
 import carousel_products from './vue/carousel_products.vue';
 
 // Import the new filter component
-import filter_options from './vue/tipregovuefunziona.vue'; // <-- New component import
+import filter_options from './vue/research.vue'; // <-- New component import
 
 // Mount carousel for popular products
 const carousel_populars = createApp(carousel_products, { apiUrl: '/api/getProductByPopular' });

@@ -63,6 +63,9 @@ class Product
     #[ORM\Column(type: Types::ARRAY)]
     private array $otherImages = [];
 
+    #[ORM\Column]
+    private ?int $size = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -275,6 +278,18 @@ class Product
             $this->otherImages[] = $image; // Adds the image path as a string
         }
         
+        return $this;
+    }
+
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function setSize(int $size): static
+    {
+        $this->size = $size;
+
         return $this;
     }
 }

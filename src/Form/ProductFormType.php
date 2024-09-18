@@ -131,6 +131,10 @@ class ProductFormType extends AbstractType
                     "Female"=>"female",
                 ]
             ])
+            ->add('size',ChoiceType::class,[
+                'label'=>false,
+                'choices' => array_combine(range(20, 56), range(20, 56)),
+            ])
             ->add('forKids',CheckboxType::class, [
                 'label' => false,
                 'required' => false,     // The checkbox is not required

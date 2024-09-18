@@ -12,12 +12,15 @@ export default {
       hiddenTypes: true,            // Visibility of types, brands, and colors
       hiddenBrands: true,
       hiddenColors: true,
+      hiddenSizes: true,
       types: ['Trekking', 'Running', 'Hiking', 'Sandals', 'Heels', 'Boots', 'Ankle Boots', 'Sneakers', 'Formal', 'Flip Flops', 'Others'], // List of types
       brands: ['Nike', 'Adidas', 'Puma', 'Asics', 'Converse', 'New Balance', 'Scarpa', 'La Sportiva', 'Hoka', 'Salomon'],                 // List of brands
       colors: ['White', 'Yellow', 'Orange', 'Red', 'Green', 'Blue', 'Violet', 'Pink', 'Cyan', 'Gray', 'Black'],                         // List of colors
+      sizes: Array.from({ length: 37 }, (_, i) => i+20), //from 20 to 56
       selectedTypes: [],            // Selected types
       selectedBrands: [],
-      selectedColors: []
+      selectedColors: [],
+      selectedSizes: [],
     };
   },
   methods: {
@@ -32,6 +35,7 @@ export default {
         console.log('Selected Types:', this.selectedTypes);
         console.log('Selected Brands:', this.selectedBrands);
         console.log('Selected Colors:', this.selectedColors);
+        console.log('Selected Sizes:', this.selectedSizes);
         console.log('Male:', this.isMaleChecked);
         console.log('Female:', this.isFemaleChecked);
         console.log('Unisex:', this.isUnisexChecked);
@@ -45,6 +49,7 @@ export default {
           types: this.selectedTypes,
           brands: this.selectedBrands,
           colors: this.selectedColors,
+          sizes: this.selectedSizes,
         };
 
         try {
@@ -87,6 +92,10 @@ export default {
       this.hiddenColors = !this.hiddenColors;
     },
 
+    toggleSizes() {
+      this.hiddenSizes = !this.hiddenSizes;
+    },
+
     // Handle selecting a type
     selectType(type) {
       this.toggleSelection(this.selectedTypes, type);
@@ -100,6 +109,10 @@ export default {
     // Handle selecting a color
     selectColor(color) {
       this.toggleSelection(this.selectedColors, color);
+    },
+
+    selectSize(size) {
+      this.toggleSelection(this.selectedSizes, size);
     },
 
     // Generic function to toggle selection of types, brands, and colors
@@ -190,7 +203,7 @@ export default {
 
       <!-- Dynamic Type, Brand, and Color Filters -->
       <div class="column">
-        <p>Types</p>
+        <div class="11vh"></div>
         <button @click="toggleTypes">Types ▼</button>
         <div v-show="!hiddenTypes" class="filter-choices">
           <label v-for="type in types" :key="type" class="type_label" :data-genre="type" @click="selectType(type)">
@@ -200,7 +213,7 @@ export default {
       </div>
 
       <div class="column">
-        <p>Brands</p>
+        <div class="11vh"></div>
         <button @click="toggleBrands">Brands ▼</button>
         <div v-show="!hiddenBrands" class="filter-choices">
           <label v-for="brand in brands" :key="brand" class="brand_label" :data-genre="brand" @click="selectBrand(brand)">
@@ -210,7 +223,7 @@ export default {
       </div>
 
       <div class="column">
-        <p>Colors</p>
+        <div class="11vh"></div>
         <button @click="toggleColors">Colors ▼</button>
         <div v-show="!hiddenColors" class="filter-choices">
           <label v-for="color in colors" :key="color" class="color_label" :data-genre="color" @click="selectColor(color)">
@@ -218,6 +231,17 @@ export default {
           </label>
         </div>
       </div>
+
+      <div class="column">
+        <div class="11vh"></div>
+        <button @click="toggleSizes">Sizes ▼</button>
+        <div v-show="!hiddenSizes" class="filter-choices">
+          <label v-for="size in sizes" :key="size" class="size_label" :data-genre="size" @click="selectSize(size)">
+            {{ size }}
+          </label>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>

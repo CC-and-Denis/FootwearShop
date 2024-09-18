@@ -37,7 +37,7 @@ class ProductRepository extends ServiceEntityRepository
         return [$productsAvaible-$position-$qta>0,$productsToLoad];
     }
 
-    public function findResearchedProduct(String $research, array $gender, array $age, array $types, array $brands, array $colors, int $qta, int $offset)
+    public function findResearchedProduct(String $research, array $gender, array $age, array $types, array $brands, array $colors, array $sizes, int $qta, int $offset)
     {
         $query = $this->createQueryBuilder('p');
 
@@ -46,7 +46,8 @@ class ProductRepository extends ServiceEntityRepository
             'forKids' => $age,
             'type' => $types,
             'brand' => $brands,
-            'color' => $colors
+            'color' => $colors,
+            'size' => $sizes,
         ];
 
         $query
