@@ -119,6 +119,7 @@ label{
     @apply grid overflow-y-hidden h-[33vh] lg:grid-cols-4 grid-cols-1
 }
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -46,9 +46,8 @@
 
 #filterMenu>.column>label{
     font-size: medium;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
 }
 
 #filterMenu>.column>label>input{
@@ -132,8 +131,12 @@ input[type="checkbox"]{
     margin-right: 0.2rem;
 }
 
+
 /* product form */
 #mainImagePreview:hover>div{
     opacity: 1;
+}
 
+.custom-select>label{
+    border-bottom: 1px solid black;
 }

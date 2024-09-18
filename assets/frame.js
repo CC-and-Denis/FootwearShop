@@ -4,12 +4,22 @@ import './js/frame.ts';
 import './js/user.ts';
 import './js/product_cards_loaders.ts'
 
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
-import carousel_products from './vue/carousel_products.vue'
+// Import the existing carousel component
+import carousel_products from './vue/carousel_products.vue';
 
-const carousel_populars = createApp(carousel_products,{apiUrl:'/api/getProductByPopular'})
-carousel_populars.mount('#carouselPopular')
+// Import the new filter component
+import filter_options from './vue/research.vue'; // <-- New component import
 
-const carousel_Fy = createApp(carousel_products,{apiUrl: '/api/fyp-function'})
-carousel_Fy.mount('#carouselFy')
+// Mount carousel for popular products
+const carousel_populars = createApp(carousel_products, { apiUrl: '/api/getProductByPopular' });
+carousel_populars.mount('#carouselPopular');
+
+// Mount carousel for FY products
+const carousel_Fy = createApp(carousel_products, { apiUrl: '/api/fyp-function' });
+carousel_Fy.mount('#carouselFy');
+
+// Mount the filter options component
+const filterApp = createApp(filter_options);
+filterApp.mount('#filterOptions'); // <-- Mount the filter component

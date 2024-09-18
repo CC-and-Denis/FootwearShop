@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="merging">
+    <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="Merging">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/frame.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/frame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/frame.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/frame.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/productPage.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/frame.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/frame.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/main_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/main_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/vue/carousel_products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/carousel_products.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/vue/tipregovuefunziona.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/research.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20240902133600.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ProductFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ProductFormType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +23,14 @@
   <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="Vue Composition API Component" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -179,24 +183,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "denis",
-    "last_opened_file_path": "/home/one-am/Scrivania/FootwearShop/migrations",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/home/one-am/Scrivania/FootwearShop/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.research.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;denis&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/one-am/Scrivania/FootwearShop/migrations&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/one-am/Scrivania/FootwearShop/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
+    ],
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/migrations" />
@@ -225,6 +233,13 @@
       <workItem from="1726232013623" duration="7686000" />
       <workItem from="1726468993337" duration="13074000" />
       <workItem from="1726487332584" duration="13916000" />
+      <workItem from="1726555500051" duration="832000" />
+      <workItem from="1726556353154" duration="216000" />
+      <workItem from="1726556668170" duration="100000" />
+      <workItem from="1726557001913" duration="11384000" />
+      <workItem from="1726573717756" duration="13394000" />
+      <workItem from="1726642366539" duration="12659000" />
+      <workItem from="1726660561051" duration="1161000" />
     </task>
     <task id="LOCAL-00001" summary="merging">
       <option name="closed" value="true" />
@@ -262,6 +277,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="merging" />
-    <option name="LAST_COMMIT_MESSAGE" value="merging" />
+    <MESSAGE value="Merging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merging" />
   </component>
 </project>

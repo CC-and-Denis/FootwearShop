@@ -44,19 +44,46 @@ class ApiController extends AbstractController {
         ]);
     }
 
-    #[Route('/api/getProductByResearch', name:'get_product_by_research')]
-    public function getProductByResearch(int $qta, int $position, array $data, ProductRepository $productRepository) :Response{
-        $products = $productRepository -> findResearchedProduct();
-        $hasMore = count($products) == $qta;
+    #[Route('/api/getProductByResearch/{qta}-{position}', name:'get_product_by_research')]
+    public function getProductByResearch(Request $request, int $qta, int $position, ProductRepository $productRepository) :JsonResponse{
 
-        return $this->render('product/product_card_component.html.twig',[
-            "products"=>$products,
+        $data = json_decode($request->getContent(), true);
+
+        if ($data) {
+            $research = $data['research'] ?? '';  // Search query
+            $gender = $data['gender'] ?? [];      // Selected genders
+            $age = $data['age'] ?? [];            // Selected ages
+            $types = $data['types'] ?? [];        // Selected types
+            $brands = $data['brands'] ?? [];      // Selected brands
+            $colors = $data['colors'] ?? [];      // Selected colors
+            $sizes = $data['sizes'] ?? [];      // Selected colors
+        }
+        [$hasMore, $products] = $productRepository -> findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $sizes, $qta, $position);
+
+        $productData = array_map(function ($product) {
+            return [
+                'id' => $product->getId(),
+                'model' => $product->getModel(),
+                'image' => $product->getMainImage(),
+                'price' => $product->getPrice(),
+                'description' => $product->getDescription(),
+                'seller'=>[
+                    'username'=>$product->getSellerUsername()->getUsername(),
+                ]
+            ];
+        }, $products);
+
+        dump($data);
+        dump($products);
+
+        return new JsonResponse([
             'hasMore' => $hasMore,
-        ]);
+            'products' => $productData,
+        ], 200);
     }
 
     #[Route('/api/fyp-function/{qta}-{position}',)]
-    public function fyp_function($qta, $position, ProductRepository $productRepository, Request $request): Response 
+    public function fyp_function($qta, $position, Request $request): Response
     { 
         $typeCookie = json_decode($request->cookies->get('type'), true);
         $brandCookie = json_decode($request->cookies->get('brand'), true);
@@ -71,8 +98,7 @@ class ApiController extends AbstractController {
         }
     
         // Calculate items based on the provided conditions
-        [$hasMore, $items] = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta, $productRepository);
-
+        [$hasMore, $items] = $this -> calculateItems($typeCookie, $brandCookie, $colorCookie, $position, $qta);
         $productData = array_map(function ($product) {
             return [
                 'id' => $product->getId(),
@@ -86,6 +112,7 @@ class ApiController extends AbstractController {
             ];
         }, $items);
 
+        dump($hasMore);
         return new JsonResponse([
             'hasMore' => $hasMore,
             'products' => $productData,
@@ -121,7 +148,7 @@ class ApiController extends AbstractController {
 
 
     // Function to calculate and simulate the for loops described
-    private function calculateItems($types, $brands, $colors, $startingIndex, $productCount, $productRepository): array {
+    private function calculateItems($types, $brands, $colors, $startingIndex, $productCount): array {
 
         $typeSelected = $this->calculatePriority(array_keys($types), array_values($types));
         $typesPicked = $typeSelected[0];
@@ -146,7 +173,7 @@ class ApiController extends AbstractController {
 
         $totalRecords = $this -> getTotalPossibleFypProducts($typesPicked, $brandsPicked, $colorsPicked) - $startingIndex;
 
-        //dump('totalRemainingRecords', $totalRecords);
+        dump('totalRemainingRecords', $totalRecords);
 
         //$this->entityManager->getConnection()->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         // Step 4: Use loops based on the divisions found
@@ -201,12 +228,14 @@ class ApiController extends AbstractController {
                                         if ($productCount == 0) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            return [$totalRecords>$productCount, $results];
+                                            dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                            return [$totalRecords>$counter, $results];
                                         }
                                         if ($counter == $totalRecords) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            return [$totalRecords>$productCount, $results];
+                                            dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                            return [$totalRecords>$counter, $results];
                                         }
                                     }
                                 } //color loop

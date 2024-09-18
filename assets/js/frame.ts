@@ -51,7 +51,8 @@ buttonsForSearch.forEach( (button) => {
 window.addEventListener('resize', checkScreenWidth);
 
 // Initial check on page load
-document.getElementById("filterMenuCheckbox").addEventListener('change',()=>{
+if(document.getElementById("filterMenuCheckbox")){
+    document.getElementById("filterMenuCheckbox").addEventListener('change',()=>{
     displayFilters()
-});
+});}
 
