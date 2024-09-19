@@ -13,98 +13,6 @@
 
 {% block style %}
 <style>
-    .mainImage{
-        width: 20vh;
-        height: 20vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        border-radius: 12px ;
-    }
-
-    .slideShowContainer{
-        height: 40vh;
-        margin-top: 0vh;
-        margin-bottom: 1.5vh;
-        width: 90vw;
-        background-color: rgba(255,255,255,0.2);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-
-    }
-
-    .slideShowContainer>img{
-        height: 5vh;
-        width: 5vh;
-    }
-
-    .slideShowContainer2>:last-child{
-        margin-right: 0vw;
-    }
-
-    .slideShowContainer2{
-        width: 80vw;
-        margin-left: 1vw;
-        margin-right: 1vw;
-
-    }
-    .previewImages{
-        background-color: rgba(255,255,255,0.5);
-        border-radius: 18px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size:contain;
-        height: 38vh;
-        width: 100vh;
-        margin-right: 2vw;
-    }
-
-    .container{
-        background-color: rgba(255,255,255,0.2);
-        backdrop-filter: blur(35px);
-        border-radius: 20px;
-        padding: 2vh;
-        height: 50vh;
-    }
-
-    .container>.row>.column{
-        margin-left: 1vw;
-        height: 20vh;
-        font-size: large;
-    }
-
-
-    #model{
-        font-size:1vw;
-        margin-bottom: 3vh;
-        margin-top: 3vh;
-        width: 18vw;
-        display: block;
-    }
-
-    .container>.row>.column>.row{
-        background-color: rgba(255,255,255,0.5);
-        width: fit-content;
-        padding: 0.5vh 1vh;
-        border-radius: 100px;
-    }
-
-    #description{
-        height: 23vh;
-        overflow-y: scroll;
-        padding-right: 1vh;
-        
-    }
-
-    #vendor{
-        text-decoration: underline;
-        margin-top: 2vh;
-    }
-
-    .aButton{
-        margin-top: 1vh;
-    }
-
     .column.container.center{
         width: 20vw;
         background-color: white;
@@ -206,50 +114,50 @@
 
 
 {% block content %}
-    <div class="column p-10">
+    <div class="column size-full lg:p-5 p-2 lg:h-[100vh] overflow-y-hidden h-fit">
             <div id="carouselPreviews" class="slider std-container row centered w-full h-[43vh] mb-5">
                 
             </div>
-        </div>
 
     
 
-        <div class="row">
-            <div class="column container" style="width: 40vw; margin-right: 2vw;" >
-                <div class="row" style="margin-bottom: 2vh;">
-                    <div class="mainImage" style="background-image: url({{asset( product.mainImage )}});"></div>
+        <div class="row  w-full flex-wrap lg:h-[50vh] h-fit lg:mt-0 gap-7">
+            <div class="column std-container lg:w-fit h-full w-full mx-auto" >
+                <div class="row flex-wrap">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-2xl lg:size-[20vh] size-[10vh] left-0 relative mr-5 mb-10" style="background-image: url({{asset( product.mainImage )}});"></div>
                     <div class="column">
-                        <div id="model">
+                        <div class="w-52 text-lg my-7">
                             {{product.model}}
                         </div>
-                        <div class="row">
-                            <div id="price">
-                                {{product.price}}
-                            </div>
+                        <div class="row priceContainer text-sm">
                             <div id="currency">
                                 €
                             </div>
+                            <div id="price">
+                                {{product.price}}
+                            </div>
                         </div>
                     </div> 
-                    <div class="column">
-                        <a class="aButton" id="buyButton1"> Buy now</a>
+                    <div class="column lg:w-fit w-full my-7">
+                        <a class="aButton w-full p-2" id="buyButton1"> Buy now</a>
                     </div>
                 </div>
 
-                <div class="column">
-                    <div id="description">
+                    <div class="column relative lg:mt-0 mt-10 h-full">
                         {{product.description}}
                     </div>
                     <a href="/user/{{product.sellerusername.username}}"id="vendor">
                         {{product.sellerusername.username}}
                     </a>
-                </div>
+                
             </div>
 
-            <div class="column container" style="width: 44vw;">
+            <div class="column std-container w-auto">
 
             </div>
         </div>
+    </div>
+
 
         <div id="hiddenOtherImages" class="hidden absolute">
             {% for img in product.otherImages%}

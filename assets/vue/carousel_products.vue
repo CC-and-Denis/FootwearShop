@@ -3,7 +3,7 @@
     <button @click="loadMore(-1)" :disabled="isLoading || counter === 0" :class="{ 'opacity-50': counter === 0 }">
         <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
-    <div ref="container" class="productCarouselInner m-2 gap-2">
+    <div ref="container" class="m-2 h-[30vh] overflow-y-hidden xl:grid-cols-3 grid-cols-1 grid">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
 
       :style="{ backgroundImage: `url(${product.image})` }">

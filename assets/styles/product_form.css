@@ -4,32 +4,6 @@
     font-size: 0px;
 }
 
-.previewImages {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 18px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 38vh;
-    width: 50vh;
-    margin-right: 2vw;
-}
-
-.errorContainer {
-    padding: 0.5vh 1vw;
-    background-color: rgba(255, 110, 0, 0.5);
-    backdrop-filter: blur(0px);
-    margin-top: 0;
-    font-size: small;
-    height: 3.5vh;
-    border-radius: 120px;
-    margin-left: 0.5vw;
-}
-
-.errorContainer > ul {
-    list-style: none;
-}
-
 .container > .row > .column {
     margin-left: 1vw;
     height: 20vh;
