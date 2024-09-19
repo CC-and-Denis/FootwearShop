@@ -29,26 +29,26 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div class="column size-full lg:p-5 p-2 h-fit">
-        <div id="carouselPreviews" class="slider std-container row centered w-full h-[43vh] mb-5">
+    <div class="column size-full lg:p-5 p-2 lg:h-[100vh] overflow-y-hidden h-fit">
+        <div id="carouselPreviews" class="slider std-container row centered w-full h-[43vh] mb-5 ">
 
         </div>
         {{form_start(form)}}
         
         <div class="row  w-full flex-wrap-reverse lg:h-[50vh] h-fit lg:mt-0 gap-7">
-            <div class="column std-container lg:w-[43%] h-fit w-full " >
-                <div class="row flex-wrap">
+            <div class="column std-container lg:w-fit h-full w-full mx-auto " >
+                <div class="row flex-wrap ">
                     {% if product is not defined %}
                         {{form_widget(form.mainImage)}}
                         <label for="product_form_mainImage" class="p-0 size-fit mr-5 mb-5">
-                            <div id="mainImagePreview"  class="bg-cover bg-center bg-no-repeat rounded-2xl lg:size-56 size-32 left-0 relative" style=" background-image: {{asset(field_value(form.mainImage))}}" >
+                            <div id="mainImagePreview"  class="bg-cover bg-center bg-no-repeat rounded-2xl lg:size-[20vh] size-[10vh] left-0 relative" style=" background-image: {{asset(field_value(form.mainImage))}}" >
             
                                 <div class="std-container absolute bottom-0 opacity-0 transition-opacity">Modify the main image diplayed</div>
                             </div>
                       
                         </label>
                     {% else %}
-                        <div class="mainImage" style="background-image: url({{asset( product.mainImage )}});"></div>
+                        <div class="bg-cover bg-center bg-no-repeat rounded-2xl lg:size-[20vh] size-[10vh] left-0 relative mr-5 mb-10" style="background-image: url({{asset( product.mainImage )}});"></div>
                     {% endif %}
 
                     <div class="column">
@@ -77,16 +77,16 @@
                 </div>
             </div>
 
-            <div class="flex lg:flex-row flex-col std-container lg:w-[55%] h-full lg:justify-normal justify-center items-center">
-                <div class="column flex-wrap">
+            <div class="flex lg:flex-row flex-col std-container lg:w-fit w-full h-full lg:justify-normal justify-center items-center overflow-y-hidden mx-auto">
+                <div class="column flex-wrap h-full gap-4">
                     <div class="reverseColumn">
                         {{form_widget(form.color)}}
-                        <label>Main shoe color</label>
+                        <label>Shoe color</label>
                     </div>
                     <div class="reverseColumn">
                         {{form_widget(form.material)}}
                         <label>
-                            Main shoe material
+                            Shoe material
                         </label>
                     </div>
                     <div class="reverseColumn">
@@ -120,12 +120,15 @@
                             Quantity
                         </label>
                     </div>
+                    <div class="reverseColumn">
+                        {{form_widget(form.size)}}
+                    </div>
             </div>
             <div class="ml-10 column">
                 {% if form.otherImages is defined%}
                 <label for="product_form_otherImages">
                     Other images
-                    <div id="otherImagesUploadButton" class="bg-cover bg-center bg-no-repeat h-[40vh] w-[30vh]" style="background-image: url({{asset('/build/images/file-arrow-up-solid.bca87184.png')}});" ></div>
+                    <div id="otherImagesUploadButton" class="bg-cover bg-center bg-no-repeat h-[40vh] xl:w-[30vh] lg:w-[10vw] w-[30vh] rounded-md" style="background-image: url({{asset('/build/images/file-arrow-up-solid.bca87184.png')}});" ></div>
                 </label>
                 {{form_widget(form.otherImages)}}
                 {% endif %}
@@ -137,7 +140,7 @@
         </div>
         {{form_end(form)}}
         {% if product is defined %}
-    <div style="display: none;">
+    <div class="hidden absolute">
         <div id="hiddenOtherImages">
             {% for img in product.otherImages %}
             <div>
@@ -149,6 +152,8 @@
             {{product.itemsSold}}
         </div>
     </div>
+    {% else %}
+    <div id="hiddenOtherImages" class="hidden absolute"></div>
     {% endif %}
     </div>
 {% endblock %}

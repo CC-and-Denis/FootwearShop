@@ -26,24 +26,24 @@
 {% endblock %}
 
 {% block content %}
-<div class="row flex-wrap lg:p-10 p-2 pr-2 size-full  ">
+<div class="row flex-wrap xl:p-10 p-2 pr-2 size-full  ">
 
-    <div class="column std-container lg:w-3/12 w-full items-center lg:mr-10 lg:mb-0 mb-20">
-        <div id="profilePic" class="rounded-full generic-img bg-semitransparent lg:size-40 size-32" style="background-image: url({{asset('/build/images/user-regularB.df1377b9.png')}});">
+    <div class="column std-container lg:w-3/12 w-full items-center lg:mr-10 xl:mb-0 mb-20 lg:h-full">
+        <div id="profilePic" class="rounded-full generic-img bg-semitransparent xl:size-40 size-32" style="background-image: url({{asset('/build/images/user-regularB.df1377b9.png')}});">
 
         </div>
-        <div class="text-3xl font-bold lg:my-5 my-2">
+        <div class="text-3xl font-bold xl:my-5 my-2">
             {{username}}
         </div>
 
-        <div id="rating" class="std-container column centered w-full lg:py-5 mb-3 h-[50vh]">
+        <div id="rating" class="std-container column centered w-full xl:py-5 mb-3 h-[50vh]">
             <div class="wip size-full rounded-xl z-10">
                 <div>
                 This feature is coming soon...
                  </div>
             </div>
 
-            <h1 class="text-2xl lg:mb-2">Ratings</h1>
+            <h1 class="text-2xl xl:mb-2">Ratings</h1>
                 {% if products|length %}
                 <h1 class="my-1">Averange</h1>
                 <div class="row mb-3">
@@ -94,7 +94,7 @@
                     <div id={{product.id}} class="std-container row lg:h-52 h-fit mb-5  hover:bg-semi-transparent-3 transition-all w-full animation-appear" >
                         <div class="productContainer row flex-wrap w-full">
                             <div class="lg:size-44 size-36 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{product.mainImage}});"></div>
-                            <div class="column lg:w-9/12 w-full">
+                            <div class="column xl:w-9/12 lg:w-7/12  w-full">
                                 <h1 class="w-full text-2xl">{{product.Model}}</h1>
                                 <div class="lg:h-full h-20 overflow-y-scroll">{{product.description}}</div>
                                 <div class="row flex-wrap gap-2">

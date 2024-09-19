@@ -206,19 +206,9 @@
 
 
 {% block content %}
-    <div class="column" style="padding-left: 2vw; padding-top: 2vh;">
-            <div class="slideShowContainer row center">
-                <img id="goBack" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}">
-                <div class="slideShowContainer2 row" id="otherImagesPreview">
-
-                </div>
-            <img  id="goForward" src="{{asset('/build/images/circle-chevron-left-solid.a5e7fe27.png')}}" style="transform: rotate(180deg);">
-            
-            <div style="display: none;" id="otherImagesList">
-                {% for image in product.otherImages %}
-                <div class="previewImages" style="background-image: url({{asset(image)}});">
-                </div>
-                {% endfor %}
+    <div class="column p-10">
+            <div id="carouselPreviews" class="slider std-container row centered w-full h-[43vh] mb-5">
+                
             </div>
         </div>
 
@@ -259,6 +249,14 @@
             <div class="column container" style="width: 44vw;">
 
             </div>
+        </div>
+
+        <div id="hiddenOtherImages" class="hidden absolute">
+            {% for img in product.otherImages%}
+            <div>
+                {{img}}
+            </div>
+        {% endfor %}
         </div>
     </div>
 {% endblock %}

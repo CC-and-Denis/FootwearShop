@@ -14,7 +14,7 @@ function checkScreenWidth() {
     let screenWidth = window.innerWidth;
     console.log(screenWidth)
         
-    if (screenWidth < 1000 && screenType!="md" ) {
+    if (screenWidth <= 1280 && screenType!="md" ) {
         screenType="md" 
         displayMenuBtn.style.display="block"
         sidebar.style.display="none"
@@ -22,7 +22,7 @@ function checkScreenWidth() {
         displayMenuBtn.addEventListener('click',()=>{
             displayMenu()
         })
-    } else if(screenWidth>=1000 && screenType!="lg") {
+    } else if(screenWidth>1280 && screenType!="lg") {
         screenType="lg" 
         displayMenuBtn.style.display="none"
         sidebar.style.display="flex"

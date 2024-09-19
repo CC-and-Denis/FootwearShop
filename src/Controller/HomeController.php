@@ -170,6 +170,7 @@ class HomeController extends AbstractController
 
     #[Route('deleteproduct/{id}',name:"delete_product")]
     public function deleteProduct(int $id){
+
         $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $id]);
         if( (! $targetProduct) || $targetProduct->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
@@ -223,6 +224,7 @@ class HomeController extends AbstractController
 
         $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
+        $errorsList = $form->getErrors(true);
 
 
         if($form->isSubmitted() && $form->isValid()){
@@ -271,6 +273,7 @@ class HomeController extends AbstractController
         return $this->render('product/product_form_page.html.twig',[
             'form'=>$form->createView(),
             'product'=>$product,
+            'errorsList'=>$errorsList,
         ]);
 
         

@@ -35,8 +35,9 @@ module.exports = {
       },
       screens: {
         'sm': '450px',   // Small screens
-        'md': '960px',   // Medium screens
-        'lg': '1024px',  // Large screens
+        'md': '1280px',   // Medium screens
+        'lg': '1368px',  // Large screens
+        'xl': '1600px'
       },
     }
   },

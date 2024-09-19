@@ -6,7 +6,6 @@ const mainImage = document.getElementById("product_form_mainImage") as HTMLInput
 const mainImagePreview = document.getElementById("mainImagePreview") as HTMLDivElement;
 const quantity = document.getElementById("product_form_quantity") as HTMLInputElement
 const otherImagesInput = document.getElementById("product_form_otherImages") as HTMLInputElement;
-const otherImagesPreview = document.getElementById("slideShowContainer2") as HTMLDivElement;
 const otherImagesHidden = document.getElementById("hiddenOtherImages") as HTMLDivElement;
 
 var minqta=1;
@@ -15,14 +14,6 @@ if(document.getElementById("itmesSoldAtEditTime") && (+ document.getElementById(
     minqta= + document.getElementById("itmesSoldAtEditTime").innerText;
 }
 
-var counter = 0;
-
-function setQuantityToMin(){
-    
-    if( quantity && ! quantity.value || quantity.valueAsNumber<minqta){
-        quantity.value=minqta.toString();   
-    }
-}
 
 if(colorSelection){
     for (let i = 0; i < colorSelection.children.length - 1; i++) {
@@ -64,15 +55,7 @@ if( mainImage && mainImagePreview){
 }
 
 
-if( otherImagesInput && otherImagesPreview ){
-
-    document.getElementById("goBack").addEventListener('click',()=>{
-        scrollOtherImages(-1)
-    })
-    document.getElementById("goForward").addEventListener('click',()=>{
-        scrollOtherImages(1)
-    })
-
+if( otherImagesInput ){
 
     otherImagesInput.addEventListener('change',()=>{
 
@@ -96,19 +79,16 @@ if( otherImagesInput && otherImagesPreview ){
             alert("you reached tha max number of Images(10)")
         }
         
-        counter = 0;
-       
-        otherImagesPreview.replaceChildren();
+        
+        let parent = document.createElement('div')
 
-        if(cleanFileList.files.length>3){
-            document.getElementById("goForward").style.opacity="1"
-        }
-        for(let i =0;i<3 && i<cleanFileList.files.length;i++){
+        for(let i =0;i<cleanFileList.files.length;i++){
             let e =document.createElement('div')
-            e.classList.add("previewImages");
-            e.style.backgroundImage=`url(${URL.createObjectURL(cleanFileList.files[i])})`
-            otherImagesPreview.appendChild(e)
+            e.innerHTML = `${URL.createObjectURL(cleanFileList.files[i])}`
+            parent.appendChild(e)
         }
+
+        otherImagesHidden.innerHTML=parent.innerHTML
         
         
     })
@@ -119,55 +99,10 @@ if(quantity){
     quantity.addEventListener("change",setQuantityToMin)
 }
 
-
-function loadOtherImages(){
-    counter = 0;
-    document.getElementById("goForward").style.opacity="0.5"
-    document.getElementById("goBack").style.opacity="0.5"
-    otherImagesPreview.replaceChildren();
-        
-    if(otherImagesInput.files.length>3){
-        document.getElementById("goForward").style.opacity="1"
-    }
-    for(let i =0;i<3 && i<otherImagesInput.files.length;i++){
-        let e =document.createElement('div')
-        e.classList.add("previewImages");
-        e.style.backgroundImage=`url(${URL.createObjectURL(otherImagesInput.files[i])})`
-        otherImagesPreview.appendChild(e)
-    }
-}
-
-function scrollOtherImages(direction){
-    if(direction>0){
-        if(counter==(otherImagesInput.files.length - 3)){
-            return;
-        }
-        otherImagesPreview.removeChild(otherImagesPreview.firstChild)
-        counter++
-        let e =document.createElement('div')
-        e.classList.add("previewImages");
-        e.style.backgroundImage=`url(${URL.createObjectURL(otherImagesInput.files[counter+2])})`
-        otherImagesPreview.appendChild(e)
-        document.getElementById("goBack").style.opacity="1"
-        if(counter==otherImagesInput.files.length - 3){
-            document.getElementById("goForward").style.opacity="0.5"
-        }
-        
-    }
-    else{
-        if(! counter){
-            return;
-        }
-        otherImagesPreview.removeChild(otherImagesPreview.lastChild)
-        counter--
-        let e =document.createElement('div')
-        e.classList.add("previewImages");
-        e.style.backgroundImage=`url(${URL.createObjectURL(otherImagesInput.files[counter])})`
-        otherImagesPreview.insertBefore(e,otherImagesPreview.firstChild)
-        document.getElementById("goForward").style.opacity="1"
-        if(! counter){
-            document.getElementById("goBack").style.opacity="0.5"
-        }
+function setQuantityToMin(){
+    
+    if( quantity && ! quantity.value || quantity.valueAsNumber<minqta){
+        quantity.value=minqta.toString();   
     }
 }
 

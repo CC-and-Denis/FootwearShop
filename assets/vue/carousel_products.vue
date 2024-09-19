@@ -3,8 +3,8 @@
     <button @click="loadMore(-1)" :disabled="isLoading || counter === 0" :class="{ 'opacity-50': counter === 0 }">
         <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
-    <div ref="container" class="productCarouselInner">
-      <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5"
+    <div ref="container" class="productCarouselInner m-2 gap-2">
+      <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
 
       :style="{ backgroundImage: `url(${product.image})` }">
               <div class="priceContainer m-3">
@@ -78,7 +78,7 @@ export default {
       }
       
       if(direction>0){
-        if( window.innerWidth<1000){
+        if( window.innerWidth<1280){
           return `${baseApiUrl}/1-${this.counter + 1}`
         }
         return `${baseApiUrl}/1-${this.counter + 4}`
