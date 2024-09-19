@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @extends ServiceEntityRepository<Order>
@@ -40,4 +43,20 @@ class OrderRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+        public function alredyBuyer(User $buyer, String $vendorUsername): bool {
+            $query = $this->createQueryBuilder('o')
+                ->where('o.user = :buyer')
+                ->andWhere('o.paymentStatus = :ps')
+                ->setParameter('buyer', $buyer)
+                ->setParameter('ps', 'Successfull')
+                ->getQuery()
+                ->getResult();
+            foreach ($query as $order) {
+                if ($order->getProduct()->getSellerUsername() == $vendorUsername) {
+                    return true;
+                }
+            }
+            return false;
+        }
 }

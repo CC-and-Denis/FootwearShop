@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="Merging">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/Version20240919125558.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Rating.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/RatingForm.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/RatingRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/frame.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/frame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/vue/tipregovuefunziona.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/research.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240902133600.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ProductFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ProductFormType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/vue/carousel_products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/carousel_products.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/vue/scroll_products_loader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/scroll_products_loader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/OrderRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/OrderRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product_grid_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product_grid_page.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/user_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/user_page.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,6 +248,7 @@
       <workItem from="1726573717756" duration="13394000" />
       <workItem from="1726642366539" duration="12659000" />
       <workItem from="1726660561051" duration="1161000" />
+      <workItem from="1726747005002" duration="12064000" />
     </task>
     <task id="LOCAL-00001" summary="merging">
       <option name="closed" value="true" />

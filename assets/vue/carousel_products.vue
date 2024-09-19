@@ -11,8 +11,7 @@
                   €{{product.price}}
               </div>
             
-              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacit
-y-0 transition-opacity hover:cursor-pointer">
+              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
 
                   <a class="h-full" :href="`/product/${product.id}`" >
                       <h1 class="text-xl underline">{{product.model}}</h1>
