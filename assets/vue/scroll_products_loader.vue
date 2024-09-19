@@ -1,5 +1,5 @@
 <template>
-<div @scroll="onScrolFunction" id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 overflow-y-scroll">
+<div @scroll="onScrollFunction" id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 overflow-y-scroll">
 
     <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover mr-5" :style="{ backgroundImage: `url(${product.image})` }">
         <div class="priceContainer m-3">
@@ -33,7 +33,7 @@ export default {
     };
   },
   methods: {
-    async loadProductsForPopularPage(url) {
+    async loadProductsForProductsPage(url) {
 
       if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
       this.isLoading = true;
@@ -71,9 +71,9 @@ export default {
       // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
         if (this.pageName === 'populars') {
-          this.loadProductsForPopularPage('/api/getProductByPopular/8-');
+          this.loadProductsForProductsPage('/api/getProductByPopular/8-');
         } else {
-          this.loadProductsForPopularPage('/api/fyp-function/8-');
+          this.loadProductsForProductsPage('/api/fyp-function/8-');
         }
       }
     },
@@ -83,9 +83,9 @@ export default {
     this.pageName = document.getElementById('page_name');
     console.log("a", this.pageName);
     if (this.pageName.value === 'populars') {
-      this.loadProductsForPopularPage('/api/getProductByPopular/8-');
+      this.loadProductsForProductsPage('/api/getProductByPopular/8-');
     } else {
-      this.loadProductsForPopularPage('/api/fyp-function/8-');
+      this.loadProductsForProductsPage('/api/fyp-function/8-');
     }
   }
 };
