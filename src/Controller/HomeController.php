@@ -6,6 +6,7 @@ use App\Form\ResearchType;
 use App\Service\CookieService;
 use App\Entity\Product;
 use App\Entity\Order;
+use App\Entity\Rating;
 use App\Form\ProductFormType;
 use App\Form\PaymentType;
 
@@ -41,51 +42,55 @@ class HomeController extends AbstractController
         $response = new Response();
         $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
-        $remainingProducts = $targetProduct->getQuantity() - $targetProduct->getItemsSold();
-        $form = $this->createForm(PaymentType::class);
-        $form->handleRequest($request);
-
-        $errorsList = $form->getErrors(true);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $mainImagePath = $form->get('cardNumber')->getData();
-            $otherImages = $form->get('expMonth')->getData();
-            $otherImages = $form->get('expYear')->getData();
-            $quantity = $form->get('cvc')->getData();
-
-            //give to stripe the data here and get a response in return
-
-            $stripe_response = json_encode('Successfully purchased ' . $targetProduct->getBrand() . ' ' . $targetProduct->getModel()); // fake stripe's response
-
-            $order = new Order();
-            $order->setProduct($targetProduct);
-            $order->setUser($this->getUser());
-            $order->setPurchaseDate(new \DateTime());
-            $order->setPaymentStatus($stripe_response); // fake stripe's response
-            $this->entityManager->persist($order);
-            $this->entityManager->flush();
-
-            if (str_contains(json_decode($stripe_response), 'Successfull')) {
-                $targetProduct->setItemsSold($targetProduct->getItemsSold() + 1);
-            }
-
-            return $this->redirectToRoute('home');
-        }
 
         if ($targetProduct) {
+
             $cookieService->cookie_update($targetProduct, $request, $response);
-            return $this->render('product/product_view_page.html.twig', [
-                'form' => $form->createView(),
-                'product' => $targetProduct,
-            ], $response);
-        } else {
+            $targetProduct->setViews($targetProduct->getViews() + 1);
+            $this->entityManager->persist($targetProduct);
+            $this->entityManager->flush();
+            $remainingProducts = $targetProduct->getQuantity() - $targetProduct->getItemsSold();
+            $form = $this->createForm(PaymentType::class);
+            $form->handleRequest($request);
+
+            $errorsList = $form->getErrors(true);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $mainImagePath = $form->get('cardNumber')->getData();
+                $otherImages = $form->get('expMonth')->getData();
+                $otherImages = $form->get('expYear')->getData();
+                $quantity = $form->get('cvc')->getData();
+
+                //give to stripe the data here and get a response in return
+
+                $stripe_response = json_encode('Successfully purchased ' . $targetProduct->getBrand() . ' ' . $targetProduct->getModel()); // fake stripe's response
+
+                $order = new Order();
+                $order->setProduct($targetProduct);
+                $order->setUser($this->getUser());
+                $order->setPurchaseDate(new \DateTime());
+                $order->setPaymentStatus($stripe_response); // fake stripe's response
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+
+                if (str_contains(json_decode($stripe_response), 'Successfull')) {
+                    $targetProduct->setItemsSold($targetProduct->getItemsSold() + 1);
+                }
+                return $this->redirectToRoute('home');
+            }
+            else{
+                return $this->render('product/product_view_page.html.twig', [
+                    'form' => $form->createView(),
+                    'product' => $targetProduct,
+                ], $response);
+            }
+        }
+        else {
             return $this->render('not_found.html.twig', [
-                'form' => $form->createView(),
                 'entity' => "Product"
             ], $response);
         }
-
     }
 
     #[Route('createproduct'),]
@@ -283,18 +288,61 @@ class HomeController extends AbstractController
 
 
     #[Route('user/{username}',)]
-    public function loadUserPage(String $username): Response
+    public function loadUserPage(String $username, Request $request): Response
     {
         $userRepository = $this->entityManager->getRepository(\App\Entity\User::class);
         $targetUser = $userRepository->findOneBy(['username' => $username]);
 
         if($targetUser){
+
+            $orderRepository = $this -> entityManager -> getRepository(\App\Entity\Order::class);
+            $canRate = false;
+            if ($orderRepository->alredyBuyer($this->getUser(), $targetUser->getUsername())) {
+                $canRate = true;
+            }
+            if ($canRate) {
+                $form = $this->createForm(PaymentType::class);
+                $form->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $rating = new Rating();
+                    $rating->setBuyer($this->getUser());
+                    $rating->setBuyer($targetUser);
+                    $rating->setRatedProduct($form->get('product')->getData());
+                    $rating->setRating($form->get('rating')->getData());
+                    $rating->setTitle($form->get('title')->getData());
+                    $rating->setDescription($form->get('description')->getData());
+                    $this->entityManager->persist($rating);
+                    $this->entityManager->flush();
+                }
+
+                else{
+                    return $this->render('user/user_page.html.twig',[
+                        'username'=>$username,
+                        'isVendor'=>$targetUser->isVendor(),
+                        'products'=>$targetUser->getSellingProducts(),
+                        'canRate'=>$canRate,
+                        'form'=>$form,
+                    ]);
+                }
+            }
+            else{
+                return $this->render('user/user_page.html.twig',[
+                    'username'=>$username,
+                    'isVendor'=>$targetUser->isVendor(),
+                    'products'=>$targetUser->getSellingProducts(),
+                    'canRate'=>$canRate,
+                ]);
+            }
+
             return $this->render('user/user_page.html.twig',[
                 'username'=>$username,
                 'isVendor'=>$targetUser->isVendor(),
                 'products'=>$targetUser->getSellingProducts(),
+                'canRate'=>$canRate,
             ]);
-        }else{
+        }
+        else{
             return $this->render('not_found.html.twig',[
                 'entity'=>"User"
             ]);

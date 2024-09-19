@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="Merging">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/frame.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/frame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/vue/tipregovuefunziona.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/research.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240902133600.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ProductFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ProductFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/vue/scroll_products_loader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/scroll_products_loader.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,6 +233,7 @@
       <workItem from="1726573717756" duration="13394000" />
       <workItem from="1726642366539" duration="12659000" />
       <workItem from="1726660561051" duration="1161000" />
+      <workItem from="1726747005002" duration="12608000" />
     </task>
     <task id="LOCAL-00001" summary="merging">
       <option name="closed" value="true" />

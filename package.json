@@ -26,6 +26,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "encore": "^0.0.30-beta",
         "svelte": "^4.2.19",
         "ts-loader": "^9.5.1",
         "typescript": "^5.5.4",

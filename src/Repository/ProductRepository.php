@@ -59,6 +59,7 @@ class ProductRepository extends ServiceEntityRepository
                             ELSE 3
                         END', 'ASC');
 // Iterate through the filters and apply them dynamically
+
         foreach ($filters as $field => $values) {
             if (!empty($values)) {
                 $query
