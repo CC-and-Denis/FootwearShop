@@ -2,7 +2,7 @@
   <button @click="loadMore(-1)" :disabled="this.counter === 0" :class="{ 'opacity-50': this.counter === 0 }">
           <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
       </button>
-      <div ref="container" class="productCarouselInner w-full grid xl:grid-cols-3 grid-cols-1">
+      <div ref="container" class="productCarouselInner w-full grid xl:grid-cols-3 grid-cols-1 h-[30vh] overflow-y-hidden">
 
         <div v-for="image in previewImages" class="generic-img h-[30vh] xl:w-[25vw] w-full rounded-2xl bg-semi-transparent-3"
         :style="{ backgroundImage: `url(${image})` }">
@@ -14,7 +14,7 @@
           <img class="small-img rotate-180" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
       </button>
   </template>
-  
+
   <script lang="ts">
   export default {
     data() {
