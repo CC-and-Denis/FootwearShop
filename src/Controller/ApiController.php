@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+
+use App\Repository\ProductRepository;
+
+
+
+use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ApiController extends AbstractController {
@@ -73,8 +78,8 @@ class ApiController extends AbstractController {
             ];
         }, $products);
 
-        dump($data);
-        dump($products);
+        //dump($data);
+        //dump($products);
 
         return new JsonResponse([
             'hasMore' => $hasMore,
@@ -112,19 +117,12 @@ class ApiController extends AbstractController {
             ];
         }, $items);
 
-        dump($hasMore);
+        //dump($hasMore);
         return new JsonResponse([
             'hasMore' => $hasMore,
             'products' => $productData,
         ]);
     }
-
-
-
-
-
-
-
 
     private function getDivisionRate($first, $second): int {
         if ($second == 0){
@@ -173,7 +171,7 @@ class ApiController extends AbstractController {
 
         $totalRecords = $this -> getTotalPossibleFypProducts($typesPicked, $brandsPicked, $colorsPicked) - $startingIndex;
 
-        dump('totalRemainingRecords', $totalRecords);
+        //dump('totalRemainingRecords', $totalRecords);
 
         //$this->entityManager->getConnection()->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
         // Step 4: Use loops based on the divisions found
@@ -204,7 +202,10 @@ class ApiController extends AbstractController {
                                         $combinationCounter[$combinationKey] = 0; //null offset is 1
                                     }
                                     //dump("combinationCounter", $combinationCounter);
-                                    if ($combinationCounter[$combinationKey] != -1) {
+                                    if ( $combinationCounter[$combinationKey] == -1 ){
+                                        continue;
+                                    }
+             
 
                                         $queryResult = $this->fyp_query($type, $brand, $color, $combinationCounter[$combinationKey]);
 
@@ -228,16 +229,16 @@ class ApiController extends AbstractController {
                                         if ($productCount == 0) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                            //dump($totalRecords, $productCount, $totalRecords>$productCount);
                                             return [$totalRecords>$counter, $results];
                                         }
                                         if ($counter == $totalRecords) {
                                             //dump("combinationCounter", $combinationCounter);
                                             //dump($results);
-                                            dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                            //dump($totalRecords, $productCount, $totalRecords>$productCount);
                                             return [$totalRecords>$counter, $results];
                                         }
-                                    }
+                                    
                                 } //color loop
                             } //foreach color
                         } //brand loop
@@ -266,6 +267,7 @@ class ApiController extends AbstractController {
         }
         return [$pickedNames, $priorities];
     }
+
 
     private function getTotalPossibleFypProducts($pickedTypeNames, $pickedBrandNames, $pickedColorNames) {
 

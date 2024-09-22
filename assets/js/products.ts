@@ -108,13 +108,17 @@ function setQuantityToMin(){
 
 if(document.getElementById("buyButton1") && document.getElementById("alertsContainer") as HTMLDivElement){
 
-        if(document.getElementById("errorsBox")){
-            displayPayment()
-        }
+
+    if(document.getElementById("errorsBox")){
+        displayPayment()
+    }
+
+    document.getElementById("buyButton1").addEventListener("click",()=>{
+        displayPayment()
+    })
+
+
     
-        document.getElementById("buyButton1").addEventListener("click",()=>{
-            displayPayment()
-        })
 
 }
 

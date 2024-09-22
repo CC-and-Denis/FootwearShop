@@ -10,106 +10,39 @@
 {{ encore_entry_script_tags('products') }}
 {% endblock %}
 
-
-{% block style %}
-<style>
-    .column.container.center{
-        width: 20vw;
-        background-color: white;
-    }
-    
-    form label,select,input{
-        margin:1vh 0vh;
-        font-size: larger;
-        background-color: white;
-        
-    }
-
-    .column.container.center>h1{
-        font-size: 5vh;
-        margin-bottom: 2vh;
-    }
-
-    form input,select{
-        border: none;
-        outline: none;
-        border-bottom: 1px solid black;
-    }
-
-    .column.container.center>button{
-        margin-top: 1vh;
-    }
-    
-    
-
-    select{
-        margin-right: 0.5vw;
-    }
-
-    #payment_cvc{
-        width: 4.5vw;
-    }
-</style>
-{% endblock %}
-
 {% block alerts %}
 
-    {% if (product.quantity - product.itemsSold)>0 %}
-    {% if form.cardNumber.vars.errors | length %}
-    <div id="errorsAlert" class="column">
-        <div id="closeErrors">
-            x
-        </div>
-        {% for error in form.cardNumber.vars.errors %}
-            <div class="error">{{ error.message }}</div>
-        {% endfor %}
+{% if errorsList | length %}
+<div id="errorsBox">
+    <div id="closeErrorsBtn">
+        x
     </div>
+    {% for error in errorsList %}
+        <div>
+            - {{ error.message }}
+        </div>
+    {% endfor %}
+</div>
 {% endif %}
         {{form_start(form)}}
-            <div class="column container center" >
-                <h1>Payment</h1>
-                    <div class="reverseColumn">
-                        {{ form_widget(form.ccOwner) }}
-                        <label>Credit card owner</label>
-                    </div>
-                <div class="reverseColumn">
+            <div id="paymentForm" class="column std-container bg-white centered" >
+                <h1 class="text-3xl font-semibold mb-5">Payment</h1>
+                <div class="reverseColumn mb-7">
                     {{ form_widget(form.addressCountry) }}
-                    <label>Country</label>
+                    <label class="bg-white">Country</label>
                 </div>
-                <div class="reverseColumn">
+                <div class="reverseColumn mb-7">
                     {{ form_widget(form.addressCity) }}
                     <label>City</label>
                 </div>
-                <div class="reverseColumn">
+                <div class="reverseColumn mb-7">
                     {{ form_widget(form.addressPostal) }}
                     <label>Postal address</label>
                 </div>
-                    <div class="reverseColumn">
-                        {{ form_widget(form.cardNumber) }}
-                        <label>Cardnumber</label>
-                    </div>
-                    <div class="reverseColumn">
-                    <div class="row">
-                        {{form_widget(form.expMonth)}}
-                        {{form_widget(form.expYear)}}
-                    </div>
-                    <label>Expiration Date</label>
-                    </div>
+                <button id="buyButton2" class="aButton" type="submit">Buy the article</button>   
 
-                    <div class="reverseColumn">
-                        {{ form_widget(form.cvc) }}
-                        <label for="payment_cvc">CVC/CVV</label>
-                    </div>
-
-                    <button type="submit" style="width: 9vw;">Buy the article</button>   
-                
-                
-                    <div class="column">
-                        
-                    </div>
             </div>
         {{ form_end(form) }}
-    {% endif %}
 {% endblock %}
 
 
@@ -118,9 +51,6 @@
             <div id="carouselPreviews" class="slider std-container row centered w-full h-[43vh] mb-5">
                 
             </div>
-
-    
-
         <div class="row  w-full flex-wrap lg:h-[50vh] h-fit lg:mt-0 gap-7">
             <div class="column std-container lg:w-fit h-full w-full mx-auto" >
                 <div class="row flex-wrap">
@@ -152,7 +82,7 @@
                 
             </div>
 
-            <div class="column std-container w-auto">
+            <div class="column std-container w-fit">
 
             </div>
         </div>

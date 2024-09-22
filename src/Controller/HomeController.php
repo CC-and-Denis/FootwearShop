@@ -5,16 +5,21 @@ namespace App\Controller;
 use App\Form\ResearchType;
 use App\Service\CookieService;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Rating;
 use App\Form\ProductFormType;
 use App\Form\PaymentType;
+
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -25,6 +30,7 @@ class HomeController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
     }
 
     #[Route('/home', name:'home')]
@@ -34,63 +40,107 @@ class HomeController extends AbstractController
 
     }
 
-
-
     #[Route('product/{productId}', )]
     public function loadProductPage(CookieService $cookieService, $productId, Request $request): Response
     {
         $response = new Response();
         $productRepository = $this->entityManager->getRepository(Product::class);
+        $userRepository= $this->entityManager->getRepository(User::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
+        $renderVariables=[
+            'product' => $targetProduct,
+        ];
 
-        if ($targetProduct) {
+    
+        
 
-            $cookieService->cookie_update($targetProduct, $request, $response);
-            $targetProduct->setViews($targetProduct->getViews() + 1);
-            $this->entityManager->persist($targetProduct);
-            $this->entityManager->flush();
-            $remainingProducts = $targetProduct->getQuantity() - $targetProduct->getItemsSold();
+        if(! $targetProduct){
+            return $this->render('not_found.html.twig', [
+                'entity' => "Product"
+            ], $response);
+        }
+
+        $remainingProducts = $targetProduct->getQuantity() - $targetProduct->getItemsSold();
+        $targetProduct->setViews($targetProduct->getViews() + 1);
+        $cookieService->cookie_update($targetProduct, $request, $response);
+
+        $renderVariables['hasItemsLeft'] = $remainingProducts>0;
+
+        if($remainingProducts>0){
+
             $form = $this->createForm(PaymentType::class);
             $form->handleRequest($request);
 
+
             $errorsList = $form->getErrors(true);
+
+            $renderVariables['form'] = $form->createView();
+            $renderVariables['errorsList'] = $errorsList;
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $mainImagePath = $form->get('cardNumber')->getData();
-                $otherImages = $form->get('expMonth')->getData();
-                $otherImages = $form->get('expYear')->getData();
-                $quantity = $form->get('cvc')->getData();
+                $buyer = $userRepository->findOneBy(['username' => $this->getUser()->getUsername()]);
 
-                //give to stripe the data here and get a response in return
+                $customer = \Stripe\Customer::create([
+                    'name' => $buyer->getName() . ' ' . $buyer->getSurname(),
+                    'email' => $buyer->getEmail(),
+                ]);
 
-                $stripe_response = json_encode('Successfully purchased ' . $targetProduct->getBrand() . ' ' . $targetProduct->getModel()); // fake stripe's response
+                //ups or other deliveries api
 
-                $order = new Order();
+                header('Content-Type: application/json');
+
+                $YOUR_DOMAIN = 'http://localhost:8000';
+
+                $session = \Stripe\Checkout\Session::create([
+                  'payment_method_types'=>['card'],
+                  'customer' => $customer->id,
+                  //'name'=> ( $buyer->getName() . $buyer->getSurname() ),
+                  'line_items' => [[
+                    # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+                    'price_data'=>[
+                        'currency'=>'usd',
+                        'product_data'=>[
+                            'name'=>$targetProduct->getModel(),
+                            'description'=>$targetProduct->getDescription(),
+                        ],
+                    'unit_amount' => ($targetProduct->getPrice()*100),
+
+                    ],
+                    'quantity' => 1,
+                  ]],
+                  'mode' => 'payment',
+                  'success_url' => $this->generateUrl('home',[],UrlGeneratorInterface::ABSOLUTE_URL),
+                  'cancel_url' => $this->generateUrl('productPage',['productId'=>$targetProduct->getId()],UrlGeneratorInterface::ABSOLUTE_URL),
+                ]);
+
+                
+
+               
+
+                /*$order = new Order();
                 $order->setProduct($targetProduct);
                 $order->setUser($this->getUser());
                 $order->setPurchaseDate(new \DateTime());
                 $order->setPaymentStatus($stripe_response); // fake stripe's response
+
                 $this->entityManager->persist($order);
                 $this->entityManager->flush();
 
                 if (str_contains(json_decode($stripe_response), 'Successfull')) {
                     $targetProduct->setItemsSold($targetProduct->getItemsSold() + 1);
-                }
-                return $this->redirectToRoute('home');
-            }
-            else{
-                return $this->render('product/product_view_page.html.twig', [
-                    'form' => $form->createView(),
-                    'product' => $targetProduct,
-                ], $response);
+                }*/
+
+                return $this->redirect($session->url,303);
             }
         }
-        else {
-            return $this->render('not_found.html.twig', [
-                'entity' => "Product"
-            ], $response);
-        }
+
+        $this->entityManager->persist($targetProduct);
+        $this->entityManager->flush();
+
+        return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
+            
+
     }
 
     #[Route('createproduct'),]
