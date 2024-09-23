@@ -59,10 +59,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: product::class, mappedBy: 'cartedBy')]
     private Collection $cart;
 
+    /**
+     * @var Collection<int, Rating>
+     */
+    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'buyer')]
+    private Collection $doneRatings;
+
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
+    private Collection $orders;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $postalAddress = null;
+
     public function __construct()
     {
         $this->sellingProducts = new ArrayCollection();
         $this->cart = new ArrayCollection();
+        $this->doneRatings = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,6 +258,74 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $cart->setCartedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rating>
+     */
+    public function getDoneRatings(): Collection
+    {
+        return $this->doneRatings;
+    }
+
+    public function addDoneRating(Rating $doneRating): static
+    {
+        if (!$this->doneRatings->contains($doneRating)) {
+            $this->doneRatings->add($doneRating);
+            $doneRating->setBuyer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDoneRating(Rating $doneRating): static
+    {
+        if ($this->doneRatings->removeElement($doneRating)) {
+            // set the owning side to null (unless already changed)
+            if ($doneRating->getBuyer() === $this) {
+                $doneRating->setBuyer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+    public function removeOrders(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPostalAddress(): ?string
+    {
+        return $this->postalAddress;
+    }
+
+    public function setPostalAddress(string $postalAddress): static
+    {
+        $this->postalAddress = $postalAddress;
 
         return $this;
     }

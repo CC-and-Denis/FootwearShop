@@ -3,7 +3,8 @@
     <button @click="loadMore(-1)" :disabled="isLoading || counter === 0" :class="{ 'opacity-50': counter === 0 }">
         <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
-    <div ref="container" class="productCarouselInner xl:grid-cols-4 grid-cols-1 m-2 h-[30vh] overflow-y-hidden">
+
+    <div ref="container" :class="['productCarouselInner', 'grid-cols-1', 'm-2', 'h-[30vh]', 'gap-2', 'overflow-y-hidden', { 'xl:grid-cols-4': maxProducts === 4, 'xl:grid-cols-2': maxProducts === 2 }]">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
 
       :style="{ backgroundImage: `url(${product.image})` }">
@@ -11,8 +12,7 @@
                   €{{product.price}}
               </div>
             
-              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacit
-y-0 transition-opacity hover:cursor-pointer">
+              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
 
                   <a class="h-full" :href="`/product/${product.id}`" >
                       <h1 class="text-xl underline">{{product.model}}</h1>
@@ -38,6 +38,8 @@ export default {
     return {
       counter: 0,
       products: [],
+      productType: HTMLInputElement,
+      productMaterial: HTMLInputElement,
       isLoading: false,
       hasMoreproducts: true
     };
@@ -52,18 +54,57 @@ export default {
 
       const url = this.getApiUrl(direction);
 
-      try {
-        const response = await fetch(url, { method: 'GET' });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+      if (this.$props.apiUrl == '/api/getSimilarProducts') {
+
+        const parameters = {
+          'type': this.productType.value,
+          'material': this.productMaterial.value,
         }
-        
-        const data = await response.json();
-        this.updateproducts(data, direction);
-      } catch (error) {
-        console.error('Error loading products:', error);
-      } finally {
-        this.isLoading = false;
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parameters),
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                } else {
+                  throw new Error(`!response.ok - HTTP error! status: ${response.status}`);
+                }
+              })
+              .then(data => {
+                console.log(data);
+                this.updateproducts(data, direction);
+              })
+        }
+        catch (error) {
+          console.error('Error loading products:', error);
+        }
+        finally {
+          this.isLoading = false;
+        }
+      }
+      else {
+
+        try {
+          const response = await fetch(url, {method: 'GET'});
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+          console.log(data);
+          this.updateproducts(data, direction);
+        }
+        catch (error) {
+          console.error('Error loading products:', error);
+        }
+        finally {
+          this.isLoading = false;
+        }
       }
     },
 
@@ -74,14 +115,15 @@ export default {
         if(window.innerWidth<1000){
         return `${baseApiUrl}/1-0`
         }
-        return `${baseApiUrl}/4-0`
+        console.log(this.$props.maxProducts);
+        return `${baseApiUrl}/${this.$props.maxProducts}-0`
       }
       
       if(direction>0){
         if( window.innerWidth<1280){
           return `${baseApiUrl}/1-${this.counter + 1}`
         }
-        return `${baseApiUrl}/1-${this.counter + 4}`
+        return `${baseApiUrl}/1-${this.counter + this.$props.maxProducts}`
       }
 
       return `${baseApiUrl}/1-${this.counter - 1}`;
@@ -107,10 +149,16 @@ export default {
     apiUrl: {
       type: String,
       required: true
+    },
+    maxProducts: {
+      type: Number,
+      required: true
     }
   },
   mounted() {
-    this.loadMore(0); 
+    this.productType = document.getElementById('product_type');
+    this.productMaterial = document.getElementById('product_material');
+    this.loadMore(0);
   }
 };
 </script>

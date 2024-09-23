@@ -82,11 +82,16 @@
     </div>
     
     <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh]  lg:p-10 p-2">
+        <div class="row gap-10">
+            <div id="view_transactions" class="std-container h-fit mb-5 w-full centered hover:bg-semi-transparent-3 border-4 border-black">
+                <h2 class="font-semibold xl:text-[1.8vw] text-xl mb-2">My products</h2>
+            </div>
+        </div>
         {% if products|length %}
         <div class="coloumn overflow-y-scroll h-full lg:pr-2 pr-0">
                 {% for product in products %}
                 <div class="animation-disappear">
-                    <div id={{product.id}} class="std-container row lg:h-52 h-fit mb-5  hover:bg-semi-transparent-3 transition-all w-full animation-appear" >
+                    <div id="{{product.id}}" class="std-container row lg:h-52 h-fit mb-5  hover:bg-semi-transparent-3 transition-all w-full animation-appear" >
                         <div class="productContainer row flex-wrap w-full">
                             <div class="lg:size-44 size-36 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{product.mainImage}});"></div>
                             <div class="column xl:w-9/12 lg:w-7/12  w-full">

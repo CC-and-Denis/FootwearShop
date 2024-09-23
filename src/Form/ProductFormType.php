@@ -60,23 +60,23 @@ class ProductFormType extends AbstractType
             ->add('material',ChoiceType::class,[
                 'label'=>"Main shoe material",
                 'choices'=>[
-                    "Leather" => "Leather",
-                    "Rubber" => "Rubber",
-                    "Textile" => "Textile",
-                    "Foam" => "Foam",
-                    "Plastic" => "Plastic",
-                    "Ethylene Vinyl Acetate" => "Ethylene Vinyl Acetate",
-                    "Mesh" => "Mesh",
-                    "Suede" => "Suede",
-                    "Synthetic leather" => "Synthetic leather",
-                    "Canvas" => "Canvas",
-                    "Polyurethane (PU)" => "Polyurethane (PU)",
-                    "Nylon" => "Nylon",
-                    "Cotton" => "Cotton",
-                    "Polyester" => "Polyester",
-                    "Gore-Tex" => "Gore-Tex",
-                    "Neoprene" => "Neoprene",
-                    "Other" => "Other"
+                    "Leather" => "leather",
+                    "Rubber" => "rubber",
+                    "Textile" => "textile",
+                    "Foam" => "foam",
+                    "Plastic" => "plastic",
+                    "Ethylene Vinyl Acetate" => "ethylene vinyl acetate",
+                    "Mesh" => "mesh",
+                    "Suede" => "suede",
+                    "Synthetic leather" => "synthetic leather",
+                    "Canvas" => "canvas",
+                    "Polyurethane (PU)" => "polyurethane",
+                    "Nylon" => "nylon",
+                    "Cotton" => "cotton",
+                    "Polyester" => "polyester",
+                    "Gore-Tex" => "gore-tex",
+                    "Neoprene" => "neoprene",
+                    "Other" => "other"
                 ]
             ])
             ->add('brand',ChoiceType::class,[

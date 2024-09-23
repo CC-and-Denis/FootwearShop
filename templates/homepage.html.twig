@@ -6,17 +6,19 @@
 
 <div class="column centered">
 
+
     {% include 'components/carousel_component.html.twig' with {
+        width: 'lg:w-[80vw] w-[98%]',
         title: 'Popular',
         type: 'Popular',
         link: 'populars'
     } %}
 
     {% include 'components/carousel_component.html.twig' with {
-        
+        width: 'lg:w-[80vw] w-[98%]',
         title: 'For you',
         type: 'Fy',
-        link: 'fy'
+        link: 'fyp'
             } %}
 
 </div>

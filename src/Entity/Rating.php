@@ -13,7 +13,7 @@ class Rating
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'doneRatings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $buyer = null;
 
@@ -26,7 +26,7 @@ class Rating
     private ?Product $ratedProduct = null;
 
     #[ORM\Column]
-    private ?int $rating = null;
+    private ?int $score = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -75,14 +75,14 @@ class Rating
         return $this;
     }
 
-    public function getRating(): ?int
+    public function getScore(): ?int
     {
-        return $this->rating;
+        return $this->score;
     }
 
-    public function setRating(int $rating): static
+    public function setScore(int $score): static
     {
-        $this->rating = $rating;
+        $this->score = $score;
 
         return $this;
     }

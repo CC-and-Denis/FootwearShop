@@ -109,7 +109,7 @@ class Product
 
     public function setMaterial(?string $material): static
     {
-        $this->materials = $material;
+        $this->material = $material;
 
         return $this;
     }

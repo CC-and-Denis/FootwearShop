@@ -149,14 +149,22 @@
                     <a href="/user/{{product.sellerusername.username}}"id="vendor">
                         {{product.sellerusername.username}}
                     </a>
+
+                <input type="hidden" id='product_type' value={{product.type}}>
+                <input type="hidden" id='product_material' value={{product.material}}>
                 
             </div>
 
-            <div class="column std-container w-auto">
-
+            <div class="column w-fit">
+                {% include 'components/carousel_component.html.twig' with {
+                    width: 'w-[45vw]',
+                    title: 'Similar',
+                    type: 'Similar',
+                    link: 'similar'
+                } %}
             </div>
         </div>
-    </div>
+    </div
 
 
         <div id="hiddenOtherImages" class="hidden absolute">
