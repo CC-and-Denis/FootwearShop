@@ -60,24 +60,22 @@ class HomeController extends AbstractController
             ], $response);
         }
 
-        $remainingProducts = $targetProduct->getQuantity() - $targetProduct->getItemsSold();
-        $targetProduct->setViews($targetProduct->getViews() + 1);
+        if($this->getUser()==$targetProduct->getSellerUsername() || $targetProduct->getQuantity()<=0){
+            return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
+        }
+
+        $targetProduct->increaseViews();
         $cookieService->cookie_update($targetProduct, $request, $response);
 
-        $renderVariables['hasItemsLeft'] = $remainingProducts>0;
+        $form = $this->createForm(PaymentType::class);
+        $form->handleRequest($request);
 
-        if($remainingProducts>0){
+        $errorsList = $form->getErrors(true);
 
-            $form = $this->createForm(PaymentType::class);
-            $form->handleRequest($request);
+        $renderVariables['form'] = $form->createView();
+        $renderVariables['errorsList'] = $errorsList;
 
-
-            $errorsList = $form->getErrors(true);
-
-            $renderVariables['form'] = $form->createView();
-            $renderVariables['errorsList'] = $errorsList;
-
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
                 $buyer = $userRepository->findOneBy(['username' => $this->getUser()->getUsername()]);
 
@@ -99,7 +97,7 @@ class HomeController extends AbstractController
                   'line_items' => [[
                     # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
                     'price_data'=>[
-                        'currency'=>'usd',
+                        'currency'=>'eur',
                         'product_data'=>[
                             'name'=>$targetProduct->getModel(),
                             'description'=>$targetProduct->getDescription(),
@@ -109,39 +107,104 @@ class HomeController extends AbstractController
                     ],
                     'quantity' => 1,
                   ]],
+                  'metadata'=>[
+                    'user_id' => $buyer->getId(),
+                    'product_id' => $targetProduct->getId(),
+                  ],
+                
                   'mode' => 'payment',
-                  'success_url' => $this->generateUrl('home',[],UrlGeneratorInterface::ABSOLUTE_URL),
+                  'success_url' => $this->generateUrl('home',['productId'=>$targetProduct->getId(), 'sessionId' => '{CHECKOUT_SESSION_ID}'],UrlGeneratorInterface::ABSOLUTE_URL),
                   'cancel_url' => $this->generateUrl('productPage',['productId'=>$targetProduct->getId()],UrlGeneratorInterface::ABSOLUTE_URL),
                 ]);
 
+                header("HTTP/1.1 303 See Other");
+                header("Location: " . $session->url);
+
                 
 
-               
+               $targetProduct->decreaseQuantity();
 
-                /*$order = new Order();
-                $order->setProduct($targetProduct);
-                $order->setUser($this->getUser());
-                $order->setPurchaseDate(new \DateTime());
-                $order->setPaymentStatus($stripe_response); // fake stripe's response
-
-                $this->entityManager->persist($order);
+            
+                $this->entityManager->persist($targetProduct);
                 $this->entityManager->flush();
-
-                if (str_contains(json_decode($stripe_response), 'Successfull')) {
-                    $targetProduct->setItemsSold($targetProduct->getItemsSold() + 1);
-                }*/
 
                 return $this->redirect($session->url,303);
             }
-        }
+        
 
         $this->entityManager->persist($targetProduct);
         $this->entityManager->flush();
 
         return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
             
-
     }
+
+    #[Route('/stripe_webhooks', name: 'stripe_webhook', methods: ['POST'])]
+    public function webhookStripeListener() {
+        $endpoint_secret = $_ENV['STRIPE_WEBHOOK_SECRET'];
+    
+        $payload = @file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+        $newTransaction = new Order();
+        
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload, $sig_header, $endpoint_secret
+            );
+        } catch (\UnexpectedValueException $e) {
+            http_response_code(525);
+            exit();
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            http_response_code(525);
+            exit();
+        }
+    
+        if (
+            $event->type == 'checkout.session.completed' ||
+            $event->type == 'checkout.session.async_payment_succeeded'
+        ) {
+
+            $session = $event->data->object;
+
+            // Retrieve metadata
+            $userId = $session->metadata->user_id;
+            $productId = $session->metadata->product_id;
+
+            $targetProduct=$this->entityManager->getRepository(Product::class)->findOneBy(['id' => $productId]);
+
+
+            $newTransaction->setPurchaseDate(new \DateTime());
+            $newTransaction->setUser($this->entityManager->getRepository(User::class)->findOneBy(['id' => $userId])); 
+            $newTransaction->setProduct($targetProduct);
+
+    
+            $checkout_session = \Stripe\Checkout\Session::retrieve($event->data->object->id, [
+                'expand' => ['line_items'],
+            ]);
+    
+            if ($checkout_session->payment_status != 'unpaid') {
+                $targetProduct->increaseItemsSold();
+                $newTransaction->setPaymentStatus("success");
+            } else {
+                $newTransaction->setPaymentStatus("error");
+                $targetProduct->increaseQuantity();
+            }
+    
+            $this->entityManager->persist($targetProduct);
+            $this->entityManager->persist($newTransaction);
+            $this->entityManager->flush();
+    
+            http_response_code(200);
+            exit();
+        }
+    
+        http_response_code(200);
+        exit();
+    }
+    
+
+ 
 
     #[Route('createproduct'),]
     public function createProduct(Request $request): Response
@@ -398,7 +461,6 @@ class HomeController extends AbstractController
             ]);
         }
     }
-
 
 
 

@@ -24,6 +24,11 @@ productPage:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadProductPage
 
+stripe_webhook:
+    path: /stripe_webhooks
+    controller: App\Controller\HomeController::webhookStripeListener
+
+
 userPage:
     path: /user/{username}
     # the controller value has the format 'controller_class::method_name'

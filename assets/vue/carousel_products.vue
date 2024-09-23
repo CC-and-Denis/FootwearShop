@@ -3,7 +3,7 @@
     <button @click="loadMore(-1)" :disabled="isLoading || counter === 0" :class="{ 'opacity-50': counter === 0 }">
         <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
     </button>
-    <div ref="container" class="productCarouselInner xl:grid-cols-4 grid-cols-1 m-2 h-[30vh] overflow-y-hidden">
+    <div ref="container" class="productCarouselInner xl:grid-cols-4 grid-cols-1 m-2 h-[30vh] overflow-y-hidden overflow-x-hidden gap-3">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
 
       :style="{ backgroundImage: `url(${product.image})` }">
@@ -15,8 +15,8 @@
 y-0 transition-opacity hover:cursor-pointer">
 
                   <a class="h-full" :href="`/product/${product.id}`" >
-                      <h1 class="text-xl underline">{{product.model}}</h1>
-                      <p class="text-lg h-full"> {{product.description}}</p>
+                      <h1 class="text-lg underline">{{product.model}}</h1>
+                      <p class="text-md break-all h-[12vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
                   </a>
                 
                   <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>

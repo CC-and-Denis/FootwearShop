@@ -151,7 +151,7 @@ class ProductFormType extends AbstractType
                 'attr'=>[
                     'pattern' => '[0-9\.]+',
                     'placeholder'=>".",
-                    'min'=>0.2,
+                    'min'=>1,
                     'max'=>10000,
                     'maxlength'=>7,
                 ]

@@ -6,6 +6,7 @@
 
 
 {% block alerts %}
+    {% if app.user.userIdentifier | lower == username | lower %}
     <div id="errorsBox" class="hidden">
         <div class="closeErrorsBtn">
             x
@@ -23,6 +24,7 @@
             <a class="aButton" id="noDelete">Don't delete</a>
         </div>
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -81,7 +83,7 @@
         {% endif %}
     </div>
     
-    <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh]  lg:p-10 p-2">
+    <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh] lg:p-10 p-2">
         {% if products|length %}
         <div class="coloumn overflow-y-scroll h-full lg:pr-2 pr-0">
                 {% for product in products %}
@@ -91,7 +93,7 @@
                             <div class="lg:size-44 size-36 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{product.mainImage}});"></div>
                             <div class="column xl:w-9/12 lg:w-7/12  w-full">
                                 <h1 class="w-full text-2xl">{{product.Model}}</h1>
-                                <div class="lg:h-full h-20 overflow-y-scroll">{{product.description}}</div>
+                                <div class="lg:h-full h-16 overflow-y-scroll">{{product.description}}</div>
                                 <div class="row flex-wrap gap-2">
                                     <div class="priceContainer">€ {{product.price}}</div>
                                     <div class="priceContainer">In stock: {{product.quantity}}</div>
@@ -103,8 +105,10 @@
                 
                     
                     <div class="column w-16">
-                    {% if ( app.user.userIdentifier | lower == username | lower ) and product.itemsSold==0 %}
-                    <a  id="{{product.id}}" class="aButton bg-red deleteButton1 mb-7 " name="{{product.model}}">Delete</a>
+                    {% if ( app.user.userIdentifier | lower == username | lower ) %}
+                        {% if product.itemsSold == 0 %}
+                            <a  id="{{product.id}}" class="aButton bg-red deleteButton1 mb-7 " name="{{product.model}}">Delete</a>
+                        {% endif %}
                     <a class="aButton h-fit w-24" href="/editproduct/{{product.id}}">Edit</a>
 
                     {% endif %}

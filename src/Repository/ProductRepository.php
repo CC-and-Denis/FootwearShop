@@ -19,8 +19,8 @@ class ProductRepository extends ServiceEntityRepository
     public function findPopularProducts(int $qta, int $position): array
     {
         $query=$this->createQueryBuilder('product')
-            //->addOrderBy('p.items_sold', 'DESC')
-            ->orderBy('product.views', 'DESC');
+            ->orderBy('product.itemsSold', 'DESC')
+            ->addOrderBy('product.views', 'DESC');
 
 
         $productsAvaible=(clone $query)->select('count(product.id)')

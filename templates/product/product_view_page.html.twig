@@ -12,6 +12,9 @@
 
 {% block alerts %}
 
+
+{% if form is defined %}
+
 {% if errorsList | length %}
 <div id="errorsBox">
     <div id="closeErrorsBtn">
@@ -24,6 +27,7 @@
     {% endfor %}
 </div>
 {% endif %}
+
         {{form_start(form)}}
             <div id="paymentForm" class="column std-container bg-white centered" >
                 <h1 class="text-3xl font-semibold mb-5">Payment</h1>
@@ -43,6 +47,9 @@
 
             </div>
         {{ form_end(form) }}
+
+{% endif %}
+
 {% endblock %}
 
 
@@ -52,11 +59,11 @@
                 
             </div>
         <div class="row  w-full flex-wrap lg:h-[50vh] h-fit lg:mt-0 gap-7">
-            <div class="column std-container lg:w-fit h-full w-full mx-auto" >
+            <div class="column std-container lg:w-5/12 h-full w-full mx-auto" >
                 <div class="row flex-wrap">
                     <div class="bg-cover bg-center bg-no-repeat rounded-2xl lg:size-[20vh] size-[10vh] left-0 relative mr-5 mb-10" style="background-image: url({{asset( product.mainImage )}});"></div>
                     <div class="column">
-                        <div class="w-52 text-lg my-7">
+                        <div class="w-72 text-lg my-7 pr-4">
                             {{product.model}}
                         </div>
                         <div class="row priceContainer text-sm">
@@ -69,14 +76,22 @@
                         </div>
                     </div> 
                     <div class="column lg:w-fit w-full my-7">
+                        {% if form is defined %}
                         <a class="aButton w-full p-2" id="buyButton1"> Buy now</a>
+                        {% else %}
+                            {% if app.user == product.sellerUsername%}
+                                <a class="aButton h-fit w-24" href="/editproduct/{{product.id}}">Edit</a>
+                            {% else %}
+                            <a class="aButton w-full p-2 ">Out of stock</a>
+                            {% endif %}
+                        {% endif%}
                     </div>
                 </div>
 
-                    <div class="column relative lg:mt-0 mt-10 h-full">
+                    <div class="column relative lg:mt-0 mt-10 h-full overflow-y-scroll">
                         {{product.description}}
                     </div>
-                    <a href="/user/{{product.sellerusername.username}}"id="vendor">
+                    <a href="/user/{{product.sellerusername.username}}" class="underline pt-3" id="vendor">
                         {{product.sellerusername.username}}
                     </a>
                 

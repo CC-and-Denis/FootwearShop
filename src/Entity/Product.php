@@ -210,6 +210,16 @@ class Product
         return $this;
     }
 
+    public function decreaseQuantity(): ?int
+    {
+        return $this->quantity-=1;
+    }
+
+    public function increaseQuantity(): ?int
+    {
+        return $this->quantity+=1;
+    }
+
     public function getViews(): ?int
     {
         return $this->views;
@@ -222,6 +232,12 @@ class Product
         return $this;
     }
 
+
+    public function increaseViews(): ?int
+    {
+        return $this->views+=1;
+    }
+
     public function getItemsSold(): ?int
     {
         return $this->itemsSold;
@@ -232,6 +248,11 @@ class Product
         $this->itemsSold = $itemsSold;
 
         return $this;
+    }
+
+    public function increaseItemsSold(): ?int
+    {
+        return $this->itemsSold+=1;
     }
 
     public function getCartedBy(): ?User

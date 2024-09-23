@@ -26,9 +26,6 @@ class Order
     #[ORM\Column]
     private ?string $paymentStatus = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $purchaseDate = null;
 
@@ -69,18 +66,6 @@ class Order
     public function setPaymentStatus(string $paymentStatus): static
     {
         $this->paymentStatus = $paymentStatus;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }
