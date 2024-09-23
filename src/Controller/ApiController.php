@@ -62,29 +62,31 @@ class ApiController extends AbstractController {
             $brands = $data['brands'] ?? [];      // Selected brands
             $colors = $data['colors'] ?? [];      // Selected colors
             $sizes = $data['sizes'] ?? [];      // Selected colors
-        }
-        [$hasMore, $products] = $productRepository -> findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $sizes, $qta, $position);
 
-        $productData = array_map(function ($product) {
-            return [
-                'id' => $product->getId(),
-                'model' => $product->getModel(),
-                'image' => $product->getMainImage(),
-                'price' => $product->getPrice(),
-                'description' => $product->getDescription(),
-                'seller'=>[
-                    'username'=>$product->getSellerUsername()->getUsername(),
-                ]
-            ];
-        }, $products);
+            [$hasMore, $products] = $productRepository->findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $sizes, $qta, $position);
+
+            $productData = array_map(function ($product) {
+                return [
+                    'id' => $product->getId(),
+                    'model' => $product->getModel(),
+                    'image' => $product->getMainImage(),
+                    'price' => $product->getPrice(),
+                    'description' => $product->getDescription(),
+                    'seller' => [
+                        'username' => $product->getSellerUsername()->getUsername(),
+                    ]
+                ];
+            }, $products);
 
         //dump($data);
         //dump($products);
 
-        return new JsonResponse([
-            'hasMore' => $hasMore,
-            'products' => $productData,
-        ], 200);
+            return new JsonResponse([
+                'hasMore' => $hasMore,
+                'products' => $productData,
+            ], 200);
+        }
+        return new JsonResponse(['hasMore' => false, 'products' => null]);
     }
 
     #[Route('/api/fyp-function/{qta}-{position}',)]
@@ -123,6 +125,40 @@ class ApiController extends AbstractController {
             'products' => $productData,
         ]);
     }
+
+    #[Route('/api/getSimilarProducts/{qta}-{position}', name: 'get_similar_products')]
+    public function getSimilarProducts(Request $request, $qta, $position, ProductRepository $productRepository): JsonResponse {
+        $data = json_decode($request->getContent(), true);
+        dump($data, $data['type'], $data['material']);
+        if ($data) {
+            [$hasMore, $items] = $productRepository -> findSimilarProduct($data['type'], $data['material'], $qta, $position);
+            $productData = array_map(function ($product) {
+                return [
+                    'id' => $product->getId(),
+                    'model' => $product->getModel(),
+                    'image' => $product->getMainImage(),
+                    'price' => $product->getPrice(),
+                    'description' => $product->getDescription(),
+                    'seller' => [
+                        'username' => $product->getSellerUsername()->getUsername(),
+                    ]
+                ];
+            }, $items);
+
+            return new JsonResponse([
+                'hasMore' => $hasMore,
+                'products' => $productData,
+            ], 200);
+        }
+        return new JsonResponse(['hasMore' => false, 'products' => null]);
+    }
+
+
+
+
+
+
+
 
     private function getDivisionRate($first, $second): int {
         if ($second == 0){
@@ -205,7 +241,7 @@ class ApiController extends AbstractController {
                                     if ( $combinationCounter[$combinationKey] == -1 ){
                                         continue;
                                     }
-             
+
 
                                         $queryResult = $this->fyp_query($type, $brand, $color, $combinationCounter[$combinationKey]);
 
@@ -238,7 +274,7 @@ class ApiController extends AbstractController {
                                             //dump($totalRecords, $productCount, $totalRecords>$productCount);
                                             return [$totalRecords>$counter, $results];
                                         }
-                                    
+
                                 } //color loop
                             } //foreach color
                         } //brand loop

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\String_;
 
 /**
  * @extends ServiceEntityRepository<Product>
@@ -82,19 +84,25 @@ class ProductRepository extends ServiceEntityRepository
         return [$productsAvaible-$offset-$qta>0,$query];
     }
 
-    public function findFavouriteProduct(String $type, String $brand, String $color, int $offset)
+    public function findSimilarProduct(String $type, String $material, int $qta, int $offset)
     {
-        return $this -> createQueryBuilder('p')
-            ->where('p.type = :(type)')
-            ->andWhere('p.brand = :brand')
-            ->andWhere('p.color = :color')
+        $query = $this -> createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->andWhere('p.material = :material')
             ->setParameter('type', $type)
-            ->setParameter('brand', $brand)
-            ->setParameter('color', $color)
-            ->setMaxResults(1)
+            ->setParameter('material', $material);
+
+        $productsAvaible=(clone $query)->select('count(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $query = $query
+            ->setMaxResults($qta)
             ->setFirstResult($offset)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
+
+        return [$productsAvaible-$offset-$qta>0, $query];
     }
 }
 

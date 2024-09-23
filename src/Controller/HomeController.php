@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Form\ResearchType;
 use App\Service\CookieService;
+use App\Form\RatingForm;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Entity\Order;
@@ -14,6 +14,7 @@ use App\Form\PaymentType;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,8 +35,23 @@ class HomeController extends AbstractController
     }
 
     #[Route('/home', name:'home')]
-    public function loadHomePage(Request $request): Response
+    public function loadHomePage(CookieService $cookieService, Request $request): Response
     {
+        if (!json_decode($request->cookies->get('type'), true)) {
+            $cookies = $cookieService -> cookie_creation();
+
+            $typeJSON = json_encode($cookies['type']);
+            $brandJSON = json_encode($cookies['brand']);
+            $colorJSON = json_encode($cookies['color']);
+
+            $response = new Response();
+
+            $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
+            $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
+            $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));
+
+            return $this->render('homepage.html.twig', ['cookies' => $response]);
+        }
         return $this->render('homepage.html.twig',);
 
     }
@@ -51,8 +67,8 @@ class HomeController extends AbstractController
             'product' => $targetProduct,
         ];
 
-    
-        
+
+
 
         if(! $targetProduct){
             return $this->render('not_found.html.twig', [
@@ -205,6 +221,7 @@ class HomeController extends AbstractController
     
 
  
+
 
     #[Route('createproduct'),]
     public function createProduct(Request $request): Response
@@ -409,20 +426,28 @@ class HomeController extends AbstractController
         if($targetUser){
 
             $orderRepository = $this -> entityManager -> getRepository(\App\Entity\Order::class);
+            $sessionUser = $this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
             $canRate = false;
-            if ($orderRepository->alredyBuyer($this->getUser(), $targetUser->getUsername())) {
+            $orders = [];
+            dump("sessionUser", $sessionUser, "targetUser", $targetUser);
+            if ($sessionUser === $targetUser) {
+                $orders = $targetUser->getOrders();
+                dump($orders);
+            }
+            elseif ($orderRepository->alredyBuyer($sessionUser, $targetUser->getUsername())) {
                 $canRate = true;
             }
             if ($canRate) {
-                $form = $this->createForm(PaymentType::class);
+
+                $form = $this->createForm(RatingForm::class);
                 $form->handleRequest($request);
 
                 if ($form->isSubmitted() && $form->isValid()) {
                     $rating = new Rating();
-                    $rating->setBuyer($this->getUser());
-                    $rating->setBuyer($targetUser);
+                    $rating->setBuyer($sessionUser);
+                    $rating->setVendor($targetUser);
                     $rating->setRatedProduct($form->get('product')->getData());
-                    $rating->setRating($form->get('rating')->getData());
+                    $rating->setScore($form->get('score')->getData());
                     $rating->setTitle($form->get('title')->getData());
                     $rating->setDescription($form->get('description')->getData());
                     $this->entityManager->persist($rating);
@@ -434,24 +459,18 @@ class HomeController extends AbstractController
                         'username'=>$username,
                         'isVendor'=>$targetUser->isVendor(),
                         'products'=>$targetUser->getSellingProducts(),
-                        'canRate'=>$canRate,
+                        'orders' => $orders,
+                        'canRate'=> $canRate,
                         'form'=>$form,
                     ]);
                 }
-            }
-            else{
-                return $this->render('user/user_page.html.twig',[
-                    'username'=>$username,
-                    'isVendor'=>$targetUser->isVendor(),
-                    'products'=>$targetUser->getSellingProducts(),
-                    'canRate'=>$canRate,
-                ]);
             }
 
             return $this->render('user/user_page.html.twig',[
                 'username'=>$username,
                 'isVendor'=>$targetUser->isVendor(),
                 'products'=>$targetUser->getSellingProducts(),
+                'orders' => $orders,
                 'canRate'=>$canRate,
             ]);
         }

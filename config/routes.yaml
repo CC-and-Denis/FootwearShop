@@ -54,6 +54,10 @@ api_fyp_function:
     path: /api/fyp-function/{qta}-{position}
     controller: App\Controller\ApiController::fyp_function
 
+get_similar_products:
+    path: /api/getSimilarProducts/{qta}-{position}
+    controller: App\Controller\ApiController::getSimilarProducts
+
 get_product_by_research:
     path: /api/getProductByResearch/{qta}-{position}
     controller: App\Controller\ApiController::getProductByResearch

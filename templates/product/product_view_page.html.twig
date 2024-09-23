@@ -43,7 +43,7 @@
                     {{ form_widget(form.addressPostal) }}
                     <label>Postal address</label>
                 </div>
-                <button id="buyButton2" class="aButton" type="submit">Buy the article</button>   
+                <button id="buyButton2" class="aButton" type="submit">Buy the article</button>
 
             </div>
         {{ form_end(form) }}
@@ -94,11 +94,19 @@
                     <a href="/user/{{product.sellerusername.username}}" class="underline pt-3" id="vendor">
                         {{product.sellerusername.username}}
                     </a>
-                
+
+                <input type="hidden" id='product_type' value={{product.type}}>
+                <input type="hidden" id='product_material' value={{product.material}}>
+
             </div>
 
-            <div class="column std-container w-fit">
-
+            <div class="column w-fit">
+                {% include 'components/carousel_component.html.twig' with {
+                    width: 'w-[45vw]',
+                    title: 'Similar',
+                    type: 'Similar',
+                    link: 'similar'
+                } %}
             </div>
         </div>
     </div>

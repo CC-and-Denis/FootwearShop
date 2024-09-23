@@ -70,6 +70,9 @@ export default {
               })
               .then(data => {
                 console.log(data);
+
+
+
               })
         }
         catch (error) {

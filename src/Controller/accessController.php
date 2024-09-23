@@ -47,6 +47,7 @@ class accessController extends AbstractController
                 )
             );
             $user->setVendor(false);
+            $user->setPostalAddress("pippohouse");
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -88,7 +89,7 @@ class accessController extends AbstractController
     }
 
     #[Route('/access/login')]
-    public function login(AuthenticationUtils $authenticationUtils){
+    public function login(AuthenticationUtils $authenticationUtils, Request $request, CookieService $cookieService){
             // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
