@@ -4,11 +4,9 @@ var opacity = 0;
 var id = null
 var stop=false
 
-const searchbar = document.getElementById("searchBarContainer") as HTMLDivElement
-const searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
 
 export function displayFilters(){
-    element = document.getElementById("filterMenu")
+    let element = document.getElementById("filterMenu")
     let filterMenuCheckbox = document.getElementById("filterMenuCheckbox") as HTMLInputElement
     id = null
     clearInterval(id)
@@ -27,7 +25,7 @@ export function displayFilters(){
           clearInterval(id);
         } else {
           opacity+=step
-          element.style.opacity=opacity/10
+          element.style.opacity=(opacity/10).toString()
         }
 
     }
@@ -35,6 +33,8 @@ export function displayFilters(){
 
 export function displayOverlay(optionalElements=document.getElementById("searchBarContainer")){
     let overlay = document.getElementById("overlay") as HTMLDivElement;
+    let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
+
 
     // for some reason the listener fuck everything up if the clicked element is a label for an input so we needs to do this
     searchCheckbox.checked = !searchCheckbox.checked
@@ -113,9 +113,17 @@ export function displayMenu(){
 
 
 export function displayPayment(){
+
   let paymentFormContainer = document.getElementById("alertsContainer") as HTMLDivElement
-  searchCheckbox.checked= ! searchCheckbox.checked
-  paymentFormContainer.style.display="block"
+  let searchbar = document.getElementById("searchBarContainer") as HTMLDivElement
+  let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
+  let overlay = document.getElementById("overlay") as HTMLDivElement;
+  
+  ( document.getElementById("filterMenuCheckbox") as HTMLInputElement ).checked =false;
+  document.getElementById("filterMenu").style.opacity="0"
+
+  searchCheckbox.checked = ! searchCheckbox.checked
+  paymentFormContainer.style.display="flex"
   searchbar.style.display="none"
   id = null
   clearInterval(id)
@@ -124,7 +132,7 @@ export function displayPayment(){
       step = 1
       end = 10
       opacity = 0
-      element.style.display="flex"
+      overlay.style.display="flex"
   }else{
       step = -1
       end = 0
@@ -136,11 +144,50 @@ export function displayPayment(){
       if (opacity==end) {
         clearInterval(id);
         if(! searchCheckbox.checked){
-        searchbar.style.display="none"
+        overlay.style.display="none"
+        }
+      } else {
+        opacity+=step
+        overlay.style.opacity=(opacity/10).toString()
+      }
+  }
+}
+
+
+export function displayDeleteAlert(productId ="unknown", model="unknown"){
+  let overlay = document.getElementById("overlay")
+  let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
+  chekboxElement.checked= ! chekboxElement.checked
+  id = null
+  document.getElementById("itemToBeDeleted").innerText=model;
+  document.getElementById("searchBarContainer").style.display="none";
+  (document.getElementById("filterMenuCheckbox") as HTMLInputElement).checked =false;
+  document.getElementById("filterMenu").style.opacity="0"
+  document.getElementById("alertsContainer").style.display="block"
+  document.getElementById("buttonDelete2").setAttribute("name",productId)
+  clearInterval(id)
+  id=setInterval(frame,10)
+  if(chekboxElement.checked){
+      step = 1
+      end = 10
+      opacity = 0
+      overlay.style.display="flex"
+  }else{
+      step = -1
+      end = 0
+      opacity = 10
+  }
+ 
+  function frame() {
+
+      if (opacity==end) {
+        clearInterval(id);
+        if(! chekboxElement.checked){
+          overlay.style.display="none"
           }
       } else {
         opacity+=step
-        searchbar.style.opacity=(opacity/10).toString()
+        overlay.style.opacity = (opacity/10).toString()
       }
   }
 }

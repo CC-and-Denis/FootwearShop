@@ -28,14 +28,6 @@ body,html{
     @apply bg-semi-transparent-2 hover:bg-semi-transparent-3
 }
 
-::-moz-selection {
-    @apply bg-semi-transparent-3 text-shadow
-}
-
-::selection {
-    @apply bg-semi-transparent-3 text-shadow
-}
-
 input,select{
     @apply border-none focus:outline-none bg-transparent
 }

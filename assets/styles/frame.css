@@ -135,3 +135,21 @@ input[type="checkbox"]{
 .custom-select>label{
     border-bottom: 1px solid black;
 }
+
+
+/*payment form*/
+#paymentForm input{
+    border-bottom: 1px solid black;
+}
+
+#paymentForm input:focus{
+    border-bottom: 1px solid #00509E;
+    transition: all .3s ease;
+    outline: none;
+}
+
+#paymentForm input:focus+label{
+    color: #00509E;
+    transition: all .3s ease;
+
+}

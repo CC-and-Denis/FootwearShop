@@ -5,29 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a09bebfa-ed6a-4723-b46a-5e3cf86c09c7" name="Changes" comment="Merging">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d06d7b22-4620-454c-9f46-d61ede9b7014.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/frame.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/frame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/vue/carousel_products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/carousel_products.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/vue/research.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/research.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/vue/scroll_products_loader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/vue/scroll_products_loader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240919125558.php" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/routes/annotations.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/animations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/animations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/products.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/products.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/frame.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/frame.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/main_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/main_style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/accessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/accessController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Rating.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ProductFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ProductFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/RatingForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/RatingForm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/RatingRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/carousel_component.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/PaymentType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PaymentType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/product/product_view_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/product_view_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product_grid_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product_grid_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/user_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/user_page.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,30 +189,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.research.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;database.data.extractors.current.export.id&quot;: &quot;SQL Inserts&quot;,
-    &quot;database.data.extractors.current.id&quot;: &quot;SQL Inserts&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;denis&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/one-am/Scrivania/FootwearShop/migrations&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/one-am/Scrivania/FootwearShop/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.research.ts.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "database.data.extractors.current.export.id": "SQL Inserts",
+    "database.data.extractors.current.id": "SQL Inserts",
+    "git-widget-placeholder": "Merging denis",
+    "last_opened_file_path": "/home/one-am/Scrivania/FootwearShop/migrations",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/one-am/Scrivania/FootwearShop/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
     ],
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/migrations" />
