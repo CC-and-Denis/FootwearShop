@@ -364,8 +364,10 @@ class HomeController extends AbstractController
             $sessionUser = $this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
             $canRate = false;
             $orders = [];
+            dump("sessionUser", $sessionUser, "targetUser", $targetUser);
             if ($sessionUser === $targetUser) {
                 $orders = $targetUser->getOrders();
+                dump($orders);
             }
             elseif ($orderRepository->alredyBuyer($sessionUser, $targetUser->getUsername())) {
                 $canRate = true;

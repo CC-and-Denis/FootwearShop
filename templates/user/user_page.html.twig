@@ -70,8 +70,8 @@
                         This User has not sold anything
                         {% endif %}
                 {% endif %}
-            
-            
+
+
 
         </div>
         {% if app.user.userIdentifier | lower == username | lower %}
@@ -80,7 +80,7 @@
 
         {% endif %}
     </div>
-    
+
     <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh]  lg:p-10 p-2">
         <div class="row gap-10">
             <div id="view_transactions" class="std-container h-fit mb-5 w-full centered hover:bg-semi-transparent-3 border-4 border-black">
@@ -88,7 +88,7 @@
             </div>
         </div>
         {% if products|length %}
-        <div class="coloumn overflow-y-scroll h-full lg:pr-2 pr-0">
+        <div class="column overflow-y-scroll h-full lg:pr-2 pr-0">
                 {% for product in products %}
                 <div class="animation-disappear">
                     <div id="{{product.id}}" class="std-container row lg:h-52 h-fit mb-5  hover:bg-semi-transparent-3 transition-all w-full animation-appear" >
@@ -101,12 +101,12 @@
                                     <div class="priceContainer">€ {{product.price}}</div>
                                     <div class="priceContainer">In stock: {{product.quantity}}</div>
                                     <div class="priceContainer row"><img class="h-6 mr-1 w-7" src="/build/images/eye-regular.30a447c7.png"> {{product.views}}</div>
-                                    <div class="priceContainer row"><img class="size-6 mr-1" src="/build/images/cart-shopping-solid.5de20d86.png"> {{product.itemsSold}}</div>     
+                                    <div class="priceContainer row"><img class="size-6 mr-1" src="/build/images/cart-shopping-solid.5de20d86.png"> {{product.itemsSold}}</div>
                                 </div>
                             </div>
                         </div>
-                
-                    
+
+
                     <div class="column w-16">
                     {% if ( app.user.userIdentifier | lower == username | lower ) and product.itemsSold==0 %}
                     <a  id="{{product.id}}" class="aButton bg-red deleteButton1 mb-7 " name="{{product.model}}">Delete</a>
@@ -114,7 +114,7 @@
 
                     {% endif %}
                     </div>
-                
+
                 </div>
             </div>
                 {% endfor %}
@@ -128,6 +128,32 @@
                         {% endif %}
                     </div>
                 {% endif %}
+
+        {% if orders|length %}
+        <div class="column overflow-y-scroll h-full lg:pr-2 pr-0">
+            {% for order in orders %}
+                <div class="animation-disappear">
+                    <div id="{{order.product.id}}" class="std-container row lg:h-52 h-fit mb-5  hover:bg-semi-transparent-3 transition-all w-full animation-appear" >
+                        <div class="productContainer row flex-wrap w-full">
+                            <div class="lg:size-44 size-36 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{order.product.mainImage}});"></div>
+                            <div class="column xl:w-9/12 lg:w-7/12  w-full">
+                                <h1 class="w-full text-2xl">{{order.product.Model}}</h1>
+                                <div class="lg:h-full h-20 overflow-y-scroll">{{order.product.description}}</div>
+                                <div class="row flex-wrap gap-2">
+                                    <div class="priceContainer">€ {{order.product.price}}</div>
+                                    <div class="priceContainer">In stock: {{order.product.quantity}}</div>
+                                    <div class="priceContainer row"><img class="h-6 mr-1 w-7" src="/build/images/eye-regular.30a447c7.png"> {{order.product.views}}</div>
+                                    <div class="priceContainer row"><img class="size-6 mr-1" src="/build/images/cart-shopping-solid.5de20d86.png"> {{order.product.itemsSold}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
     </div>
 
 
