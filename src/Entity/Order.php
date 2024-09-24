@@ -70,9 +70,9 @@ class Order
         return $this;
     }
 
-    public function getPurchaseDate(): ?\DateTimeInterface
+    public function getPurchaseDate(): ?String
     {
-        return $this->purchaseDate;
+        return $this->purchaseDate->format("d-m-Y");
     }
 
     public function setPurchaseDate(\DateTimeInterface $purchaseDate): static

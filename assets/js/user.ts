@@ -1,5 +1,5 @@
 
-import { displayDeleteAlert } from './animations';
+import { displayDeleteAlert,toggleContainer } from './animations';
 
 
  const buttons = document.querySelectorAll('.productContainer');
@@ -23,9 +23,11 @@ deleteButtons1.forEach(button=>{
 
 
 if(document.getElementById("noDelete") && document.getElementById("buttonDelete2")){
+
     document.getElementById("noDelete").addEventListener("click",()=>{
         displayDeleteAlert()
     })
+
     document.getElementById("buttonDelete2").addEventListener("click",()=>{
         fetch("/deleteproduct/"+document.getElementById("buttonDelete2").getAttribute("name"))
         .then(function(response) {                     
@@ -38,6 +40,31 @@ if(document.getElementById("noDelete") && document.getElementById("buttonDelete2
               document.getElementById("errorsBox").style.display="flex"
             }
             })
+    })
+}
+
+if ( document.getElementById("switchTPCheckbox") ){
+
+    let switchTPCheckbox = document.getElementById("switchTPCheckbox") as HTMLInputElement;
+
+    if( ( ! buttons.length ) && document.getElementById("ordersContainer") ){
+        console.log("hiv")
+        document.getElementById("productsContainer").style.display="none";
+        document.getElementById("ordersContainer").style.display="flex";
+        switchTPCheckbox.checked = ! switchTPCheckbox.checked;
+
+    }
+
+    document.getElementById("switchTPCheckbox").addEventListener('change',()=>{
+        if(switchTPCheckbox.checked){
+            console.log("orders")
+            toggleContainer(document.getElementById("productsContainer"),-10)
+            toggleContainer(document.getElementById("ordersContainer"),10)
+        }else{
+            console.log("products")
+            toggleContainer(document.getElementById("ordersContainer"),-10)
+            toggleContainer(document.getElementById("productsContainer"),10)
+        }
     })
 }
 

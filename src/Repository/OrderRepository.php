@@ -44,19 +44,5 @@ class OrderRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-        public function alredyBuyer(User $buyer, String $vendorUsername): bool {
-            $query = $this->createQueryBuilder('o')
-                ->where('o.user = :buyer')
-                ->andWhere('o.paymentStatus = :ps')
-                ->setParameter('buyer', $buyer)
-                ->setParameter('ps', 'Successfull')
-                ->getQuery()
-                ->getResult();
-            foreach ($query as $order) {
-                if ($order->getProduct()->getSellerUsername() == $vendorUsername) {
-                    return true;
-                }
-            }
-            return false;
-        }
+
 }

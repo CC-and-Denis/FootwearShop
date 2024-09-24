@@ -44,12 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?bool $isVendor = null;
-
-    /**
-     * @var Collection<int, Product>
-     */
+   
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'sellerUsername', orphanRemoval: true)]
     private Collection $sellingProducts;
 
@@ -63,7 +58,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Rating>
      */
     #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'buyer')]
-    private Collection $doneRatings;
+    private Collection $ratingsWritten;
+
+    /**
+     * @var Collection<int, Rating>
+     */
+    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'buyer')]
+    private Collection $ratingsReceaved;
 
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
     private Collection $orders;
@@ -328,5 +329,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->postalAddress = $postalAddress;
 
         return $this;
+    }
+
+    public function hasBoughtFrom(User $vendor){
+        //list of orders that are from the vendor
+        $returnArray=[];
+
+        foreach ($this->orders as $order) {
+            if($order->getProduct()->getSellerUsername() == $vendor ){
+                $returnArray[] = $order;
+            }
+        }
+
+        return $returnArray;
     }
 }

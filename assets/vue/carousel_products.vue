@@ -5,19 +5,25 @@
     </button>
 
 
-    <div ref="container" :class="['productCarouselInner', 'grid-cols-1', 'm-2', 'h-[30vh]', 'gap-2', 'overflow-y-hidden', { 'xl:grid-cols-4': maxProducts === 4, 'xl:grid-cols-2': maxProducts === 2 }]">
+    <div ref="container" :class="['productCarouselInner', 'grid-cols-1', 'm-2', 'h-[30vh]', 'gap-2', 'overflow-hidden', { 'xl:grid-cols-4': maxProducts === 4, 'md:grid-cols-2': maxProducts === 2 }]">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
 
       :style="{ backgroundImage: `url(${product.image})` }">
-              <div class="priceContainer m-3">
+              <div class="row">
+                <div class="priceContainer m-3 shadow-black shadow-sm">
                   €{{product.price}}
               </div>
+              <div class="row priceContainer m-3 shadow-black shadow-sm">
+                <img class="lg:size-6 size-3 mr-1 " src="/build/images/boxes-stacked-solid.ede33cda.png">{{product.quantity}}
+              </div>
+              </div>
+             
             
-              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
+              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer border-shadow border-t-2">
 
                   <a class="h-full" :href="`/product/${product.id}`" >
-                      <h1 class="text-lg underline">{{product.model}}</h1>
-                      <p class="text-md break-all h-[12vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
+                      <h1 class="text-md underline">{{product.model}}</h1>
+                      <p class="text-sm break-all h-[12vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
                   </a>
                 
                   <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>

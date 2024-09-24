@@ -9,6 +9,13 @@
     }   
 }
 
+@keyframes switch {
+
+    from{left: 0%;}
+    to{left:50%}
+    
+}
+
 .animation-appear {
     animation: appear 1s linear forwards; /* Use 'forwards' to maintain final state */
     animation-timeline: view();
@@ -30,6 +37,7 @@
 
 #sidebar a{
     margin-bottom: 2vh;
+    text-shadow: 1px 1px rgba(255,255,255,0.2);
 }
 
 #sidebar a:hover{
@@ -83,6 +91,23 @@
 }
 
 
+/* userpage */
+
+#switchHiglight{
+    left:0%;
+    animation: switch 1s ease reverse;
+}
+
+#switchTPCheckbox:checked+#switchHiglight{
+    left:50%;
+    animation: switch 1s ease;
+}
+
+#rating img{
+    max-height: 3vh;
+    margin-right: 0.2rem;
+}
+
 
 
 /* reusables */
@@ -111,20 +136,8 @@ input[type="checkbox"]{
     font-size: larger;
 }
 
-.priceContainer{
-    height: fit-content;
-    border-radius: 120px;
-    width: fit-content;
-    padding: 0.5vh 0.5vw;
-    margin-right: 1vw;
-    backdrop-filter: blur(25px);
-    background-color: rgba(255,255,255,0.4);
-}
 
-#rating img{
-    max-height: 3vh;
-    margin-right: 0.2rem;
-}
+
 
 
 /* product form */

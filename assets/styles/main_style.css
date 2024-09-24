@@ -111,6 +111,10 @@ label{
     @apply grid overflow-y-hidden h-[33vh] lg:grid-cols-4 grid-cols-1
 }
 
+.priceContainer{
+    @apply rounded-lg w-fit px-2 py-0 backdrop-blur-sm bg-semi-transparent-3
+}
+
 
 @tailwind base;
 @tailwind components;

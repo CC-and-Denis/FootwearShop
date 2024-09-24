@@ -22,7 +22,10 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query=$this->createQueryBuilder('product')
             ->orderBy('product.itemsSold', 'DESC')
-            ->addOrderBy('product.views', 'DESC');
+            ->addOrderBy('product.views', 'DESC')
+            ->addOrderBy('product.quantity', 'ASC');           
+
+
 
 
         $productsAvaible=(clone $query)->select('count(product.id)')

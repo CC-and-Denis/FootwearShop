@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Service\CookieService;
-use App\Form\RatingForm;
+use App\Form\RatingType;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Entity\Order;
@@ -66,9 +66,6 @@ class HomeController extends AbstractController
         $renderVariables=[
             'product' => $targetProduct,
         ];
-
-
-
 
         if(! $targetProduct){
             return $this->render('not_found.html.twig', [
@@ -348,6 +345,7 @@ class HomeController extends AbstractController
 
     #[Route('editproduct/{id}', name:'edit_product')]
     public function editProduct(int $id,Request $request){
+
         $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
 
@@ -366,13 +364,13 @@ class HomeController extends AbstractController
             
             $product=$form->getData();
             $quantity = $form->get('quantity')->getData();
-            if ($form->has('otherImages')) {
+
+            if ($form->has('otherImages') && $form->get('otherImages')->getData()) {
+
                 $otherImages = $form->get('otherImages')->getData();
-                if ($otherImages) {
                     foreach ($otherImages as $image) {
-                    
+
                             $newFilename = uniqid() . '.' . $image->guessExtension();
-        
                             try {
                                 $image->move(
                                     $this->getParameter('kernel.project_dir') . '/public/uploads',
@@ -385,18 +383,14 @@ class HomeController extends AbstractController
                                 // Handle the exception gracefully
                                 return new Response($e->getMessage());
                             }
-                
-                    }
                 }
             }
             
-            if($quantity<1){
-                $product->setQuantity(1);
+            if($quantity<0){
+                $product->setQuantity(0);
             }else{
                 $product->setQuantity($quantity);
             }
-
-            
 
             $this->entityManager->persist($product);
             $this->entityManager->flush();
@@ -411,74 +405,53 @@ class HomeController extends AbstractController
             'errorsList'=>$errorsList,
         ]);
 
-        
-
-
     }
 
 
     #[Route('user/{username}',)]
     public function loadUserPage(String $username, Request $request): Response
     {
-        $userRepository = $this->entityManager->getRepository(\App\Entity\User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
         $targetUser = $userRepository->findOneBy(['username' => $username]);
+        $renderVariables = [];
 
-        if($targetUser){
-
-            $orderRepository = $this -> entityManager -> getRepository(\App\Entity\Order::class);
-            $sessionUser = $this->entityManager->getRepository(\App\Entity\User::class)->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
-            $canRate = false;
-            $orders = [];
-            dump("sessionUser", $sessionUser, "targetUser", $targetUser);
-            if ($sessionUser === $targetUser) {
-                $orders = $targetUser->getOrders();
-                dump($orders);
-            }
-            elseif ($orderRepository->alredyBuyer($sessionUser, $targetUser->getUsername())) {
-                $canRate = true;
-            }
-            if ($canRate) {
-
-                $form = $this->createForm(RatingForm::class);
-                $form->handleRequest($request);
-
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $rating = new Rating();
-                    $rating->setBuyer($sessionUser);
-                    $rating->setVendor($targetUser);
-                    $rating->setRatedProduct($form->get('product')->getData());
-                    $rating->setScore($form->get('score')->getData());
-                    $rating->setTitle($form->get('title')->getData());
-                    $rating->setDescription($form->get('description')->getData());
-                    $this->entityManager->persist($rating);
-                    $this->entityManager->flush();
-                }
-
-                else{
-                    return $this->render('user/user_page.html.twig',[
-                        'username'=>$username,
-                        'isVendor'=>$targetUser->isVendor(),
-                        'products'=>$targetUser->getSellingProducts(),
-                        'orders' => $orders,
-                        'canRate'=> $canRate,
-                        'form'=>$form,
-                    ]);
-                }
-            }
-
-            return $this->render('user/user_page.html.twig',[
-                'username'=>$username,
-                'isVendor'=>$targetUser->isVendor(),
-                'products'=>$targetUser->getSellingProducts(),
-                'orders' => $orders,
-                'canRate'=>$canRate,
-            ]);
-        }
-        else{
+        if(! $targetUser){
             return $this->render('not_found.html.twig',[
                 'entity'=>"User"
             ]);
         }
+
+        $renderVariables["targetUser"] = $targetUser;
+
+        $currentUser = $userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+
+        $renderVariables["owner"] = false;
+        if($targetUser->getUsername() == $this->getUser()->getUserIdentifier()){
+            $renderVariables["owner"] = true;
+            $renderVariables["orders"] = $targetUser->getOrders();
+        }
+
+        if ($currentUser->hasBoughtFrom($targetUser)) {
+
+                $newReview = new Rating();
+
+                $form = $this->createForm(RatingType::class,$newReview);
+                $form->handleRequest($request);
+
+                $renderVariables["form"] = $form;
+
+                if ($form->isSubmitted() && $form->isValid()) {
+
+                    $newReview->setBuyer($currentUser);
+                    $newReview->setVendor($targetUser);
+                    $newReview->setRatedProduct( $this->entityManager->getRepository(Product::class)->findOneBy(['id' => $form->get('product')->getData()]));
+                    $this->entityManager->persist($newReview);
+                    $this->entityManager->flush();
+                }
+        }
+
+        return $this->render('user/user_page.html.twig',$renderVariables);
+
     }
 
 

@@ -71,43 +71,36 @@ export function displayOverlay(optionalElements=document.getElementById("searchB
     }
 
 export function displayMenu(){
+
     let menu = document.getElementById("sidebar")
-    let step = -5;
-    let width = 100;
-    let end = 0
+    let step = menu.style.display=="none" ? 5 : -5;
+    let width = menu.style.display=="none" ? 0 : 100;
+    let end = menu.style.display=="none" ? 100 : 0
+    let id=null
+
     if(menu.style.display=="none"){
         menu.style.width="0%"
-        width=0
         menu.style.display="flex"
-        end=100
-        step=5
     }
-    
-    stop=false
-    id = null
+
     clearInterval(id)
     id=setInterval(frame,1)
     
-    
-   
     function frame() {
-        if (width==end || stop) {
-          if(width<=0 && !stop){
+        if (width==end) {
+          if(end==0 ){
             menu.style.display="none"
-          }else if(!stop){
+          }else{
             menu.style.display="flex"
           }
-          stop=true
           clearInterval(id);
 
-          
         }else {
           width+=step
           menu.style.width=width+"%"
         }
     
     }
-    
     
 }
 
@@ -118,6 +111,7 @@ export function displayPayment(){
   let searchbar = document.getElementById("searchBarContainer") as HTMLDivElement
   let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
   let overlay = document.getElementById("overlay") as HTMLDivElement;
+  let id = null;
   
   ( document.getElementById("filterMenuCheckbox") as HTMLInputElement ).checked =false;
   document.getElementById("filterMenu").style.opacity="0"
@@ -125,19 +119,14 @@ export function displayPayment(){
   searchCheckbox.checked = ! searchCheckbox.checked
   paymentFormContainer.style.display="flex"
   searchbar.style.display="none"
-  id = null
+
   clearInterval(id)
   id=setInterval(frame,10)
-  if(searchCheckbox.checked){
-      step = 1
-      end = 10
-      opacity = 0
-      overlay.style.display="flex"
-  }else{
-      step = -1
-      end = 0
-      opacity = 10
-  }
+
+  step = searchCheckbox.checked ? 1 : -1
+  end =  searchCheckbox.checked ? 10 : 0
+  opacity = searchCheckbox.checked ? 0 : 10
+  overlay.style.display= searchCheckbox.checked ? "flex" : "none"
  
   function frame() {
 
@@ -155,28 +144,28 @@ export function displayPayment(){
 
 
 export function displayDeleteAlert(productId ="unknown", model="unknown"){
+
   let overlay = document.getElementById("overlay")
   let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
+  let id=null;
+
+
+  step = chekboxElement.checked ? 1 : -1
+  end = chekboxElement.checked ? 10 : 0
+  opacity = chekboxElement.checked ? 0 : 10
+  overlay.style.display= chekboxElement.checked ? "flex" : "none"
+
   chekboxElement.checked= ! chekboxElement.checked
-  id = null
+  
   document.getElementById("itemToBeDeleted").innerText=model;
   document.getElementById("searchBarContainer").style.display="none";
   (document.getElementById("filterMenuCheckbox") as HTMLInputElement).checked =false;
   document.getElementById("filterMenu").style.opacity="0"
   document.getElementById("alertsContainer").style.display="block"
   document.getElementById("buttonDelete2").setAttribute("name",productId)
+
   clearInterval(id)
   id=setInterval(frame,10)
-  if(chekboxElement.checked){
-      step = 1
-      end = 10
-      opacity = 0
-      overlay.style.display="flex"
-  }else{
-      step = -1
-      end = 0
-      opacity = 10
-  }
  
   function frame() {
 
@@ -191,3 +180,33 @@ export function displayDeleteAlert(productId ="unknown", model="unknown"){
       }
   }
 }
+
+export function toggleContainer(element:HTMLElement,direction:number){
+  
+  let height = direction > 0 ? 0 : 90; 
+  let end = direction > 0 ? 90 : 0;   
+
+  element.style.height = height.toString()+"%";
+  element.style.display = "flex";
+
+  let id=null;
+
+  clearInterval(id!); 
+
+  id = window.setInterval(frame, 20);
+
+  function frame() {
+    // Check if the animation should stop
+    if ((direction > 0 && height >= end) || (direction < 0 && height <= end)) {
+      clearInterval(id!);  
+      if (direction < 0) {
+        element.style.display = "none"; // Hide element after collapse
+      }
+      return;
+    }
+
+    height += direction;  
+    element.style.height = height.toString()+"%";
+  }
+}
+  

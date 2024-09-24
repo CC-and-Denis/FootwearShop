@@ -37,6 +37,7 @@ class ApiController extends AbstractController {
                 'image' => $product->getMainImage(),
                 'price' => $product->getPrice(),
                 'description' => $product->getDescription(),
+                'quantity' => $product->getQuantity(),
                 'seller'=>[
                     'username'=>$product->getSellerUsername()->getUsername(),
                 ]
