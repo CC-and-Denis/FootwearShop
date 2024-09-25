@@ -15,6 +15,10 @@ home:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadHomePage
 
+chatpage:
+    path: /chatpage
+    controller: App\Controller\HomeController::loadChatPage
+
 transactions_history:
     path: /transactions_history
     controller: App\Controller\HomeController::loadTransactionsHistoryPage
@@ -33,6 +37,10 @@ userPage:
     path: /user/{username}
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadUserPage
+
+chat:
+    path: /chatbot
+    controller: App\Controller\chatController::chatbot
 
 crateProduct:
     path: /createproduct

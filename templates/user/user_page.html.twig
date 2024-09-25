@@ -44,24 +44,35 @@
                 {% if targetUser.sellingProducts | length %}
                 <h1 class="my-1">Averange</h1>
                 <div class="row mb-3">
-                    <img src="/build/images/star-regular.6a90c9dc.png">
-                    <img src="/build/images/star-regular.6a90c9dc.png">
-                    <img src="/build/images/star-regular.6a90c9dc.png">
-                    <img src="/build/images/star-regular.6a90c9dc.png">
-                    <img src="/build/images/star-regular.6a90c9dc.png">
+                    {% if (averange == 0) %}
+                        {% for j in range(1, 5) %}
+                            <img src="/build/images/star-regular.6a90c9dc.png">
+                        {% endfor %}
+                    {% else %}
+                        {% for a in range(1, averange) %}
+                            <img src="/build/images/star-solid.86d1454e.png">
+                        {% endfor %}
+                        {% for a in range(averange + 1, 5) %}
+                            <img src="/build/images/star-regular.6a90c9dc.png">
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <h1 class="my-1">Individual ratings</h1>
                 <div class="coloumn">
-                    {% for i in range(1,5)%}
+                    {% for score, count in scores %}
                     <div class="row mb-1">
                         <div class="mr-2">
-                        0
+                        {{count}}
                         </div>
-                        {% for j in range(1,i) %}
-                        <img src="/build/images/star-solid.86d1454e.png">
-                        {% endfor %}
+                        {% if (score == 0) %}
+                            <img src="/build/images/star-regular.6a90c9dc.png">
+                        {% else %}
+                            {% for j in range(1, score) %}
+                                <img src="/build/images/star-solid.86d1454e.png">
+                            {% endfor %}
+                        {% endif %}
                     </div>
-                    {% endfor%}
+                    {% endfor %}
                 </div>
                 <a class="aButton p-3 my-4">Read them!</a>
                 {% elseif owner %}

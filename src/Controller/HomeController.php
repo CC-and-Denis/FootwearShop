@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\RatingRepository;
 use App\Service\CookieService;
 use App\Form\RatingType;
 use App\Entity\Product;
@@ -37,7 +38,7 @@ class HomeController extends AbstractController
     #[Route('/home', name:'home')]
     public function loadHomePage(CookieService $cookieService, Request $request): Response
     {
-        if (!json_decode($request->cookies->get('type'), true)) {
+        if (json_decode($request->cookies->get('type'), true) == null) {
             $cookies = $cookieService -> cookie_creation();
 
             $typeJSON = json_encode($cookies['type']);
@@ -49,11 +50,20 @@ class HomeController extends AbstractController
             $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
             $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
             $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));
+            dump($cookies);
 
-            return $this->render('homepage.html.twig', ['cookies' => $response]);
+            $content = $this->renderView('homepage.html.twig', ['cookies' => $cookies]);
+            $response->setContent($content);
+            return $response;
         }
         return $this->render('homepage.html.twig',);
 
+    }
+
+    #[Route('/chatpage', name:'chatpage')]
+    public function loadChatPage() {
+
+        return $this->render('chat_page.html.twig', );
     }
 
     #[Route('product/{productId}', )]
@@ -63,15 +73,15 @@ class HomeController extends AbstractController
         $productRepository = $this->entityManager->getRepository(Product::class);
         $userRepository= $this->entityManager->getRepository(User::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
-        $renderVariables=[
-            'product' => $targetProduct,
-        ];
+        $renderVariables = [];
 
         if(! $targetProduct){
             return $this->render('not_found.html.twig', [
                 'entity' => "Product"
             ], $response);
         }
+        $renderVariables['product'] = $targetProduct;
+
 
         if($this->getUser()==$targetProduct->getVendor() || $targetProduct->getQuantity()<=0){
             return $this->render('product/product_view_page.html.twig',$renderVariables, $response);

@@ -87,13 +87,17 @@ class ProductRepository extends ServiceEntityRepository
         return [$productsAvaible-$offset-$qta>0,$query];
     }
 
-    public function findSimilarProduct(String $type, String $material, int $qta, int $offset)
+    public function findSimilarProduct(String $type, String $material, int $id, int $color, int $qta, int $offset)
     {
         $query = $this -> createQueryBuilder('p')
             ->where('p.type = :type')
             ->andWhere('p.material = :material')
+            ->andWhere('p.id != :id')
+            ->andWhere('p.color != :color')
             ->setParameter('type', $type)
-            ->setParameter('material', $material);
+            ->setParameter('material', $material)
+            ->setParameter('id', $id)
+            ->setParameter('color', $color);
 
         $productsAvaible=(clone $query)->select('count(p.id)')
             ->getQuery()
@@ -106,6 +110,42 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
 
         return [$productsAvaible-$offset-$qta>0, $query];
+    }
+
+    public function getTotalPossibleFyProducts($pickedTypeNames, $pickedBrandNames, $pickedColorNames) {
+
+        $query = $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->where('p.type IN (:types)')
+            ->andWhere('p.brand IN (:brands)')
+            ->andWhere('p.color IN (:colors)')
+            ->setParameter('types', $pickedTypeNames)
+            ->setParameter('brands', $pickedBrandNames)
+            ->setParameter('colors', $pickedColorNames);
+        
+        $queryResult = $query->getQuery()->getSingleScalarResult();
+        return $queryResult;
+    }
+    
+
+    public function fy_query(string $type, string $brand, string $color, int $offset) {
+
+        $query = $this->createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->andWhere('p.brand = :brand')
+            ->andWhere('p.color = :color')
+            ->setParameter('type', $type)
+            ->setParameter('brand', $brand)
+            ->setParameter('color', $color)
+
+            ->orderBy('p.id', 'ASC')
+            ->setFirstResult($offset)
+            ->setMaxResults(1);
+        
+        $queryResult = $query->getQuery()->getOneOrNullResult();
+        dump($queryResult);
+        return $queryResult;
+
     }
 }
 

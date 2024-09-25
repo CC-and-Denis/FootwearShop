@@ -127,7 +127,7 @@ export default {
       types: ['Trekking', 'Running', 'Hiking', 'Sandals', 'Heels', 'Boots', 'Ankle Boots', 'Sneakers', 'Formal', 'Flip Flops', 'Others'], // List of types
       brands: ['Nike', 'Adidas', 'Puma', 'Asics', 'Converse', 'New Balance', 'Scarpa', 'La Sportiva', 'Hoka', 'Salomon'],                 // List of brands
       colors: ['White', 'Yellow', 'Orange', 'Red', 'Green', 'Blue', 'Violet', 'Pink', 'Cyan', 'Gray', 'Black'],                         // List of colors
-      sizes: Array.from({ length: 37 }, (_, i) => i+20), //from 20 to 56
+      sizes: Array.from({ length: 38 }, (_, i) => i+15), //from 15 to 52
       selectedTypes: [],            // Selected types
       selectedBrands: [],
       selectedColors: [],
@@ -141,8 +141,8 @@ export default {
         this.errorMessage = true;  // Show error if input is empty
       }
       else {
-        this.errorMessage = false; // Hide error if input is valid
- 
+
+        this.errorMessage = false;
 
         const parameters = {
           research: this.inputText,
