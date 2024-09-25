@@ -356,7 +356,7 @@ class HomeController extends AbstractController
     #[Route('editproduct/{id}', name:'edit_product')]
     public function editProduct(int $id,Request $request){
 
-        $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
+        $productRepository = $this->entityManager->getRepository(Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
 
         if( (! $product) || $product->getVendor()->getUsername()!=$this->getUser()->getUsername() ){
@@ -468,11 +468,13 @@ class HomeController extends AbstractController
     public function loadFyProductsPage(){
         return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'fyp']]);}
 
-
-
     #[Route('/populars',name:"load_popular_products_page")]
     public function loadPopularProductsPage(){
         return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'populars']]);}
+    
+    #[Route('/similar',name:"load_popular_products_page")]
+    public function loadSimilarProductsPage(){
+        return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'similar']]);}
 
 }
 ?>

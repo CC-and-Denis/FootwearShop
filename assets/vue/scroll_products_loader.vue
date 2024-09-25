@@ -27,7 +27,9 @@
 export default {
   data() {
     return {
+      url: '',
       counter: 0,
+      otherParams: '',
       isLoading: false,
       products: [], // This will store the products loaded
       pageName: HTMLInputElement,
@@ -35,6 +37,15 @@ export default {
     };
   },
   methods: {
+    fillParamsString(params){
+      paramsString = '/'
+      params.forEach((param, index) => {
+        paramsString += param;
+        if (index < this.param.length - 1) {
+          this.joinedString += '-';
+        }
+      });
+    },
     async loadProductsForProductsPage(url) {
 
       if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
@@ -42,7 +53,7 @@ export default {
 
       try {
 
-        const response = await fetch(url + this.counter);
+        const response = await fetch(url + this.counter + this.otherParams);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -66,7 +77,6 @@ export default {
     },
 
     onScrollFunction() {
-      console.log(10)
       const scrollableElement = document.getElementById('scrollable-grid-products');
       const scrollTop = scrollableElement.scrollTop;
       const scrollHeight = scrollableElement.scrollHeight;
@@ -74,23 +84,27 @@ export default {
 
       // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
-        if (this.pageName === 'populars') {
-          this.loadProductsForProductsPage('/api/getProductByPopular/8-');
-        } else {
-          this.loadProductsForProductsPage('/api/getProductsForYou/8-');
-        }
+        this.loadProductsForProductsPage(this.url);
       }
     },
   },
   mounted() {
     // Load initial products when the component is mounted
-    this.pageName = document.getElementById('page_name');
-    console.log("a", this.pageName);
-    if (this.pageName.value === 'populars') {
-      this.loadProductsForProductsPage('/api/getProductByPopular/8-');
-    } else {
-      this.loadProductsForProductsPage('/api/getProductsForYou/8-');
+    let pageName = document.getElementById('page_name');
+
+    if (pageName.value === 'populars') {
+      this.url = '/api/getProductByPopular/8-';
     }
+    else if (pageName.value === 'fyp') {
+      this.url = '/api/getProductsForYou/8-';
+    }
+    else {
+      this.otherParams = this.fillParamsString(document.getElementsByClassName('productSpecifics').getAttribute('data-value'));
+      if (pageName.value === 'similar') {
+        this.url = '/api/getSimilarProducts/8-'
+      }
+    }
+    this.loadProductsForProductsPage(this.url);
   }
 };
 </script>

@@ -82,6 +82,10 @@ load_popular_products_page:
     path: /populars
     controller: App\Controller\HomeController::loadPopularProductsPage
 
+load_similar_products_page:
+    path: /similar
+    controller: App\Controller\HomeController::loadSimilarProductsPage
+
 payment:
     path: /payment
     # the controller value has the format 'controller_class::method_name'
