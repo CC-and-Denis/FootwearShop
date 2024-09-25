@@ -4,7 +4,8 @@
       <img class="small-img mr-3" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
   </button>
 
-    <div ref="container" :class="['productCarouselInner', 'grid-cols-1', 'm-2', 'h-[30vh]', 'gap-2', 'overflow-hidden', { 'xl:grid-cols-4': maxProducts === 4, 'md:grid-cols-2': maxProducts === 2 }]">
+
+    <div ref="container" :class="['productCarouselInner', 'grid-cols-1', 'm-2', 'h-[30vh]', 'gap-2', 'overflow-hidden', 'w-full',{ 'xl:grid-cols-4': maxProducts === 4, 'md:grid-cols-2': maxProducts === 2 }]">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
 
       :style="{ backgroundImage: `url(${product.image})` }">
@@ -25,20 +26,21 @@
                       <p class="text-sm break-all h-[12vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
                   </a>
                 
-            </div>
-        </div>
-    </div>
-      
-  <button @click="loadMore(1)" :disabled="isLoading || !hasMoreproducts" :class="{ 'opacity-50': !hasMoreproducts || isLoading }">
-      <img class="small-img rotate-180" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
-  </button>
+                  <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
+                  
+              </div>
+          </div>
+      </div>
+        
+    <button @click="loadMore(1)" :disabled="isLoading || !hasMoreproducts" :class="{ 'opacity-50': !hasMoreproducts || isLoading }">
+        <img class="small-img rotate-180" src="/build/images/circle-chevron-left-solid.a5e7fe27.png">
+    </button>
 
 
 </template>
 
 <script lang="ts">
 export default {
-
   data() {
     return {
       counter: 0,
@@ -68,7 +70,6 @@ export default {
         const data = await response.json();
         console.log(data);
         this.updateproducts(data, direction);
-
       }
       catch (error) {
         console.error('Error loading products:', error);
@@ -87,19 +88,35 @@ export default {
       if(direction==0){
         if(window.innerWidth<1000){
         return `${baseApiUrl}/1-0`
-
         }
+        console.log(this.$props.maxProducts);
+        return `${baseApiUrl}/${this.$props.maxProducts}-0`
+      }
+      
+      if(direction>0){
+        if( window.innerWidth<1280){
+          return `${baseApiUrl}/1-${this.counter + 1}`
+        }
+        return `${baseApiUrl}/1-${this.counter + this.$props.maxProducts}`
+      }
 
-        const data = await response.json();
-        console.log(data);
-        this.updateproducts(data, direction);
+    return `${baseApiUrl}/1-${this.counter - 1}`;
+  },
+
+    updateproducts(data, direction) {
+      const { products, hasMore } = data;
+
+      if (direction < 0) {
+        this.products = [...products, ...this.products.slice(0, -products.length)];
+      } else if (direction > 0) {
+        this.products = [...this.products.slice(products.length), ...products];
+
+      } else {
+        this.products = products; 
       }
-      catch (error) {
-        console.error('Error loading products:', error);
-      }
-      finally {
-        this.isLoading = false;
-      }
+      this.counter+=direction;
+      this.hasMoreproducts = hasMore;
+
     }
   },
 
@@ -111,17 +128,7 @@ export default {
     maxProducts: {
       type: Number,
       required: true
-
     }
-    
-    if(direction>0){
-      if( window.innerWidth<1280){
-        return `${baseApiUrl}/1-${this.counter + 1}`
-      }
-      return `${baseApiUrl}/1-${this.counter + this.$props.maxProducts}`
-    }
-
-    return `${baseApiUrl}/1-${this.counter - 1}`;
   },
 
   mounted() {
@@ -136,21 +143,6 @@ export default {
     }
     
     this.loadMore(0);
-
   }
-},
-props: {
-  apiUrl: {
-    type: String,
-    required: true
-  },
-  maxProducts: {
-    type: Number,
-    required: true
-  }
-},
-mounted() {
-  this.loadMore(0);
-}
 };
 </script>

@@ -335,9 +335,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         //list of orders that are from the vendor
         $returnArray=[];
-
         foreach ($this->orders as $order) {
-            if($order->getProduct()->getVendor() == $vendor && $order->getSta ){
+
+            if($order->getProduct()->getVendor() == $vendor && $order->getPaymentStatus() == "success" ){
                 $returnArray[] = $order->getProduct();
             }
         }
@@ -358,6 +358,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $returnArray;
     }
+
+
+    public function getAvgRating(){
+
+        $numberOfRatings=0;
+        $total=0;
+
+        foreach ( $this->ratingsReceaved as $review ) {
+
+            $total+=1;
+            $number_of_ratings+=1;
+ 
+        }
+        if($numberOfRatings==0){
+            return 0;
+        }
+
+        return $total/$numberOfRatings;
+    }
+
+    public function getIndividualRatings(){
+
+        $individualRatings = [0,0,0,0,0];
+
+        foreach ( $this->ratingsReceaved as $review ) {
+
+            $individualRatings[$review->getScores()-1]+=1;
+
+        }
+
+        return $individualRatings;
+    }
+
+
+    
+
+
+
 
     
 

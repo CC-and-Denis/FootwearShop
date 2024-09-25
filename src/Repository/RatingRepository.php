@@ -41,36 +41,5 @@ class RatingRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-        public function getScores($user): array {
-        // Create the query builder
-        $query = $this->createQueryBuilder('r');
-        
-
-        $query->select('r.score, COUNT(r.id) as scoreCount')
-        ->where('r.vendor = :user')
-        ->setParameter('user', $user)
-        ->groupBy('r.score')
-        ->orderBy('r.score', 'ASC');
-
-        $results = $query->getQuery()->getResult();
-
-        $defaultScores = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0];
-
-        $averange = 0;
-        $ratingCount = 0;
-
-        foreach ($results as $result) {
-            $defaultScores[$result['score']] = $result['scoreCount'];
-            $averange += $result['score'] * $result['scoreCount'];
-            $ratingCount += $result['scoreCount'];
-        }
-        if ($ratingCount > 0) {
-            $averange /= $ratingCount;
-        }
-
-        $averange = (int) round($averange);
-
-        return [$averange, $defaultScores];
-    }
 
 }

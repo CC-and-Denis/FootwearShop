@@ -75,27 +75,30 @@
                             </div>
                         </div>
                     </div> 
-                    <div class="column lg:w-fit w-full my-7">
+                    <div class="column lg:w-fit w-full my-7 gap-5">
                         {% if form is defined %}
                         <a class="aButton w-full p-2" id="buyButton1"> Buy now</a>
-                        {% else %}
-                            {% if app.user == product.sellerUsername%}
+                        {% elseif app.user == product.vendor %}
                                 <a class="aButton h-fit w-24" href="/editproduct/{{product.id}}">Edit</a>
-                            {% else %}
-                            <a class="aButton w-full p-2 ">Out of stock</a>
-                            {% endif %}
-                        {% endif%}
+                        {% else %}
+                            <a class="aButton w-full p-2 bg-grey">Out of stock</a>
+                        {% endif %}
+
+                        {% if true %}
+                            <a href="" class="aButton w-full p-2 ">Write a review</a>
+                        {% endif %}
                     </div>
                 </div>
 
                     <div class="column relative lg:mt-0 mt-10 h-full overflow-y-scroll">
                         {{product.description}}
                     </div>
-                    <a href="/user/{{product.sellerusername.username}}" class="underline pt-3" id="vendor">
-                        {{product.sellerusername.username}}
+                    <a href="/user/{{product.vendor.username}}" class="underline pt-3" id="vendor">
+                        {{product.vendor.username}}
                     </a>
 
-                <div type="hidden" class="productSpecifics" value={{[product.type, product.material, product.id, product.color]}}></div>
+                <input type="hidden" id='product_type' value={{product.type}}>
+                <input type="hidden" id='product_material' value={{product.material}}>
 
             </div>
 

@@ -73,15 +73,15 @@ class HomeController extends AbstractController
         $productRepository = $this->entityManager->getRepository(Product::class);
         $userRepository= $this->entityManager->getRepository(User::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
-        $renderVariables = [];
+        $renderVariables=[
+            'product' => $targetProduct,
+        ];
 
         if(! $targetProduct){
             return $this->render('not_found.html.twig', [
                 'entity' => "Product"
             ], $response);
         }
-        $renderVariables['product'] = $targetProduct;
-
 
         if($this->getUser()==$targetProduct->getVendor() || $targetProduct->getQuantity()<=0){
             return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
@@ -422,6 +422,7 @@ class HomeController extends AbstractController
     public function loadUserPage(String $username, Request $request): Response
     {
         $userRepository = $this->entityManager->getRepository(User::class);
+    
         $targetUser = $userRepository->findOneBy(['username' => $username]);
         $renderVariables = [];
         $productsBoughtFromTarget=[];
@@ -433,6 +434,25 @@ class HomeController extends AbstractController
         }
 
         $renderVariables["targetUser"] = $targetUser;
+        $renderVariables["scores"] = $targetUser->getIndividualRatings();
+
+        $avg = $renderVariables["averange"] = $targetUser->getAvgRating();
+        $avgImages=[];
+        $i=0;
+
+        while ($i < 5){
+            if($i < floor($avg)){
+                $avgImages[]='/build/images/star-solid.86d1454e.png';
+            }else if($i==$avg && $avg<round($avg,0)){
+                $avgImages[]='/build/images/star-half-stroke-solid.8a245df4.png';
+            }else{
+                $avgImages[]='/build/images/star-regular.6a90c9dc.png';
+            }
+            $i++;
+        }
+
+        $renderVariables["averange"] = $avgImages;
+
 
         $currentUser = $userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
 
