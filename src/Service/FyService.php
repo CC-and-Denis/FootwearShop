@@ -51,11 +51,10 @@ class FyService
                                     // Create a combination key to track how many times the product with the same type, brand and color has occurred
                                     $combinationKey = $type . '-' . $brand . '-' . $color;
 
-                                    // Initialize counter for this combination if not set
+                                    // Initialize offset counter for this combination if not set
                                     if (!isset($combinationCounter[$combinationKey])) {
                                         $combinationCounter[$combinationKey] = 0;
                                     }
-                                    //dump("combinationCounter", $combinationCounter);
                                     if ( $combinationCounter[$combinationKey] == -1 ){
                                         continue;
                                     }
@@ -67,20 +66,16 @@ class FyService
                                         } else {
                                             dump("productCount" . $productCount);
 
-                                            if ($startingIndex == 0 && $productCount >= 1) {
+                                            if ($startingIndex == 0 && $counter<$productCount) {
 
                                                 dump("query-ok". $type . $brand . $color . $combinationCounter[$combinationKey]);
                                                 $results[] = $queryResult;
                                                 $counter++;
-                                                $productCount--;
                                             } else
                                                 $startingIndex--;
                                             $combinationCounter[$combinationKey]++;
                                         }
-                                        if ($productCount == 0) {
-                                            //dump("combinationCounter", $combinationCounter);
-                                            //dump($results);
-                                            //dump($totalRecords, $productCount, $totalRecords>$productCount);
+                                        if ($counter == $productCount) {
                                             return [$totalRecords>$counter, $results];
                                         }
                                         if ($counter == $totalRecords) {

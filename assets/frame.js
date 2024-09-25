@@ -32,4 +32,4 @@ products_pageApp.mount('#scrollable-products');
 
 // Mount the filter options component
 const filterApp = createApp(filter_options);
-filterApp.mount('#searchMountPoint'); // <-- Mount the filter component
+filterApp.mount('#searchMountPoint');

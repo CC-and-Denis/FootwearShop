@@ -53,7 +53,7 @@ class ApiController extends AbstractController {
     }
 
     #[Route('/api/getProductByResearch/{qta}-{position}', name:'get_product_by_research')]
-    public function getProductByResearch(Request $request, int $qta, int $position, ProductRepository $productRepository) :JsonResponse{
+        public function getProductByResearch(Request $request, int $qta, int $position, ProductRepository $productRepository) :JsonResponse{
 
         $data = json_decode($request->getContent(), true);
 

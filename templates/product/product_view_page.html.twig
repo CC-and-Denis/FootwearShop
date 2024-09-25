@@ -96,10 +96,6 @@
                     <a href="/user/{{product.vendor.username}}" class="underline pt-3" id="vendor">
                         {{product.vendor.username}}
                     </a>
-
-                <input type="hidden" id='product_type' value={{product.type}}>
-                <input type="hidden" id='product_material' value={{product.material}}>
-
             </div>
 
             <div class="column w-fit">
@@ -113,6 +109,13 @@
         </div>
     </div>
 
+    <div class="hidden">
+        <div class="productSpecifics">{{product.type}}</div>
+        <div class="productSpecifics">{{product.material}}</div>
+        <div class="productSpecifics">{{product.id}}</div>
+        <div class="productSpecifics">{{product.color}}</div>
+        <div class="productSpecifics">{{product.size}}</div>
+    </div>
 
         <div id="hiddenOtherImages" class="hidden absolute">
             {% for img in product.otherImages%}

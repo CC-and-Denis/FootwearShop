@@ -60,7 +60,7 @@
       <div class="column">
         <div class="11vh"></div>
         <button @click="toggleTypes">Types ▼</button>
-        <div v-show="!hiddenTypes" class="filter-choices">
+        <div v-show="!hiddenTypes" class="customChoices">
           <label v-for="type in types" :key="type" class="type_label" :data-genre="type" @click="selectType(type)">
             {{ type }}
           </label>
@@ -68,9 +68,9 @@
       </div>
 
       <div class="column">
-        <div class="11vh"></div>
+        <div class="w-full"></div>
         <button @click="toggleBrands">Brands ▼</button>
-        <div v-show="!hiddenBrands" class="filter-choices">
+        <div v-show="!hiddenBrands" class="customChoices">
           <label v-for="brand in brands" :key="brand" class="brand_label" :data-genre="brand" @click="selectBrand(brand)">
             {{ brand }}
           </label>
@@ -78,9 +78,9 @@
       </div>
 
       <div class="column">
-        <div class="11vh"></div>
+        <div class="w-full"></div>
         <button @click="toggleColors">Colors ▼</button>
-        <div v-show="!hiddenColors" class="filter-choices">
+        <div v-show="!hiddenColors" class="customChoices">
           <label v-for="color in colors" :key="color" class="color_label" :data-genre="color" @click="selectColor(color)">
             {{ color }}
           </label>
@@ -96,6 +96,28 @@
         </div>
       </div>
 
+    </div>
+
+    <div @scroll="onScrollFunction" id="scrollable-grid-products" class="centered overflow-y-scroll h-[85vh] mt-10 relative">
+      <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 absolute top-0">
+
+          <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover" :style="{ backgroundImage: `url(${product.image})` }">
+              <div class="priceContainer m-3">
+                €{{product.price}}
+              </div>
+
+              <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
+
+                  <a class="h-full" :href="`/product/${product.id}`" >
+                    <h1 class="text-xl underline">{{product.model}}</h1>
+                    <p class="text-lg h-full"> {{product.description}}</p>
+                  </a>
+
+                  <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
+
+              </div>
+          </div>
+      </div>
     </div>
 </template>
 
@@ -141,45 +163,18 @@ export default {
         this.errorMessage = true;  // Show error if input is empty
       }
       else {
-
         this.errorMessage = false;
 
-        const parameters = {
-          research: this.inputText,
-          gender: this.getSelectedGenders(),
-          age: this.getSelectedAges(),
-          types: this.selectedTypes,
-          brands: this.selectedBrands,
-          colors: this.selectedColors,
-          sizes: this.selectedSizes,
-        };
-
-        try {
-          const response = await fetch('/api/getProductByResearch/4-0', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(parameters),
-          })
-              .then(response => {
-                if (response.status === 200) {
-                  return response.json();
-                }
-                else{
-                  throw new Error(`!response.ok - HTTP error! status: ${response.status}`);
-                }
-              })
-              .then(data => {
-                console.log(data);
-
-
-
-              })
-        }
-        catch (error) {
-          console.error('Error fetching products:', error);
-        }
+        const parameters = [
+          this.inputText,
+          this.getSelectedGenders(),
+          this.getSelectedAges(),
+          this.selectedTypes,
+          this.selectedBrands,
+          this.selectedColors,
+          this.selectedSizes,
+      ];
+      productSpecifics.setAttribute('data-value', JSON.stringify(parameters));
       }
     },
     // Toggle visibility of types
@@ -243,6 +238,9 @@ export default {
       if (this.isAdultChecked) ages.push('adult');
       return ages;
     },
+  },
+  mounted() {
+    let productSpecifics = document.getElementsByClassName('productSpecifics');
   }
 };
 </script>
