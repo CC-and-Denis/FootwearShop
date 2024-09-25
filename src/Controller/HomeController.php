@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\RatingRepository;
 use App\Service\CookieService;
 use App\Form\RatingForm;
 use App\Entity\Product;
@@ -37,7 +38,7 @@ class HomeController extends AbstractController
     #[Route('/home', name:'home')]
     public function loadHomePage(CookieService $cookieService, Request $request): Response
     {
-        if (!json_decode($request->cookies->get('type'), true)) {
+        if (json_decode($request->cookies->get('type'), true) == null) {
             $cookies = $cookieService -> cookie_creation();
 
             $typeJSON = json_encode($cookies['type']);
@@ -49,11 +50,20 @@ class HomeController extends AbstractController
             $response->headers->setCookie(new Cookie('type', $typeJSON, strtotime('2200-01-01 00:00:00')));
             $response->headers->setCookie(new Cookie('brand', $brandJSON, strtotime('2200-01-01 00:00:00')));
             $response->headers->setCookie(new Cookie('color', $colorJSON, strtotime('2200-01-01 00:00:00')));
+            dump($cookies);
 
-            return $this->render('homepage.html.twig', ['cookies' => $response]);
+            $content = $this->renderView('homepage.html.twig', ['cookies' => $cookies]);
+            $response->setContent($content);
+            return $response;
         }
         return $this->render('homepage.html.twig',);
 
+    }
+
+    #[Route('/chatpage', name:'chatpage')]
+    public function loadChatPage() {
+
+        return $this->render('chat_page.html.twig', );
     }
 
     #[Route('product/{productId}', )]
@@ -63,9 +73,7 @@ class HomeController extends AbstractController
         $productRepository = $this->entityManager->getRepository(Product::class);
         $userRepository= $this->entityManager->getRepository(User::class);
         $targetProduct = $productRepository->findOneBy(['id' => $productId]);
-        $renderVariables=[
-            'product' => $targetProduct,
-        ];
+        $renderVariables = [];
 
 
 
@@ -75,6 +83,8 @@ class HomeController extends AbstractController
                 'entity' => "Product"
             ], $response);
         }
+        $renderVariables['product'] = $targetProduct;
+
 
         $remainingProducts = $targetProduct->getQuantity() - $targetProduct->getItemsSold();
         $targetProduct->setViews($targetProduct->getViews() + 1);
@@ -357,6 +367,9 @@ class HomeController extends AbstractController
     {
         $userRepository = $this->entityManager->getRepository(\App\Entity\User::class);
         $targetUser = $userRepository->findOneBy(['username' => $username]);
+        $ratingRepository = $this->entityManager->getRepository(\App\Entity\Rating::class);
+        [$averange, $scores] = $ratingRepository->getScores($targetUser);
+        dump($averange, $scores);
 
         if($targetUser){
 
@@ -391,22 +404,26 @@ class HomeController extends AbstractController
 
                 else{
                     return $this->render('user/user_page.html.twig',[
-                        'username'=>$username,
-                        'isVendor'=>$targetUser->isVendor(),
-                        'products'=>$targetUser->getSellingProducts(),
+                        'username' => $username,
+                        'isVendor' => $targetUser->isVendor(),
+                        'products' => $targetUser->getSellingProducts(),
                         'orders' => $orders,
                         'canRate'=> $canRate,
-                        'form'=>$form,
+                        'form' => $form,
+                        'averange' => $averange,
+                        'scores' => $scores,
                     ]);
                 }
             }
 
             return $this->render('user/user_page.html.twig',[
-                'username'=>$username,
-                'isVendor'=>$targetUser->isVendor(),
-                'products'=>$targetUser->getSellingProducts(),
+                'username' => $username,
+                'isVendor' => $targetUser->isVendor(),
+                'products' => $targetUser->getSellingProducts(),
                 'orders' => $orders,
-                'canRate'=>$canRate,
+                'canRate' => $canRate,
+                'averange' => $averange,
+                'scores' => $scores,
             ]);
         }
         else{

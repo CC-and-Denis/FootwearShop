@@ -10,11 +10,15 @@ import { createApp } from 'vue';
 import carousel_products from './vue/carousel_products.vue';
 import products_page from './vue/scroll_products_loader.vue';
 // Import the new filter component
-import filter_options from './vue/research.vue'; // <-- New component import
+import filter_options from './vue/research.vue';
+import chat from './vue/chat.vue';
 
 // Mount carousel for popular products
 const carousel_populars = createApp(carousel_products, { apiUrl: '/api/getProductByPopular', maxProducts: 4});
 carousel_populars.mount('#carouselPopular');
+
+const servizioDomande = createApp(chat);
+servizioDomande.mount('#chat');
 
 // Mount carousel for FY products
 const carousel_Fy = createApp(carousel_products, { apiUrl: '/api/fyp-function', maxProducts: 4});

@@ -41,11 +41,10 @@ class RatingForm extends AbstractType
             )
             ->add('score',ChoiceType::class,[
                 'choices'=>[
-                    'Terrible' => '0',
-                    'Bad' => '1',
-                    'Decent' => '2',
-                    'Good' => '3',
-                    'Very good' => '4',
+                    'Terrible' => '1',
+                    'Bad' => '2',
+                    'Decent' => '3',
+                    'Good' => '4',
                     'Excellent' => '5',
                 ]
             ])

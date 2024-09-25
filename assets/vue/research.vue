@@ -16,7 +16,7 @@ export default {
       types: ['Trekking', 'Running', 'Hiking', 'Sandals', 'Heels', 'Boots', 'Ankle Boots', 'Sneakers', 'Formal', 'Flip Flops', 'Others'], // List of types
       brands: ['Nike', 'Adidas', 'Puma', 'Asics', 'Converse', 'New Balance', 'Scarpa', 'La Sportiva', 'Hoka', 'Salomon'],                 // List of brands
       colors: ['White', 'Yellow', 'Orange', 'Red', 'Green', 'Blue', 'Violet', 'Pink', 'Cyan', 'Gray', 'Black'],                         // List of colors
-      sizes: Array.from({ length: 37 }, (_, i) => i+20), //from 20 to 56
+      sizes: Array.from({ length: 38 }, (_, i) => i+15), //from 15 to 52
       selectedTypes: [],            // Selected types
       selectedBrands: [],
       selectedColors: [],
@@ -30,17 +30,7 @@ export default {
         this.errorMessage = true;  // Show error if input is empty
       }
       else {
-        this.errorMessage = false; // Hide error if input is valid
-        console.log('Search Query:', this.inputText);
-        console.log('Selected Types:', this.selectedTypes);
-        console.log('Selected Brands:', this.selectedBrands);
-        console.log('Selected Colors:', this.selectedColors);
-        console.log('Selected Sizes:', this.selectedSizes);
-        console.log('Male:', this.isMaleChecked);
-        console.log('Female:', this.isFemaleChecked);
-        console.log('Unisex:', this.isUnisexChecked);
-        console.log('Kid:', this.isKidChecked);
-        console.log('Adult:', this.isAdultChecked);
+        this.errorMessage = false;
 
         const parameters = {
           research: this.inputText,
