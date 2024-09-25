@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
    
-    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'sellerUsername', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'vendor', orphanRemoval: true)]
     private Collection $sellingProducts;
 
     /**
@@ -63,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Rating>
      */
-    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'buyer')]
+    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'vendor')]
     private Collection $ratingsReceaved;
 
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
@@ -332,15 +332,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function hasBoughtFrom(User $vendor){
+
         //list of orders that are from the vendor
         $returnArray=[];
 
         foreach ($this->orders as $order) {
-            if($order->getProduct()->getSellerUsername() == $vendor ){
-                $returnArray[] = $order;
+            if($order->getProduct()->getVendor() == $vendor && $order->getSta ){
+                $returnArray[] = $order->getProduct();
             }
         }
 
         return $returnArray;
     }
+
+    public function didReview(User $vendor){
+
+        //list of orders that are from the vendor
+        $returnArray=[];
+
+        foreach ($this->ratingsWritten as $review) {
+            if($review->getVendor() == $vendor ){
+                $returnArray[] = $order->getProduct();
+            }
+        }
+
+        return $returnArray;
+    }
+
+    
+
+
 }

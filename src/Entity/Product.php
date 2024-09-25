@@ -43,7 +43,7 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'sellingProducts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $sellerUsername = null;
+    private ?User $vendor = null;
 
     #[ORM\Column]
     private ?int $quantity = null;
@@ -186,14 +186,14 @@ class Product
         return $this;
     }
 
-    public function getSellerUsername(): ?User
+    public function getvendor(): ?User
     {
-        return $this->sellerUsername;
+        return $this->vendor;
     }
 
-    public function setSellerUsername(?User $sellerUsername): static
+    public function setvendor(?User $vendor): static
     {
-        $this->sellerUsername = $sellerUsername;
+        $this->vendor = $vendor;
 
         return $this;
     }
@@ -313,4 +313,5 @@ class Product
 
         return $this;
     }
+
 }

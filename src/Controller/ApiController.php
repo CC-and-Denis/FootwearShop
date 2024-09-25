@@ -39,7 +39,7 @@ class ApiController extends AbstractController {
                 'description' => $product->getDescription(),
                 'quantity' => $product->getQuantity(),
                 'seller'=>[
-                    'username'=>$product->getSellerUsername()->getUsername(),
+                    'username'=>$product->getVendor()->getUsername(),
                 ]
             ];
         }, $products);
@@ -73,8 +73,9 @@ class ApiController extends AbstractController {
                     'image' => $product->getMainImage(),
                     'price' => $product->getPrice(),
                     'description' => $product->getDescription(),
+                    'quantity' => $product->getQuantity(),
                     'seller' => [
-                        'username' => $product->getSellerUsername()->getUsername(),
+                        'username' => $product->getVendor()->getUsername(),
                     ]
                 ];
             }, $products);
@@ -90,8 +91,8 @@ class ApiController extends AbstractController {
         return new JsonResponse(['hasMore' => false, 'products' => null]);
     }
 
-    #[Route('/api/fyp-function/{qta}-{position}',)]
-    public function fyp_function($qta, $position, Request $request): Response
+    #[Route('/api/getProductsForYou/{qta}-{position}',)]
+    public function getProductsForYou($qta, $position, Request $request): Response
     { 
         $typeCookie = json_decode($request->cookies->get('type'), true);
         $brandCookie = json_decode($request->cookies->get('brand'), true);
@@ -114,8 +115,9 @@ class ApiController extends AbstractController {
                 'image' => $product->getMainImage(),
                 'price' => $product->getPrice(),
                 'description' => $product->getDescription(),
+                'quantity' => $product->getQuantity(),
                 'seller'=>[
-                    'username'=>$product->getSellerUsername()->getUsername(),
+                    'username'=>$product->getVendor()->getUsername(),
                 ]
             ];
         }, $items);
@@ -140,8 +142,9 @@ class ApiController extends AbstractController {
                     'image' => $product->getMainImage(),
                     'price' => $product->getPrice(),
                     'description' => $product->getDescription(),
+                    'quantity' => $product->getQuantity(),
                     'seller' => [
-                        'username' => $product->getSellerUsername()->getUsername(),
+                        'username' => $product->getVendor()->getUsername(),
                     ]
                 ];
             }, $items);

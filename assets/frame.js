@@ -17,7 +17,7 @@ const carousel_populars = createApp(carousel_products, { apiUrl: '/api/getProduc
 carousel_populars.mount('#carouselPopular');
 
 // Mount carousel for FY products
-const carousel_Fy = createApp(carousel_products, { apiUrl: '/api/fyp-function', maxProducts: 4});
+const carousel_Fy = createApp(carousel_products, { apiUrl: '/api/getProductsForYou', maxProducts: 4});
 carousel_Fy.mount('#carouselFy');
 
 // Mount carousel for FY products
@@ -28,4 +28,4 @@ products_pageApp.mount('#scrollable-products');
 
 // Mount the filter options component
 const filterApp = createApp(filter_options);
-filterApp.mount('#filterOptions'); // <-- Mount the filter component
+filterApp.mount('#searchMountPoint'); // <-- Mount the filter component

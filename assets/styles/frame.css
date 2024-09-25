@@ -98,7 +98,7 @@
     animation: switch 1s ease reverse;
 }
 
-#switchTPCheckbox:checked+#switchHiglight{
+#switchCheckbox:checked+#switchHiglight{
     left:50%;
     animation: switch 1s ease;
 }

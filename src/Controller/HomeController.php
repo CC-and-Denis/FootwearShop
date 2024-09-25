@@ -73,7 +73,7 @@ class HomeController extends AbstractController
             ], $response);
         }
 
-        if($this->getUser()==$targetProduct->getSellerUsername() || $targetProduct->getQuantity()<=0){
+        if($this->getUser()==$targetProduct->getVendor() || $targetProduct->getQuantity()<=0){
             return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
         }
 
@@ -275,7 +275,7 @@ class HomeController extends AbstractController
                 $newProduct->setMainImage('/uploads/'.$newMainIMageName);
                 $newProduct->setViews(0);
                 $newProduct->setItemsSold(0);
-                $newProduct->setSellerUsername($this->getUser());
+                $newProduct->setVendor($this->getUser());
                 if($quantity<1){
                     $newProduct->setQuantity(1);
                 }else{
@@ -305,7 +305,7 @@ class HomeController extends AbstractController
 
         $productRepository = $this->entityManager->getRepository(Product::class);
         $targetProduct = $productRepository->findOneBy(['id' => $id]);
-        if( (! $targetProduct) || $targetProduct->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
+        if( (! $targetProduct) || $targetProduct->getVendor()->getUsername()!=$this->getUser()->getUsername() || $targetProduct->getItemsSold()!=0 ){
             $response = new Response("This item can't be deleted",500);
             return $response;
         }
@@ -349,7 +349,7 @@ class HomeController extends AbstractController
         $productRepository = $this->entityManager->getRepository(\App\Entity\Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
 
-        if( (! $product) || $product->getSellerUsername()->getUsername()!=$this->getUser()->getUsername() ){
+        if( (! $product) || $product->getVendor()->getUsername()!=$this->getUser()->getUsername() ){
             return $this->render('not_found.html.twig',[
                 'entity' => 'Product'
             ]);
@@ -414,6 +414,7 @@ class HomeController extends AbstractController
         $userRepository = $this->entityManager->getRepository(User::class);
         $targetUser = $userRepository->findOneBy(['username' => $username]);
         $renderVariables = [];
+        $productsBoughtFromTarget=[];
 
         if(! $targetUser){
             return $this->render('not_found.html.twig',[
@@ -429,25 +430,14 @@ class HomeController extends AbstractController
         if($targetUser->getUsername() == $this->getUser()->getUserIdentifier()){
             $renderVariables["owner"] = true;
             $renderVariables["orders"] = $targetUser->getOrders();
+
         }
+        
+        $productsBoughtFromTarget = $currentUser->hasBoughtFrom($targetUser);
 
-        if ($currentUser->hasBoughtFrom($targetUser)) {
-
-                $newReview = new Rating();
-
-                $form = $this->createForm(RatingType::class,$newReview);
-                $form->handleRequest($request);
-
-                $renderVariables["form"] = $form;
-
-                if ($form->isSubmitted() && $form->isValid()) {
-
-                    $newReview->setBuyer($currentUser);
-                    $newReview->setVendor($targetUser);
-                    $newReview->setRatedProduct( $this->entityManager->getRepository(Product::class)->findOneBy(['id' => $form->get('product')->getData()]));
-                    $this->entityManager->persist($newReview);
-                    $this->entityManager->flush();
-                }
+        if ( count($productsBoughtFromTarget) ) {
+            $renderVariables["orders"] = $productsBoughtFromTarget;
+            $renderVariables["reviews"] = $currentUser->didReview($targetUser);
         }
 
         return $this->render('user/user_page.html.twig',$renderVariables);

@@ -50,9 +50,9 @@ get_product_by_popular:
     path: /api/getProductByPopular/{qta}-{position}
     controller: App\Controller\ApiController::getProductByPopular
 
-api_fyp_function:
-    path: /api/fyp-function/{qta}-{position}
-    controller: App\Controller\ApiController::fyp_function
+get_products_for_you:
+    path: /api/getProductsForYou/{qta}-{position}
+    controller: App\Controller\ApiController::getProductsForYou
 
 get_similar_products:
     path: /api/getSimilarProducts/{qta}-{position}

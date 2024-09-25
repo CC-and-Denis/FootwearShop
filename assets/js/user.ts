@@ -43,9 +43,9 @@ if(document.getElementById("noDelete") && document.getElementById("buttonDelete2
     })
 }
 
-if ( document.getElementById("switchTPCheckbox") ){
+if ( document.getElementById("switchCheckbox") ){
 
-    let switchTPCheckbox = document.getElementById("switchTPCheckbox") as HTMLInputElement;
+    let switchTPCheckbox = document.getElementById("switchCheckbox") as HTMLInputElement;
 
     if( ( ! buttons.length ) && document.getElementById("ordersContainer") ){
         console.log("hiv")
@@ -55,13 +55,11 @@ if ( document.getElementById("switchTPCheckbox") ){
 
     }
 
-    document.getElementById("switchTPCheckbox").addEventListener('change',()=>{
+    document.getElementById("switchCheckbox").addEventListener('change',()=>{
         if(switchTPCheckbox.checked){
-            console.log("orders")
             toggleContainer(document.getElementById("productsContainer"),-10)
             toggleContainer(document.getElementById("ordersContainer"),10)
         }else{
-            console.log("products")
             toggleContainer(document.getElementById("ordersContainer"),-10)
             toggleContainer(document.getElementById("productsContainer"),10)
         }

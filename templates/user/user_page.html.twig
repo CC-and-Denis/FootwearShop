@@ -39,7 +39,7 @@
         </div>
 
 
-        <div id="rating" class="std-container column centered w-full lg:py-5 mb-3 h-[50vh]">
+        <div id="rating" class="std-container column centered w-full mb-3 h-[50vh]">
             <h1 class="text-2xl xl:mb-2">Ratings</h1>
                 {% if targetUser.sellingProducts | length %}
                 <h1 class="my-1">Averange</h1>
@@ -63,14 +63,12 @@
                     </div>
                     {% endfor%}
                 </div>
-                <a class="aButton p-1 my-2">Read them!</a>
-                {% else %}
-                        {% if owner %}
+                <a class="aButton p-3 my-4">Read them!</a>
+                {% elseif owner %}
                             <p>You have not sold anything</p>
                             <a class="aButton" href="/createproduct/">Start selling</a>
-                        {% else %}
+                {% else %}
                             This User has not sold anything
-                        {% endif %}
                 {% endif %}
 
 
@@ -79,31 +77,33 @@
         {% if owner %}
             <a class="aButton p-2 mb-2" href="/createproduct/">Add product</a>
             <a class="aButton bg-red p-2" href="/access/logout">Log out</a>
-        {% else%}
-            {% if form is defined %}
-                <a class="aButton"> Write a rating </a>
-            {% endif %}
         {% endif %}
     </div>
 
 
     <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh] lg:px-5 px-2 py-2">
-        {% if owner %}
+
         
+    {% if orders is defined and orders | length %}
         <div class="row gap-10">
-            <label id="switchButton" for="switchTPCheckbox" class="std-container row w-full relative mb-2 py-2 font-bold">
-                
-                <div class="mx-auto z-10">Products</div>
-                <div class="mx-auto z-10">Transactions</div>
-                <input type="checkbox" id="switchTPCheckbox" class="hidden absolute">
+            <label id="switchButton" for="switchCheckbox" class="std-container row w-full relative mb-2 py-2 font-bold">
+                <div class="mx-auto z-10">All products</div>
+                <div class="mx-auto z-10">
+                    {% if owner %}
+                        Transactions
+                    {% else %}
+                        You bought
+                    {% endif %}
+                </div>
+                <input type="checkbox" id="switchCheckbox" class="hidden absolute">
                 <div id="switchHiglight" class="absolute std-container top-0 w-1/2 h-full transition-all hover:bg-semi-transparent-3 z-0"></div>
             </label>
         </div>
-        {% endif %}
+    {% endif %}
 
         {% if targetUser.sellingProducts | length %}
         <div id="productsContainer" class="column overflow-y-scroll overflow-x-hidden lg:pr-2 pr-0
-         {% if owner %}
+         {% if owner or orders is defined %}
             h-[90%]
          {% else %}
             h-full
@@ -129,7 +129,14 @@
                         {% endif %}
                     <a class="aButton h-fit w-24" href="/editproduct/{{product.id}}">Edit</a>
                     </div>
-
+                    {% elseif orders is defined  %}
+                    <div class="column h-fit w-2/12">
+                        {% if product in reviews %}
+                                <a class="aButton w-full">Edit review</a> 
+                        {% elseif product in orders%}               
+                            <a class="aButton w-full">Write a review</a> 
+                        {% endif %}
+                    </div>
                     {% endif %}
                 </div>
                 <div class="row flex-wrap gap-2 lg:text-md text-xs h-fit lg:mt-2 mt-5">
@@ -144,7 +151,7 @@
                 {% endfor %}
             </div>
                 {% else %}
-    <div id="productsContainer" class="centered column h-full" >
+            <div id="productsContainer" class="centered column h-full" >
                         {% if owner %}
                         <p>Here, products sold by you will appear</p>
                         {% else %}
@@ -153,7 +160,7 @@
                     </div>
                 {% endif %}
 
-        {% if owner %}
+        {% if orders is defined %}
         <div id="ordersContainer" class="column hidden overflow-y-scroll overflow-x-hidden lg:pr-2 pr-0
         {% if owner %}
            h-[90%]
@@ -161,19 +168,21 @@
            h-full
         {% endif %} 
        ">
-        {% for transaction in targetUser.orders %}
+        
+        {% if owner %}
+        {% for transaction in orders %}
             <div class="animation-disappear">
                <div id="{{transaction.product.id}}" class="p-2 std-container row flex-wrap lg:h-60 h-fit mb-5 hover:bg-semi-transparent-3 transition-all w-full animation-appear gap-5 flex lg:justify-normal justify-center" >
                 <div class="lg:size-48 size-36 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{transaction.product.mainImage}});"></div>
 
-                    <div class="productContainer h-full lg:w-fit w-full column gap-2 flex lg:justify-normal justify-center mr-">
-                        <div class="text-2xl text-center"> {{transaction.product.model}}</div>
+                    <div class="productContainer h-full w-5/12 column gap-2 flex lg:justify-normal justify-center mr-">
+                        <div class="text-2xl lg:text-left text-center"> {{transaction.product.model}}</div>
                         <div class="row gap-3 h-10">
                             <div class="priceContainer h-full centered">€ {{transaction.product.price}}</div>
                             <div class="priceContainer h-full row centered"><img class="size-6 mr-1" src="/build/images/boxes-stacked-solid.ede33cda.png"> 1 </div>
                             <div class="priceContainer h-full centered"> {{transaction.purchaseDate}}</div>
                         </div>
-                        <a href="/user/{{transaction.product.sellerUsername.username}}" class="mt-auto underline w-full lg:text-left text-center">{{transaction.product.sellerUsername.username}}<a>
+                        <a href="/user/{{transaction.product.vendor.username}}" class="mt-auto underline w-full lg:text-left text-center">{{transaction.product.vendor.username}}<a>
                     </div>
                     <div class="flex lg:flex-col flex-row w-full gap-5">
                         {% if transaction.paymentStatus == "success" %}
@@ -183,14 +192,40 @@
                             <div class="aButton bg-red"> {{transaction.paymentStatus}}</div>
                         {% endif %}
                     </div>
-
                 </div>
             </div>
         {% endfor %}
-           </div>
-               {% else %}
-        <div id="ordersContainer" class="centered column h-full" >
-            <p>You have not bought anything</p>
+        {% else %}
+        {% for transaction in orders %}
+        <div class="animation-disappear mb-5">
+            <div  class="pl-2 std-container column h-fit hover:bg-semi-transparent-3 transition-all w-full animation-appear" >
+                <div id="{{transaction.id}}" class="row w-full">
+                <div class="productContainer row flex-wrap lg:w-full w-4/6">
+                    <div class="lg:size-44 size-36 rounded-md bg-cover bg-semitransparent mr-5" style="background-image: url({{transaction.mainImage}});"></div>
+                    <div class="column xl:w-9/12 lg:w-7/12 w-full">
+                        <h1 class="w-full lg:text-2xl text:xl overflow-x-visible absolute font-semibold">{{transaction.Model}}</h1>
+                        <div class=" lg:h-[17vh] h-[15vh] overflow-y-scroll lg:text-lg text-md mt-7">{{transaction.description}}</div>
+                    </div>
+                </div>
+
+            <div class="column h-fit">
+                <a class="aButton w-full">Write a review</a>
+            </div>
+
+        </div>
+        <div class="row flex-wrap gap-2 lg:text-md text-xs h-fit lg:mt-2 mt-5">
+            <div class="lg:h-10 h-7 priceContainer centered">€ {{transaction.price}}</div>
+            <div class="priceContainer row items-center"><img class="lg:size-6 size-4 mr-1" src="/build/images/boxes-stacked-solid.ede33cda.png"> {{transaction.quantity}}</div>
+            <div class="priceContainer row items-center"><img class="lg:h-6 h-4 mr-1 lg:w-7 w-5" src="/build/images/eye-regular.30a447c7.png"> {{transaction.views}}</div>
+            <div class="priceContainer row items-center"><img class="lg:size-6 size-4 mr-1" src="/build/images/cart-shopping-solid.5de20d86.png"> {{transaction.itemsSold}}</div>
+        </div>
+
+        </div>
+    </div>
+        {% endfor %}
+            
+        {% endif %}
+
         </div>
         {% endif%}
 

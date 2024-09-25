@@ -77,7 +77,7 @@ export default {
         if (this.pageName === 'populars') {
           this.loadProductsForProductsPage('/api/getProductByPopular/8-');
         } else {
-          this.loadProductsForProductsPage('/api/fyp-function/8-');
+          this.loadProductsForProductsPage('/api/getProductsForYou/8-');
         }
       }
     },
@@ -89,7 +89,7 @@ export default {
     if (this.pageName.value === 'populars') {
       this.loadProductsForProductsPage('/api/getProductByPopular/8-');
     } else {
-      this.loadProductsForProductsPage('/api/fyp-function/8-');
+      this.loadProductsForProductsPage('/api/getProductsForYou/8-');
     }
   }
 };

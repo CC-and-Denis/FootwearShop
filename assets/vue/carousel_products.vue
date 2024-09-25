@@ -39,83 +39,50 @@
   
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {
       counter: 0,
       products: [],
-      productType: HTMLInputElement,
-      productMaterial: HTMLInputElement,
       isLoading: false,
-      hasMoreproducts: true
+      hasMoreproducts: true,
+      specifics:""
+
     };
   },
   methods: {
     async loadMore(direction) {
+      
       if (this.isLoading || (direction < 0 && this.counter === 0) || (direction > 0 && !this.hasMoreproducts)) {
         return;
       }
 
       this.isLoading = true;
 
-      const url = this.getApiUrl(direction);
-
-      if (this.$props.apiUrl == '/api/getSimilarProducts') {
-
-        const parameters = {
-          'type': this.productType.value,
-          'material': this.productMaterial.value,
+      const url = this.getApiUrl(direction) + this.specifics;
+  
+      try {
+        const response = await fetch(url, {method: 'GET'});
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(parameters),
-          })
-              .then(response => {
-                if (response.status === 200) {
-                  return response.json();
-                } else {
-                  throw new Error(`!response.ok - HTTP error! status: ${response.status}`);
-                }
-              })
-              .then(data => {
-                console.log(data);
-                this.updateproducts(data, direction);
-              })
-        }
-        catch (error) {
-          console.error('Error loading products:', error);
-        }
-        finally {
-          this.isLoading = false;
-        }
+        const data = await response.json();
+        console.log(data);
+        this.updateproducts(data, direction);
       }
-      else {
-
-        try {
-          const response = await fetch(url, {method: 'GET'});
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-
-          const data = await response.json();
-          console.log(data);
-          this.updateproducts(data, direction);
-        }
-        catch (error) {
-          console.error('Error loading products:', error);
-        }
-        finally {
-          this.isLoading = false;
-        }
+      catch (error) {
+        console.error('Error loading products:', error);
       }
-    },
+      finally {
+        this.isLoading = false;
+      }
+
+      },
+ 
 
     getApiUrl(direction) {
+
       const baseApiUrl = this.$props.apiUrl;
       
       if(direction==0){
@@ -152,6 +119,7 @@ export default {
 
     }
   },
+
   props: {
     apiUrl: {
       type: String,
@@ -162,9 +130,18 @@ export default {
       required: true
     }
   },
+
   mounted() {
-    this.productType = document.getElementById('product_type');
-    this.productMaterial = document.getElementById('product_material');
+    if (this.$props.apiUrl == '/api/getSimilarProducts') {
+      
+      let productSpecifics = document.getElementsByClassName(".productSpecific")
+
+      Array.from(productSpecifics).forEach(specific => {
+        this.specifics+= "-"+specific.innerHTML
+      });
+
+    }
+    
     this.loadMore(0);
   }
 };
