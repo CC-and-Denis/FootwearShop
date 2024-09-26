@@ -3,7 +3,7 @@
     <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100">
       <input id="filterMenuCheckbox" class="hidden" type="checkbox">
       <label for="filterMenuCheckbox">
-        <img class="small-img" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
+        <img @click="toggleFilters()" class="small-img" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
       </label>
 
       <!-- input -->
@@ -13,6 +13,13 @@
           type="text"
           class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid"
       >
+
+      <select v-model="selectedResearchType" class="w-fit h-full mr-5 font-bold text-black">
+          <option class="" value="product">Product Research</option>
+          <option @click="blockFilters" class="" value="user">User Research</option>
+      </select>
+
+      <div v-if="errorMessage" id="errorMessage" style="color: red;">Please fill in the text input.</div>
 
       <!-- confirm button -->
       <div>
@@ -27,7 +34,7 @@
     </div>
 
     <!-- Filter Menu -->
-    <div id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
+    <div v-show="!hiddenFilters" id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
       <!-- gender filter -->
       <div class="column">
         <p>Gender</p>
@@ -57,7 +64,7 @@
       <div class="column">
         <button @click="toggleTypes" class="w-full">Types ▼</button>
         <div v-show="!hiddenTypes" class="customChoices">
-          <label v-for="type in types" :key="type" class="type_label" :data-genre="type" @click="selectType(type)">
+          <label v-for="type in types" :key="type" @click="selectType(type)" :class="{ 'bg-blue': selectedTypes.includes(type) }">
             {{ type }}
           </label>
         </div>
@@ -66,7 +73,7 @@
       <div class="column">
         <button @click="toggleBrands" class="w-full">Brands ▼</button>
         <div v-show="!hiddenBrands" class="customChoices">
-          <label v-for="brand in brands" :key="brand" class="brand_label" :data-genre="brand" @click="selectBrand(brand)">
+          <label v-for="brand in brands" :key="brand" @click="selectBrand(brand)" :class="{ 'bg-blue': selectedBrands.includes(brand) }">
             {{ brand }}
           </label>
         </div>
@@ -75,7 +82,7 @@
       <div class="column">
         <button @click="toggleColors" class="w-full">Colors ▼</button>
         <div v-show="!hiddenColors" class="customChoices">
-          <label v-for="color in colors" :key="color" class="color_label" :data-genre="color" @click="selectColor(color)">
+          <label v-for="color in colors" :key="color" @click="selectColor(color)" :class="{ 'bg-blue': selectedColors.includes(color) }">
             {{ color }}
           </label>
         </div>
@@ -84,7 +91,7 @@
       <div class="column">
         <button @click="toggleSizes" class="w-full">Sizes ▼</button>
         <div v-show="!hiddenSizes" class="customChoices">
-          <label v-for="size in sizes" :key="size" :data-genre="size" @click="selectSize(size)">
+          <label v-for="size in sizes" :key="size" @click="selectSize(size)" :class="{ 'bg-blue': selectedSizes.includes(size) }">
             {{ size }}
           </label>
         </div>
@@ -129,14 +136,20 @@
 export default {
   data() {
     return {
+      url: '',
+      selectedResearchType: 'product',
       products: [],
+      hasMoreproducts: true,
+      isLoading: false,
       counter: 0,
       inputText: '',
+      errorMessage: false,
       isMaleChecked: false,
       isFemaleChecked: false,
       isUnisexChecked: false,
       isKidChecked: false,
       isAdultChecked: false,
+      hiddenFilters: true,
       hiddenTypes: true,
       hiddenBrands: true,
       hiddenColors: true,
@@ -154,8 +167,11 @@ export default {
   methods: {
     // Handle the magnifying glass click event
     async startResearch() {
+      this.products = [];
 
-        const parameters = {
+      if (this.selectedResearchType === 'product') {
+        this.url = '/api/getProductByResearch/4-'
+        var parameters = {
           research: this.inputText,
           gender: this.getSelectedGenders(),
           age: this.getSelectedAges(),
@@ -164,9 +180,30 @@ export default {
           colors: this.selectedColors,
           sizes: this.selectedSizes,
         };
+      }
+      else {
+        if (this.inputText.trim()) {
+          this.errorMessage = false;
+        }
+        else{
+          this.errorMessage = true;
+          return;
+        }
+        this.url = '/api/getUserByResearch/4-'
+        var parameters = {
+          research: this.inputText,
+        };
+      }
+      this.loadProducts(parameters)
+    },
 
-        try {
-          const response = await fetch('/api/getProductByResearch/4-'+this.counter, {
+    async loadProducts(parameters) {
+
+      if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
+      this.isLoading = true;
+
+      try {
+          const response = await fetch(this.url+this.counter, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -190,24 +227,26 @@ export default {
               })
         }
         catch (error) {
-          console.error('Error fetching products:', error);
-        }
+        console.error('Error loading products:', error);
+      } finally {
+        this.isLoading = false;
+      }
+      },
+
+    toggleFilters() {
+      if (this.selectedResearchType === 'product') {
+        this.hiddenFilters = !this.hiddenFilters;
+      }
     },
-    // Toggle visibility of types
     toggleTypes() {
       this.hiddenTypes = !this.hiddenTypes;
     },
-
-    // Toggle visibility of brands
     toggleBrands() {
       this.hiddenBrands = !this.hiddenBrands;
     },
-
-    // Toggle visibility of colors
     toggleColors() {
       this.hiddenColors = !this.hiddenColors;
     },
-
     toggleSizes() {
       this.hiddenSizes = !this.hiddenSizes;
     },
@@ -249,8 +288,8 @@ export default {
     },
     getSelectedAges() {
       const ages = [];
-      if (this.isKidChecked) ages.push('kid');
-      if (this.isAdultChecked) ages.push('adult');
+      if (this.isKidChecked) ages.push(1);
+      if (this.isAdultChecked) ages.push(0);
       return ages;
     },
     onScrollFunction() {
@@ -261,9 +300,38 @@ export default {
 
       // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
-        this.loadProductsForProductsPage('/api/getProductByResearch/4-');
+        this.loadProductsForProductsPage();
       }
     },
+    blockFilters(){
+      console.log(1234);
+      this.hiddenFilters = true;
+    },
+    displayFilters(){
+      let element = document.getElementById("filterMenu")
+      let filterMenuCheckbox = document.getElementById("filterMenuCheckbox").HTMLInputElement
+      id = null
+      clearInterval(id)
+      id=setInterval(frame,10)
+      if(filterMenuCheckbox.checked){
+          step = 1
+          end = 10
+          opacity = 0
+      }else{
+          step = -1
+          end = 0
+          opacity = 10
+      }
+      function frame() {
+          if (opacity==end) {
+            clearInterval(id);
+          } else {
+            opacity+=step
+            element.style.opacity=(opacity/10).toString()
+          }
+
+      }
+    }
   },
 };
 </script>

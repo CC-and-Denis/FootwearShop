@@ -54,8 +54,8 @@ class ProductRepository extends ServiceEntityRepository
             'color' => $colors,
             'size' => $sizes,
         ];
-
-        $query
+        
+        $query = $query
             ->where('p.model LIKE :research OR p.description LIKE :research')
             ->setParameter('research', '%' . $research . '%')
             ->orderBy('CASE 
@@ -67,7 +67,7 @@ class ProductRepository extends ServiceEntityRepository
 
         foreach ($filters as $field => $values) {
             if (!empty($values)) {
-                $query
+                $query = $query
                     ->andWhere("p.$field IN (:$field)")
                     ->setParameter($field, $values);
             }
