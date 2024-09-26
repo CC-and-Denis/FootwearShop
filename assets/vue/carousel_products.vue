@@ -47,8 +47,7 @@ export default {
       products: [],
       isLoading: false,
       hasMoreproducts: true,
-      specifics:""
-
+      otherParams:''
     };
   },
   methods: {
@@ -60,7 +59,7 @@ export default {
 
       this.isLoading = true;
 
-      const url = this.getApiUrl(direction) + this.specifics;
+      const url = this.getApiUrl(direction) + this.otherParams;
   
       try {
         const response = await fetch(url, {method: 'GET'});
@@ -68,7 +67,7 @@ export default {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data);
+        console.log(data);  
         this.updateproducts(data, direction);
       }
       catch (error) {
@@ -133,13 +132,7 @@ export default {
 
   mounted() {
     if (this.$props.apiUrl == '/api/getSimilarProducts') {
-      
-      let productSpecifics = document.getElementsByClassName(".productSpecific")
-
-      Array.from(productSpecifics).forEach(specific => {
-        this.specifics+= "-"+specific.innerHTML
-      });
-
+      this.otherParams = '-'+document.getElementById('product_id').innerHTML;
     }
     
     this.loadMore(0);

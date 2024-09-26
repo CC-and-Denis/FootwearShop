@@ -12,7 +12,7 @@ class CookieService
     public function cookie_creation(): array
     {
         $cookies['type'] = [
-            'trekking' => 1,
+            'trekking' => 0,
             'running' => 0,
             'hiking' => 0,
             'sandals' => 0,
@@ -35,7 +35,8 @@ class CookieService
             'Scarpa' => 0,
             'LaSportiva' => 0,
             'Hoka' => 0,
-            'Salomon' => 1,
+            'Salomon' => 0,
+            'others' => 0,
         ];
 
         $cookies['color'] = [
@@ -46,7 +47,7 @@ class CookieService
             'green' => 0,
             'blue' => 0,
             'violet' => 0,
-            'pink' => 1,
+            'pink' => 0,
             'cyan' => 0,
             'gray' => 0,
             'black' => 0,

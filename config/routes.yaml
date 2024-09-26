@@ -15,9 +15,9 @@ home:
     # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\HomeController::loadHomePage
 
-chatpage:
-    path: /chatpage
-    controller: App\Controller\HomeController::loadChatPage
+support:
+    path: /support
+    controller: App\Controller\HomeController::loadSupportPage
 
 transactions_history:
     path: /transactions_history
@@ -63,7 +63,7 @@ get_products_for_you:
     controller: App\Controller\ApiController::getProductsForYou
 
 get_similar_products:
-    path: /api/getSimilarProducts/{qta}-{position}
+    path: /api/getSimilarProducts/{qta}-{position}-{productId}
     controller: App\Controller\ApiController::getSimilarProducts
 
 get_product_by_research:
@@ -83,7 +83,7 @@ load_popular_products_page:
     controller: App\Controller\HomeController::loadPopularProductsPage
 
 load_similar_products_page:
-    path: /similar
+    path: /similar/{productId}
     controller: App\Controller\HomeController::loadSimilarProductsPage
 
 payment:

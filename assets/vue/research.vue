@@ -1,12 +1,12 @@
 <template>
-    <!-- Search Bar with Input and Magnifying Glass Button -->
+    <!-- Search Bar, input, and confirm -->
     <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100">
       <input id="filterMenuCheckbox" class="hidden" type="checkbox">
       <label for="filterMenuCheckbox">
         <img class="small-img" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
       </label>
 
-      <!-- Input Text for Research -->
+      <!-- input -->
       <input
           id="researchText"
           v-model="inputText"
@@ -14,24 +14,21 @@
           class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid"
       >
 
-      <!-- Error Message -->
-      <div v-if="errorMessage" id="errorMessage">Please fill in the text input.</div>
-
-      <!-- Magnifying Glass Button -->
+      <!-- confirm button -->
       <div>
         <img
             id="magnifying-glass"
             class="small-img"
             src="/build/images/magnifying-glass-solid.2b32bcc1.png"
             alt="Magnifying Glass"
-            @click="handleImageClick"
+            @click="startResearch()"
         >
       </div>
     </div>
 
-    <!-- Filter Menu (Gender, Age, and Others) -->
+    <!-- Filter Menu -->
     <div id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
-      <!-- Gender Filters -->
+      <!-- gender filter -->
       <div class="column">
         <p>Gender</p>
         <label>
@@ -45,7 +42,7 @@
         </label>
       </div>
 
-      <!-- Age Filters -->
+      <!-- age filter -->
       <div class="column">
         <p>Age</p>
         <label>
@@ -56,10 +53,9 @@
         </label>
       </div>
 
-      <!-- Dynamic Type, Brand, and Color Filters -->
+      <!-- type, brand and colors filter (dinamic) -->
       <div class="column">
-        <div class="11vh"></div>
-        <button @click="toggleTypes">Types ▼</button>
+        <button @click="toggleTypes" class="w-full">Types ▼</button>
         <div v-show="!hiddenTypes" class="customChoices">
           <label v-for="type in types" :key="type" class="type_label" :data-genre="type" @click="selectType(type)">
             {{ type }}
@@ -68,8 +64,7 @@
       </div>
 
       <div class="column">
-        <div class="w-full"></div>
-        <button @click="toggleBrands">Brands ▼</button>
+        <button @click="toggleBrands" class="w-full">Brands ▼</button>
         <div v-show="!hiddenBrands" class="customChoices">
           <label v-for="brand in brands" :key="brand" class="brand_label" :data-genre="brand" @click="selectBrand(brand)">
             {{ brand }}
@@ -78,8 +73,7 @@
       </div>
 
       <div class="column">
-        <div class="w-full"></div>
-        <button @click="toggleColors">Colors ▼</button>
+        <button @click="toggleColors" class="w-full">Colors ▼</button>
         <div v-show="!hiddenColors" class="customChoices">
           <label v-for="color in colors" :key="color" class="color_label" :data-genre="color" @click="selectColor(color)">
             {{ color }}
@@ -88,7 +82,7 @@
       </div>
 
       <div class="column">
-        <button class="w-full" @click="toggleSizes">Sizes ▼</button>
+        <button @click="toggleSizes" class="w-full">Sizes ▼</button>
         <div v-show="!hiddenSizes" class="customChoices">
           <label v-for="size in sizes" :key="size" :data-genre="size" @click="selectSize(size)">
             {{ size }}
@@ -135,22 +129,23 @@
 export default {
   data() {
     return {
-      inputText: '',               // Bound to the search bar input
-      errorMessage: false,          // Error message visibility
-      isMaleChecked: false,         // Gender filters
+      products: [],
+      counter: 0,
+      inputText: '',
+      isMaleChecked: false,
       isFemaleChecked: false,
       isUnisexChecked: false,
-      isKidChecked: false,          // Age filters
+      isKidChecked: false,
       isAdultChecked: false,
-      hiddenTypes: true,            // Visibility of types, brands, and colors
+      hiddenTypes: true,
       hiddenBrands: true,
       hiddenColors: true,
       hiddenSizes: true,
-      types: ['Trekking', 'Running', 'Hiking', 'Sandals', 'Heels', 'Boots', 'Ankle Boots', 'Sneakers', 'Formal', 'Flip Flops', 'Others'], // List of types
-      brands: ['Nike', 'Adidas', 'Puma', 'Asics', 'Converse', 'New Balance', 'Scarpa', 'La Sportiva', 'Hoka', 'Salomon'],                 // List of brands
-      colors: ['White', 'Yellow', 'Orange', 'Red', 'Green', 'Blue', 'Violet', 'Pink', 'Cyan', 'Gray', 'Black'],                         // List of colors
-      sizes: Array.from({ length: 38 }, (_, i) => i+15), //from 15 to 52
-      selectedTypes: [],            // Selected types
+      types: ['Trekking', 'Running', 'Hiking', 'Sandals', 'Heels', 'Boots', 'Ankle Boots', 'Sneakers', 'Formal', 'Flip Flops', 'Others'],
+      brands: ['Nike', 'Adidas', 'Puma', 'Asics', 'Converse', 'New Balance', 'Scarpa', 'La Sportiva', 'Hoka', 'Salomon', 'Others'],
+      colors: ['White', 'Yellow', 'Orange', 'Red', 'Green', 'Blue', 'Violet', 'Pink', 'Cyan', 'Gray', 'Black', 'Others'],
+      sizes: Array.from({ length: 38 }, (_, i) => i+15),
+      selectedTypes: [],
       selectedBrands: [],
       selectedColors: [],
       selectedSizes: [],
@@ -158,24 +153,45 @@ export default {
   },
   methods: {
     // Handle the magnifying glass click event
-    async handleImageClick() {
-      if (!this.inputText.trim()) {
-        this.errorMessage = true;  // Show error if input is empty
-      }
-      else {
-        this.errorMessage = false;
+    async startResearch() {
 
-        const parameters = [
-          this.inputText,
-          this.getSelectedGenders(),
-          this.getSelectedAges(),
-          this.selectedTypes,
-          this.selectedBrands,
-          this.selectedColors,
-          this.selectedSizes,
-      ];
-      productSpecifics.setAttribute('data-value', JSON.stringify(parameters));
-      }
+        const parameters = {
+          research: this.inputText,
+          gender: this.getSelectedGenders(),
+          age: this.getSelectedAges(),
+          types: this.selectedTypes,
+          brands: this.selectedBrands,
+          colors: this.selectedColors,
+          sizes: this.selectedSizes,
+        };
+
+        try {
+          const response = await fetch('/api/getProductByResearch/4-'+this.counter, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parameters),
+          })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                }
+                else{
+                  throw new Error(`!response.ok - HTTP error! status: ${response.status}`);
+                }
+              })
+              .then(data => {
+                const { products, hasMore } = data;
+                this.products = this.products.concat(products);
+                console.log(products)
+                this.hasMoreproducts = hasMore;
+                this.counter += 4;
+              })
+        }
+        catch (error) {
+          console.error('Error fetching products:', error);
+        }
     },
     // Toggle visibility of types
     toggleTypes() {
@@ -224,7 +240,6 @@ export default {
         selectionArray.splice(index, 1);
       }
     },
-
     getSelectedGenders() {
       const genders = [];
       if (this.isMaleChecked) genders.push('male');
@@ -238,9 +253,17 @@ export default {
       if (this.isAdultChecked) ages.push('adult');
       return ages;
     },
+    onScrollFunction() {
+      const scrollableElement = document.getElementById('scrollable-grid-products');
+      const scrollTop = scrollableElement.scrollTop;
+      const scrollHeight = scrollableElement.scrollHeight;
+      const clientHeight = scrollableElement.clientHeight;
+
+      // Check if scrolled near the bottom (e.g., within 100px)
+      if (scrollTop + clientHeight >= scrollHeight - 100) {
+        this.loadProductsForProductsPage('/api/getProductByResearch/4-');
+      }
+    },
   },
-  mounted() {
-    let productSpecifics = document.getElementsByClassName('productSpecifics');
-  }
 };
 </script>

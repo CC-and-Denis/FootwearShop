@@ -103,18 +103,14 @@
                     width: 'w-[45vw]',
                     title: 'Similar',
                     type: 'Similar',
-                    link: 'similar'
+                    link: 'similar/' ~ product.id
                 } %}
             </div>
-        </div>
-    </div>
 
-    <div class="hidden">
-        <div class="productSpecifics">{{product.type}}</div>
-        <div class="productSpecifics">{{product.material}}</div>
-        <div class="productSpecifics">{{product.id}}</div>
-        <div class="productSpecifics">{{product.color}}</div>
-        <div class="productSpecifics">{{product.size}}</div>
+            <div class="hidden">
+                <div id="product_id">{{product.id}}</div>
+            </div>
+        </div>
     </div>
 
         <div id="hiddenOtherImages" class="hidden absolute">

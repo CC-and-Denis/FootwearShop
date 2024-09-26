@@ -58,16 +58,16 @@ class ApiController extends AbstractController {
         $data = json_decode($request->getContent(), true);
 
         if ($data) {
-            $research = $data['research'] ?? '';  // Search query
-            $gender = $data['gender'] ?? [];      // Selected genders
-            $age = $data['age'] ?? [];            // Selected ages
-            $types = $data['types'] ?? [];        // Selected types
-            $brands = $data['brands'] ?? [];      // Selected brands
-            $colors = $data['colors'] ?? [];      // Selected colors
-            $sizes = $data['sizes'] ?? [];      // Selected colors
+            $research = $data['research'] ?? '';
+            $gender = $data['gender'] ?? [];
+            $age = $data['age'] ?? [];
+            $types = $data['types'] ?? [];
+            $brands = $data['brands'] ?? [];
+            $colors = $data['colors'] ?? [];
+            $sizes = $data['sizes'] ?? [];
 
             [$hasMore, $products] = $productRepository->findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $sizes, $qta, $position);
-
+            dump($products);
             $productData = array_map(function ($product) {
                 return [
                     'id' => $product->getId(),
@@ -131,12 +131,9 @@ class ApiController extends AbstractController {
         ]);
     }
 
-    #[Route('/api/getSimilarProducts/{qta}-{position}-{type}-{material}-{id}-{color}', name: 'get_similar_products')]
-    public function getSimilarProducts(Request $request, $qta, $position, $type, $material, $id, $color, ProductRepository $productRepository): JsonResponse {
-        $data = json_decode($request->getContent(), true);
-        //dump($data, $data['type'], $data['material'], $data['id']);
-        if ($data) {
-            [$hasMore, $items] = $productRepository -> findSimilarProduct($type, $material, $id, $color, $qta, $position);
+    #[Route('/api/getSimilarProducts/{qta}-{position}-{productId}', name: 'get_similar_products')]
+    public function getSimilarProducts(Request $request, $qta, $position, $productId, ProductRepository $productRepository): JsonResponse {
+            [$hasMore, $items] = $productRepository -> findSimilarProduct($productId, $qta, $position);
             $productData = array_map(function ($product) {
                 return [
                     'id' => $product->getId(),
@@ -151,14 +148,12 @@ class ApiController extends AbstractController {
                 ];
             }, $items);
 
-            dump($items);
+            dump($productData);
 
             return new JsonResponse([
                 'hasMore' => $hasMore,
                 'products' => $productData,
             ], 200);
-        }
-        return new JsonResponse(['hasMore' => false, 'products' => null]);
     }
 }
 

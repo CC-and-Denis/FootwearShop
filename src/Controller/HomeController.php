@@ -60,10 +60,10 @@ class HomeController extends AbstractController
 
     }
 
-    #[Route('/chatpage', name:'chatpage')]
-    public function loadChatPage() {
+    #[Route('/support', name:'support')]
+    public function loadSupportPage() {
 
-        return $this->render('chat_page.html.twig', );
+        return $this->render('support_page.html.twig', );
     }
 
     #[Route('product/{productId}', )]
@@ -492,9 +492,9 @@ class HomeController extends AbstractController
     public function loadPopularProductsPage(){
         return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'populars']]);}
     
-    #[Route('/similar',name:"load_popular_products_page")]
-    public function loadSimilarProductsPage(){
-        return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'similar']]);}
+    #[Route('/similar/{productId}',name:"load_popular_products_page")]
+    public function loadSimilarProductsPage($productId){
+        return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'similar', 'product_id' => $productId]]);}
 
 }
 ?>

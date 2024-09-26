@@ -78,5 +78,11 @@
 </div>
 <input type="hidden" id='page_name' value={{item.page_name}}>
 
-{% endblock%}
+{% if item.product_id is defined %}
+    <div class="hidden">
+        <div id="product_id">{{item.product_id}}</div>
+    </div>
+{% endif %}
+
+{% endblock %}
 

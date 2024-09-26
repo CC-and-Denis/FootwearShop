@@ -104,10 +104,8 @@ export default {
       this.url = '/api/getProductsForYou/8-';
     }
     else {
-      this.otherParams = this.fillParamsString(document.getElementsByClassName('productSpecifics').getAttribute('data-value'));
-      if (pageName.value === 'similar') {
-        this.url = '/api/getSimilarProducts/8-'
-      }
+      this.url = '/api/getSimilarProducts/8-'
+      this.otherParams = '-'+document.getElementById('product_id').innerHTML;
     }
     this.loadProductsForProductsPage(this.url);
   }

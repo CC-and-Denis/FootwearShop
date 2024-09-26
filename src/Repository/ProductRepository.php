@@ -87,19 +87,24 @@ class ProductRepository extends ServiceEntityRepository
         return [$productsAvaible-$offset-$qta>0,$query];
     }
 
-    public function findSimilarProduct(String $type, String $material, int $id, int $color, int $qta, int $offset)
+    public function findSimilarProduct(int $id, int $qta, int $offset)
     {
-        $query = $this -> createQueryBuilder('p')
+        $product = $this->findOneBy(['id' => $id]);
+        $query = $this->createQueryBuilder('p')
             ->where('p.type = :type')
             ->andWhere('p.material = :material')
             ->andWhere('p.id != :id')
-            ->andWhere('p.color != :color')
-            ->setParameter('type', $type)
-            ->setParameter('material', $material)
+            ->andWhere('p.color = :color')
+            ->andWhere('p.size BETWEEN :minSize AND :maxSize')
+            ->setParameter('type', $product->getType())
+            ->setParameter('material', $product->getMaterial())
             ->setParameter('id', $id)
-            ->setParameter('color', $color);
+            ->setParameter('color', $product->getColor())
+            ->setParameter('minSize', $product->getSize() - 2)
+            ->setParameter('maxSize', $product->getSize() + 2);
 
-        $productsAvaible=(clone $query)->select('count(p.id)')
+        $productsAvailable = (clone $query)
+            ->select('count(p.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -109,8 +114,12 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        return [$productsAvaible-$offset-$qta>0, $query];
+        dump($query);
+        dump($productsAvailable);
+
+        return [$productsAvailable - $offset - $qta > 0, $query];
     }
+
 
     public function getTotalPossibleFyProducts($pickedTypeNames, $pickedBrandNames, $pickedColorNames) {
 
