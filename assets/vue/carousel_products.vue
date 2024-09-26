@@ -7,8 +7,8 @@
 
     <div ref="container" :class="['productCarouselInner', 'grid-cols-1', 'm-2', 'h-[30vh]', 'gap-2', 'overflow-hidden', 'w-full',{ 'xl:grid-cols-4': maxProducts === 4, 'md:grid-cols-2': maxProducts === 2 }]">
       <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover w-[30vh] h-[30vh]"
-
-      :style="{ backgroundImage: `url(${product.image})` }">
+      :style="{ backgroundImage: `url(${product.image})` }"
+      @click="redirect(product.id)">
               <div class="row">
                 <div class="priceContainer m-3 shadow-black shadow-sm">
                   €{{product.price}}
@@ -21,10 +21,10 @@
             
               <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer border-shadow border-t-2">
 
-                  <a class="h-full" :href="`/product/${product.id}`" >
+                  <div class="h-full" :href="`/product/${product.id}`" >
                       <h1 class="text-md underline">{{product.model}}</h1>
                       <p class="text-sm break-all h-[12vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
-                  </a>
+                  </div>
                 
                   <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
                   
@@ -115,6 +115,10 @@ export default {
       }
       this.counter+=direction;
       this.hasMoreproducts = hasMore;
+
+    },
+    redirect(id){
+      window.location.href="/product/"+id
 
     }
   },

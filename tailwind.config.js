@@ -8,6 +8,7 @@ module.exports = {
     "./templates/**/*.html.twig",
     "./templates/*.html.twig",
     "./assets/vue/*.vue",
+    "./src/Form/*.php",
 
   ],
   theme: {

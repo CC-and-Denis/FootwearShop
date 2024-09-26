@@ -36,7 +36,7 @@ class ProductFormType extends AbstractType
                 'label'=>"Shoe model",
                     'attr'=>[
                         'placeholder'=>".",
-                        'maxlenght'=>35
+                        'maxlength'=>35
 
                     ],
                     ]
@@ -132,9 +132,8 @@ class ProductFormType extends AbstractType
                     "Female"=>"female",
                 ]
             ])
-            ->add('size',ChoiceType::class,[
-                'label'=>false,
-                'choices' => array_combine(range(20, 56), range(20, 56)),
+            ->add('size',IntegerType::class,[
+                'label'=>'Size',
             ])
             ->add('forKids',CheckboxType::class, [
                 'label' => "Kids shoe",
@@ -144,7 +143,7 @@ class ProductFormType extends AbstractType
                 'label'=>"Price",
                 'constraints' => [
                     new Range([
-                        'min' => 0.2, // Minimum value
+                        'min' => 0.10, // Minimum value
                         'max' => 10000, // Maximum value
                         'notInRangeMessage' => 'The price must be between {{ min }} and {{ max }}.',
                     ]),

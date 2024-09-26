@@ -1,0 +1,28 @@
+{% extends 'bases/page_frame.html.twig' %}
+
+{% form_theme form "form/registration_form_theme.html.twig" %}
+
+
+{% block title %}
+    Writing a review
+{% endblock %}
+
+{% block content %}
+
+<div class="column centered">
+
+
+    <div class="std-container">
+        {{form_start(form)}}
+            {{form_widget(form)}}
+        {{form_end(form)}}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+

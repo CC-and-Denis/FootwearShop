@@ -149,19 +149,18 @@ export function displayDeleteAlert(productId ="unknown", model="unknown"){
   let chekboxElement =document.getElementById("searchContainerCheckbox") as HTMLInputElement
   let id=null;
 
+  chekboxElement.checked = ! chekboxElement.checked
 
   step = chekboxElement.checked ? 1 : -1
   end = chekboxElement.checked ? 10 : 0
   opacity = chekboxElement.checked ? 0 : 10
   overlay.style.display= chekboxElement.checked ? "flex" : "none"
 
-  chekboxElement.checked= ! chekboxElement.checked
+  
   
   document.getElementById("itemToBeDeleted").innerText=model;
-  document.getElementById("searchBarContainer").style.display="none";
-  (document.getElementById("filterMenuCheckbox") as HTMLInputElement).checked =false;
-  document.getElementById("filterMenu").style.opacity="0"
-  document.getElementById("alertsContainer").style.display="block"
+  document.getElementById("searchMountPoint").style.display="none";
+  document.getElementById("alertsContainer").style.display="block";
   document.getElementById("buttonDelete2").setAttribute("name",productId)
 
   clearInterval(id)

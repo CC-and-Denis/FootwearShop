@@ -8,10 +8,10 @@ const quantity = document.getElementById("product_form_quantity") as HTMLInputEl
 const otherImagesInput = document.getElementById("product_form_otherImages") as HTMLInputElement;
 const otherImagesHidden = document.getElementById("hiddenOtherImages") as HTMLDivElement;
 
-var minqta=1;
-if(document.getElementById("itmesSoldAtEditTime") && (+ document.getElementById("itmesSoldAtEditTime").innerText)!=0){
-    console.log(document.getElementById("itmesSoldAtEditTime"))
-    minqta= + document.getElementById("itmesSoldAtEditTime").innerText;
+var minqta=0;
+
+if(document.getElementById("itemsLeft")){
+    quantity.value=document.getElementById("itemsLeft").innerText
 }
 
 
@@ -100,7 +100,6 @@ if(quantity){
 }
 
 function setQuantityToMin(){
-    
     if( quantity && ! quantity.value || quantity.valueAsNumber<minqta){
         quantity.value=minqta.toString();   
     }

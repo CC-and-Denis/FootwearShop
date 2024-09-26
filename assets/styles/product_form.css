@@ -38,11 +38,13 @@ select:focus {
 
 select,
 #product_form_model,
-#product_form_quantity {
+#product_form_quantity,
+#product_form_size     {
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-#product_form_quantity {
+#product_form_quantity,
+#product_form_size {
     margin-bottom: 20px;
     width: 120px;
 }

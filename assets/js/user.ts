@@ -7,15 +7,20 @@ import { displayDeleteAlert,toggleContainer } from './animations';
 
 
  buttons.forEach(button => {
-     button.addEventListener('click', function() {
-        let url = "/product/" + button.parentElement.id;
-        window.location.replace(url);
+     button.addEventListener('click', function(e) {
+        let targetElement = e.target as HTMLElement
+        if(targetElement.classList.contains('aButton')){
+            return
+        }
+        let url = "/product/" + button.id;
+        window.location.href=url;
      });
  });
 
 deleteButtons1.forEach(button=>{
 
     button.addEventListener('click',()=>{
+
 
         displayDeleteAlert(button.id,button.getAttribute("name"))
     } )
@@ -48,7 +53,6 @@ if ( document.getElementById("switchCheckbox") ){
     let switchTPCheckbox = document.getElementById("switchCheckbox") as HTMLInputElement;
 
     if( ( ! buttons.length ) && document.getElementById("ordersContainer") ){
-        console.log("hiv")
         document.getElementById("productsContainer").style.display="none";
         document.getElementById("ordersContainer").style.display="flex";
         switchTPCheckbox.checked = ! switchTPCheckbox.checked;
