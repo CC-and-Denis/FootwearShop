@@ -85,8 +85,14 @@
                             <a class="aButton w-full p-2 bg-grey">Out of stock</a>
                         {% endif %}
 
-                        {% if canReview %}
-                            <a href="/writeReview/{{product.id}}" class="aButton w-full p-2 ">Write a review</a>
+                        {% if canReview>0 %}
+                            <a href="/writeReview/{{product.id}}" class="aButton w-full p-2 ">
+                                {% if canReview > 1 %}
+                                    Edit a review
+                                {% else %}
+                                    Write a review
+                                {% endif %}
+                            </a>
                         {% endif %}
                     </div>
                 </div>

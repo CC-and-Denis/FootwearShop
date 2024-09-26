@@ -38,10 +38,12 @@
 #sidebar a{
     margin-bottom: 2vh;
     text-shadow: 1px 1px rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
 }
 
 #sidebar a:hover{
     font-size: larger;
+    cursor: pointer;
 }
 
 #filterMenu>.column{
@@ -164,5 +166,14 @@ input[type="checkbox"]{
 #paymentForm input:focus+label{
     color: #00509E;
     transition: all .3s ease;
+
+}
+
+#reviewForm input[type="number"]{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    z-index: 0;
 
 }
