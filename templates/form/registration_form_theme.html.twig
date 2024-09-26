@@ -10,7 +10,7 @@
         {%- set required = false -%}
     {%- endif -%}
     {%- if type =='file' -%}
-        {%- set additionalClass = 'hidden' -%}
+        {%- set additionalClass = 'absolute opacity-0' -%}
     {%- endif -%}
     <input type="{{ type }}" class="w-full {{additionalClass}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {% endblock %}

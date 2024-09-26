@@ -20,15 +20,15 @@ class PaymentType extends AbstractType
 
         $builder
             ->add('addressCountry', TextType::class, [
-            'label' => false,
+            'label' => "Country",
             'mapped' => false,
             ])
             ->add('addressCity', TextType::class, [
-                'label' => false,
+                'label' => "City",
                 'mapped' => false,
             ])
             ->add('addressPostal', TextType::class, [
-                'label' => false,
+                'label' => 'Zip code',
                 'mapped' => false,
             ]);
            

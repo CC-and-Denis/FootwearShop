@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Rating;
 use App\Form\ProductFormType;
+use App\Form\ReviewFormType;
 use App\Form\PaymentType;
 
 use Stripe\Stripe;
@@ -77,17 +78,23 @@ class HomeController extends AbstractController
             'product' => $targetProduct,
         ];
 
+
+
         if(! $targetProduct){
             return $this->render('not_found.html.twig', [
                 'entity' => "Product"
             ], $response);
         }
 
+        $renderVariables['canReview'] = $this->getUser()->didBuy($targetProduct);
+
         if($this->getUser()==$targetProduct->getVendor() || $targetProduct->getQuantity()<=0){
             return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
         }
 
         $targetProduct->increaseViews();
+        
+
         $cookieService->cookie_update($targetProduct, $request, $response);
 
         $form = $this->createForm(PaymentType::class);
@@ -436,7 +443,7 @@ class HomeController extends AbstractController
         $renderVariables["targetUser"] = $targetUser;
         $renderVariables["scores"] = $targetUser->getIndividualRatings();
 
-        $avg = $renderVariables["averange"] = $targetUser->getAvgRating();
+        $avg = $renderVariables["average"] = $targetUser->getAvgRating();
         $avgImages=[];
         $i=0;
 
@@ -451,8 +458,7 @@ class HomeController extends AbstractController
             $i++;
         }
 
-        $renderVariables["averange"] = $avgImages;
-
+        $renderVariables["average"] = $avgImages;
 
         $currentUser = $userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
 
@@ -496,5 +502,18 @@ class HomeController extends AbstractController
     public function loadSimilarProductsPage(){
         return $this->render('product_grid_page.html.twig',['item' => ['page_name' => 'similar']]);}
 
+
+    #[Route('/writeReview/{productId}',name:"write_review")]
+    public function writeReview(int $productId,Request $request){
+
+        $targetReview = new Rating();
+
+        $form = $this->createForm(ReviewFormType::class, $targetReview);
+        $form->handleRequest($request);
+
+        $renderVariables['form']=$form;
+
+        return $this->render('reviews/reviews_form_page.html.twig',$renderVariables);}
 }
+
 ?>

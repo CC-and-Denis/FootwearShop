@@ -1,7 +1,7 @@
 {% extends 'bases/page_frame.html.twig' %}
 
 {% block title %}
-    Nike Air Force Limited edition
+    {{product.model}}
 {% endblock %}
 
 
@@ -29,19 +29,20 @@
 {% endif %}
 
         {{form_start(form)}}
-            <div id="paymentForm" class="column std-container bg-white centered" >
+            <div id="paymentForm" class="column std-container bg-white items-center text-center" >
                 <h1 class="text-3xl font-semibold mb-5">Payment</h1>
-                <div class="reverseColumn mb-7">
+                <div class="reverseColumn mb-7 w-full items-center">
                     {{ form_widget(form.addressCountry) }}
-                    <label class="bg-white">Country</label>
+                    {{ form_label(form.addressCountry) }}
                 </div>
-                <div class="reverseColumn mb-7">
+                <div class="reverseColumn mb-7 w-full items-center">
                     {{ form_widget(form.addressCity) }}
-                    <label>City</label>
+                    {{ form_label(form.addressCity) }}
+                    
                 </div>
-                <div class="reverseColumn mb-7">
+                <div class="reverseColumn mb-7 w-full items-center">
                     {{ form_widget(form.addressPostal) }}
-                    <label>Postal address</label>
+                    {{ form_label(form.addressPostal) }}
                 </div>
                 <button id="buyButton2" class="aButton" type="submit">Buy the article</button>
 
@@ -84,8 +85,8 @@
                             <a class="aButton w-full p-2 bg-grey">Out of stock</a>
                         {% endif %}
 
-                        {% if true %}
-                            <a href="" class="aButton w-full p-2 ">Write a review</a>
+                        {% if canReview %}
+                            <a href="/writeReview/{{product.id}}" class="aButton w-full p-2 ">Write a review</a>
                         {% endif %}
                     </div>
                 </div>

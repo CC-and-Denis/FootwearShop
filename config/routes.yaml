@@ -86,8 +86,8 @@ load_similar_products_page:
     path: /similar
     controller: App\Controller\HomeController::loadSimilarProductsPage
 
-payment:
-    path: /payment
-    # the controller value has the format 'controller_class::method_name'
-    controller: App\Controller\PaymentController::loadPaymentPage
+write_review:
+    path: /writeReview/{productId}
+    controller: App\Controller\HomeController::writeReview
+
 

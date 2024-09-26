@@ -359,6 +359,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $returnArray;
     }
 
+    public function didBuy(Product $product){
+
+
+        //list of orders that are from the vendor
+        foreach ($this->orders as $order) {
+            if($order->getProduct() == $product ){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public function getAvgRating(){
 
