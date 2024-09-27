@@ -100,11 +100,16 @@
     </div>
 
 
-<div @scroll="onScrollFunction()" id="scrollable-grid-products" class="lg:w-10/12 w-[95%] min-h-[80vh] rounded-xl p-10 bg-white mt-[30vh] z-50 sticky top-[0vh] overflow-y-scroll">
+<div @scroll="onScrollFunction()" id="scrollable-grid-products" class="lg:w-10/12 w-[95%] min-h-[80vh] rounded-xl p-10 bg-white mt-[30vh] z-50 sticky top-[0vh] overflow-y-scroll items-center">
   <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 w-full">
           <div v-if="url === '/api/getProductByResearch/4-'" v-for="card in cards" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover size-[35vh]" :style="{ backgroundImage: `url(${card.image})` }">
-              <div class="priceContainer m-3">
-                €{{card.price}}
+            <div class="row">
+                <div class="priceContainer m-3 shadow-black shadow-sm">
+                  €{{product.price}}
+                </div>
+                <div class="row priceContainer m-3 shadow-black shadow-sm">
+                  <img class="lg:size-6 size-3 mr-1 " src="/build/images/boxes-stacked-solid.ede33cda.png">{{product.quantity}}
+                </div>
               </div>
 
               <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">

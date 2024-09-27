@@ -1,8 +1,9 @@
 <template>
-<div @scroll="onScrollFunction" id="scrollable-grid-products" class="centered overflow-y-scroll h-[85vh] mt-10 relative">
-  <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 absolute top-0">
+<div @scroll="onScrollFunction" id="scrollable-grid-products" class="centered overflow-y-scroll lg:h-[90%] h-full relative w-full">
+  <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 size-full lg:mb-5 mb-0">
 
-      <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover" :style="{ backgroundImage: `url(${product.image})`  }" @click="redirect(product.id)">
+      <div v-for="product in products" class="animation-disappear relative size-fit"  @click="redirect(product.id)">
+        <div class="productCard rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover animation-appear size-[40vh]" :style="{ backgroundImage: `url(${product.image})`  }">
         <div class="row">
                 <div class="priceContainer m-3 shadow-black shadow-sm">
                   €{{product.price}}
@@ -12,17 +13,19 @@
               </div>
         </div>
 
-        <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer border-shadow border-t-2">
+        <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer border-shadow border-t-2 h-[20vh]">
 
-<div class="h-full" >
-    <h1 class="text-md underline">{{product.model}}</h1>
-    <p class="text-sm break-all h-[12vh] w-full overflow-y-scroll"> {{product.description}}</p>
-</div>
+          <div class="h-full" >
+            <h1 class="text-md underline">{{product.model}}</h1>
+            <p class="text-sm break-all h-[12vh] w-full overflow-y-scroll"> {{product.description}}</p>
+          </div>
 
-<a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
+          <a class="underline" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
 
-</div>
+        </div>
+
       </div>
+    </div>
   </div>
 </div>
 

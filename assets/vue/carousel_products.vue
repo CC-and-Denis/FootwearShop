@@ -22,8 +22,8 @@
               <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer border-shadow border-t-2">
 
                   <div class="h-full" :href="`/product/${product.id}`" >
-                      <h1 class="text-md underline">{{product.model}}</h1>
-                      <p class="text-sm break-all h-[12vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
+                      <h1 class="lg:text-md text-sm underline">{{product.model}}</h1>
+                      <p class="lg:text-sm text-xs break-all lg:h-[12vh] h-[10vh] w-[28vh] overflow-y-scroll"> {{product.description}}</p>
                   </div>
                 
                   <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
