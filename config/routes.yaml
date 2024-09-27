@@ -23,6 +23,10 @@ transactions_history:
     path: /transactions_history
     controller: App\Controller\HomeController::loadTransactionsHistoryPage
 
+reviews:
+    path: /reviews/{username}
+    controller: App\Controller\HomeController::loadReviewsPage
+
 productPage:
     path: /product/{productId}
     # the controller value has the format 'controller_class::method_name'

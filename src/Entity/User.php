@@ -64,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Rating>
      */
     #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'vendor')]
-    private Collection $ratingsReceaved;
+    private Collection $ratingsReceived;
 
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
     private Collection $orders;
@@ -77,6 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sellingProducts = new ArrayCollection();
         $this->cart = new ArrayCollection();
         $this->ratingsWritten = new ArrayCollection();
+        $this->ratingsReceived = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }
 
@@ -293,6 +294,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Rating>
+     */
+    public function getRatingsReceived(): Collection
+    {
+        return $this->ratingsReceived;
+    }
+
+    public function addRatingsReceived(Rating $ratingsReceived): static
+    {
+        if (!$this->ratingsReceived->contains($ratingsReceived)) {
+            $this->ratingsReceived->add($ratingsReceived);
+            $ratingsReceived->setBuyer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRatingsReceived(Rating $ratingsReceived): static
+    {
+        if ($this->ratingsReceived->removeElement($ratingsReceived)) {
+            // set the owning side to null (unless already changed)
+            if ($ratingsReceived->getBuyer() === $this) {
+                $ratingsReceived->setBuyer(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getOrders(): Collection
     {
         return $this->orders;
@@ -380,7 +411,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $numberOfRatings=0;
         $total=0;
 
-        foreach ( $this->ratingsReceaved as $review ) {
+        foreach ( $this->ratingsReceived as $review ) {
 
             $total+=$review->getScore();
             $numberOfRatings+=1;
@@ -397,7 +428,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         $individualRatings = [0,0,0,0,0];
 
-        foreach ( $this->ratingsReceaved as $review ) {
+        foreach ( $this->ratingsReceived as $review ) {
 
             $individualRatings[$review->getScore()-1]+=1;
 

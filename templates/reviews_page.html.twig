@@ -1,0 +1,92 @@
+{% extends 'bases/page_frame.html.twig' %}
+
+{% block content %}
+<div class="row flex-wrap p-2 size-full lg:overflow-hidden  ">
+
+    <div class="column std-container lg:w-3/12 w-full items-center lg:mr-10 lg:mb-0 mb-20 lg:h-full">
+        <div id="profilePic" class="rounded-full generic-img bg-semitransparent xl:size-40 size-32" style="background-image: url({{asset('/build/images/user-regularB.df1377b9.png')}});">
+
+        </div>
+        <div class="text-3xl font-bold xl:my-5 my-2">
+            {{targetUser.username}}
+        </div>
+
+
+        <div id="rating" class="std-container column centered w-full mb-3 h-[50vh] px-0">
+            <h1 class="text-2xl xl:mb-2">Ratings</h1>
+                {% if targetUser.sellingProducts | length %}
+                <h1 class="my-1">Average</h1>
+                <div class="row mb-3">
+                    {% for img in average %}
+                        <img src="{{img}}">
+                    {% endfor %}
+                    
+                </div>
+                <h1 class="my-1">Individual ratings</h1>
+                <div class="coloumn">
+                    {% for i in range(0,scores | length - 1) %}
+                    <div class="row mb-1">
+                        <div class="mr-2 w-10">
+                        {{scores[i]}}
+                        </div>
+                        
+                        {% for i in range(0, i) %}
+                            <img src="/build/images/star-solid.86d1454e.png">
+                        {% endfor %}
+                    
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+
+
+        </div>
+    </div>
+
+    <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh] lg:px-5 px-2 py-2">
+        <div id="productsContainer" class="column overflow-y-scroll overflow-x-hidden lg:pr-2 pr-0 h-full">
+            {% for review in reviews %}
+            <div  class="pl-2 std-container column h-fit hover:bg-semi-transparent-3 thover:cursor-pointer transition-all w-full animation-appear mt-2 mb-2" >
+        <div class="flex w-full items-center">
+            <!-- Left-aligned element -->
+            <div class="w-fit font-bold text-lg mb-2 text-start ml-5">
+                <label>{{ review.title }}</label>
+            </div>
+
+            <!-- Star ratings in the center -->
+            <div class="flex ml-4 mr-4">
+                {% for img in average %}
+                    <img class="small-img size-5 mx-1" src="{{ img }}">
+                {% endfor %}
+            </div>
+
+            <!-- Right-aligned element -->
+            <div class="w-fit font-semibold text-lg mb-2 ml-auto mr-10 text-end">
+                <label>By: {{ review.buyer.username }}</label>
+            </div>
+        </div>
+        
+        <!-- Display the review score as stars or number -->
+        <div class="text-yellow-500 mb-2">
+            <!-- Example of star rating (requires FontAwesome) -->
+            {% for i in 1..5 %}
+                <span class="fa fa-star {% if i <= review.score %}text-yellow-500{% else %}text-gray-300{% endif %}"></span>
+            {% endfor %}
+            <span class="text-gray-600 ml-2">({{ review.score }})</span>
+        </div>
+
+        <!-- Display review title -->
+
+        <!-- Display review description -->
+        <p class="text-gray-700">{{ review.description }}</p>
+    </div>
+    {% endfor %}
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}
