@@ -12,10 +12,10 @@
 <div class="centered size-full lg:p-0 p-3">
 
 
-    <div class="std-container lg:w-10/12 lg:h-4/5 w-full h-full">
+    <div class="std-container lg:w-10/12 lg:h-4/5 w-full h-full px-2">
         {{form_start(form)}}
         <div id="reviewForm" class="centered column h-[80vh]">
-            <div class="text-3xl font-bold">Review</div>
+            <div class="lg:text-3xl  text-2xl font-bold">Review</div>
             <div class="text-md font-thin">reviewing <a href="/product/{{product.id}}" class="underline hover:cursor-pointer text-blue">{{product.model}}</a> sold by <a href="/user/{{product.vendor.username}}" class="underline hover:cursor-pointer text-blue">{{product.vendor.username}}</a> </div>
             <div class="relative column items-center bg-semi-transparent-3 rounded-full h-fit lg:w-fit w-full py-2 lg:px-24 px-0 mt-7 z-10">
             {{form_widget(form.score)}}
@@ -24,7 +24,7 @@
                   
                 </div>
             </div>
-            <label class="text-center my-7 border-b-grey border-b-[1px] text-2xl">
+            <label class="text-center my-7 border-b-grey border-b-[1px] lg:text-2xl text-xl">
                 Title
                 {%- set additionalClass = '' -%}
             {{form_widget(form.title)}}

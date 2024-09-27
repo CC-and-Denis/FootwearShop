@@ -1,9 +1,21 @@
 <template>
     <!-- Search Bar, input, and confirm -->
-    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100 fixed top-[18vh]">
+    <label for="filterMenuCheckbox" class="lg:hidden flex fixed bg-white rounded-full top-5 left-25% size-20 centered ">
+        <img @click="toggleFilters()" class="small-img hover:cursor-pointer hover:scale-105 transition-all" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
+      </label>
+
+      <div class="font-bold h-20 w-24 text-black pt-2 lg:hidden block fixed top-5 right-5 bg-white column rounded-full justify-center items-center text-sm text-center">
+      <div class="mt-3">Search type</div>
+      <select v-model="selectedResearchType" class="w-fit h-fit ">
+          <option class="" value="product">Product</option>
+          <option @click="blockFilters" class="" value="user">User</option>
+      </select>
+    </div>
+
+    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100 fixed lg:top-[18vh] top-[22.5vh]">
       <input id="filterMenuCheckbox" class="hidden" type="checkbox">
-      <label for="filterMenuCheckbox">
-        <img @click="toggleFilters()" class="small-img" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
+      <label for="filterMenuCheckbox" class="lg:block hidden">
+        <img @click="toggleFilters()" class="small-img hover:cursor-pointer hover:scale-105 transition-all" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
       </label>
 
       <!-- input -->
@@ -11,21 +23,19 @@
           id="researchText"
           v-model="inputText"
           type="text"
-          class="w-full h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid"
+          class="w-full h-full text-2xl border-y-0 border-black lg:px-10 px-1 pt-2 mx-4 border-solid"
       >
-
-      <select v-model="selectedResearchType" class="w-fit h-full mr-5 font-bold text-black">
+      <select v-model="selectedResearchType" class="w-fit h-full mr-5 font-bold text-black pt-2 lg:block hidden">
           <option class="" value="product">Product Research</option>
           <option @click="blockFilters" class="" value="user">User Research</option>
       </select>
 
-      <div v-if="errorMessage" id="errorMessage text-red" >Please fill in the text input.</div>
 
       <!-- confirm button -->
       <div>
         <img
             id="magnifying-glass"
-            class="small-img"
+            class="small-img hover:cursor-pointer hover:scale-105 transition-all"
             src="/build/images/magnifying-glass-solid.2b32bcc1.png"
             alt="Magnifying Glass"
             @click="startResearch()"
@@ -34,7 +44,7 @@
     </div>
 
     <!-- Filter Menu -->
-    <div v-show="!hiddenFilters" id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2 fixed top-[26.5vh]">
+    <div v-show="!hiddenFilters" id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2 fixed lg:top-[26.5vh] top-[31.7vh] lg:overflox-x-hidden overflow-x-scroll">
       <!-- gender filter -->
       <div class="column">
         <p>Gender</p>
@@ -79,7 +89,7 @@
         </div>
       </div>
 
-      <div class="column">
+      <div class="column w-[17vh]">
         <button @click="toggleColors" class="w-full">Colors ▼</button>
         <div v-show="!hiddenColors" class="customChoices">
           <label v-for="color in colors" :key="color" @click="selectColor(color)" :class="{ 'bg-blue': selectedColors.includes(color) }">
@@ -100,9 +110,10 @@
     </div>
 
 
-<div @scroll="onScrollFunction()" id="scrollable-grid-products" class="lg:w-10/12 w-[95%] min-h-[80vh] rounded-xl p-10 bg-white mt-[30vh] z-50 sticky top-[0vh] overflow-y-scroll items-center">
+<div @scroll="onScrollFunction()" id="scrollable-grid-products" :class="['lg:w-10/12', 'w-[95%]', 'min-h-[80vh]','rounded-xl','p-10','bg-[whitesmoke]','lg:mt-[30vh]','mt-[50vh]','z-50','top-[0vh]','overflow-y-scroll','overflow-x-hidden','items-center',{'hidden': (  counter<0 ),'sticky': (  counter>=0 )}]">
   <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 w-full">
-          <div v-if="url === '/api/getProductByResearch/4-'" v-for="card in cards" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover size-[35vh]" :style="{ backgroundImage: `url(${card.image})` }">
+          <div v-if="url === '/api/getProductByResearch/12-'" v-for="product in cards" :key="product" class="animation-disappear" @click="productRedirect(product.id)">
+          <div class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover size-[35vh] shadow-xl animation-appear shaddow-black" :style="{ backgroundImage: `url(${product.image})` }">
             <div class="row">
                 <div class="priceContainer m-3 shadow-black shadow-sm">
                   €{{product.price}}
@@ -123,32 +134,29 @@
                   <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
 
               </div>
+            </div>
           </div>
-          <div v-else v-for="user in cards" :key="user" class="userCard column centered relative bg-blue">
-            <div>
+          <div v-else v-for="user in cards" :key="user" class="animation-disappear"  @click="userRedirect(user.username)">
+            <div class="userCard column centered relative std-container bg-white shadow-xl shadow-shadow animation-appear" >
               <img
                   id="userImage"
-                  class="generic-img size-30 rounded-full bg-semi-transparent-1 mt-4"
+                  class="bg-cover bg-no-repeat bg-center h-[22vh] w-[22vh] rounded-full bg-shadow mt-4"
                   src='/build/images/user-regularB.df1377b9.png'
                   alt="userImage"
               >
-            </div>
-            <h1 class="my-1 mt-5">Average</h1>
+            <div class="w-9/12 text-center font-bold text-2xl mt-3">{{ user.username }}</div>
+          
+            <h1 class="my-3 ">Average rating</h1>
             <div class="row mb-3">
               <div class="row mb-3">
               <img v-for="img in user.average" :key="img" :src="img" class="small-img">
               </div>
             </div>
-            <div class="h-[5vh] w-9/12 text-center font-bold">{{ user.username }}</div>
-            <div class="row h-[5vh] ml-5 mr-5">
-              <label>Selling products: {{ user.totalProd }}</label>
+            <div class="column ml-5 mr-5 items-center gap-5">
+              <div class="priceContainer bg-shadow">Selling products: {{ user.totalProd }}</div>
+              <div class="priceContainer bg-shadow">You bought: {{ user.youBought }}</div>
             </div>
-            <div class="row h-[5vh] ml-5 mr-5">
-              <label>Product you bought: {{ user.youBought }}</label>
-            </div>
-              <div class="priceContainer m-3">
-                ciao
-              </div>
+          </div>
 
           </div>
 
@@ -164,7 +172,19 @@
 }
 
 .customChoices>label{
-  @apply border-y-[1px] border-collapse border-black w-[11vh] m-0 p-0 text-center
+  @apply border-y-[1px] border-collapse border-black w-full m-0 p-0 text-center
+}
+
+#filterMenu>.column{
+  @apply min-w-[17vh]
+}
+
+#filterMenu>.column>p{
+  @apply text-base
+}
+
+#filterMenu>.column>label{
+  @apply text-sm
 }
 </style>
 
@@ -178,9 +198,8 @@ export default {
       cards: [],
       hasMoreproducts: true,
       isLoading: false,
-      counter: 0,
+      counter: -1,
       inputText: '',
-      errorMessage: false,
       isMaleChecked: false,
       isFemaleChecked: false,
       isUnisexChecked: false,
@@ -207,9 +226,9 @@ export default {
       this.cards = [];
       this.counter = 0;
       this.hasMoreproducts = true;
+      console.log(this.selectedResearchType)
 
-      if (this.selectedResearchType === 'product') {
-        console.log('product');
+      if (this.selectedResearchType == 'product') {
         this.url = '/api/getProductByResearch/12-'
         this.parameters = {
           research: this.inputText,
@@ -221,15 +240,7 @@ export default {
           sizes: this.selectedSizes,
         };
       }
-      else {
-        console.log('user');
-        if (this.inputText.trim()) {
-          this.errorMessage = false;
-        }
-        else{
-          this.errorMessage = true;
-          return;
-        }
+      else {    
         this.url = '/api/getUserByResearch/12-'
         this.parameters = {
           research: this.inputText,
@@ -239,12 +250,10 @@ export default {
     },
 
     async loadProducts() {
-      console.log('try to enter');
       if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
       this.isLoading = true;
-      console.log('entering '+this.url);
-
       try {
+        
           const response = await fetch(this.url+this.counter, {
             method: 'POST',
             headers: {
@@ -263,8 +272,6 @@ export default {
               .then(data => {
                 const { cards, hasMore } = data;
                 this.cards = this.cards.concat(cards);
-                console.log("hey");
-                console.log(cards);
                 this.hasMoreproducts = hasMore;
                 this.counter += 12;
               })
@@ -273,7 +280,6 @@ export default {
         console.error('Error loading products:', error);
       } finally {
         this.isLoading = false;
-        console.log('finished '+this.url);
       }
       },
 
@@ -293,6 +299,13 @@ export default {
     },
     toggleSizes() {
       this.hiddenSizes = !this.hiddenSizes;
+    },
+
+    productRedirect(id){
+      window.location.href="/product/"+id
+    },
+    userRedirect(username){
+      window.location.href="/user/"+username
     },
 
     // Handle selecting a type
@@ -348,7 +361,7 @@ export default {
       }
     },
     blockFilters(){
-      console.log(1234);
+     
       this.hiddenFilters = true;
     },
     displayFilters(){

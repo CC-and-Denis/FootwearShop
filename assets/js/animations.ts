@@ -118,7 +118,8 @@ export function displayPayment(){
 
   searchCheckbox.checked = ! searchCheckbox.checked
   paymentFormContainer.style.display="flex"
-  searchbar.style.display="none"
+  document.getElementById("searchMountPoint").style.display="none";
+
 
   clearInterval(id)
   id=setInterval(frame,10)
@@ -172,6 +173,8 @@ export function displayDeleteAlert(productId ="unknown", model="unknown"){
         clearInterval(id);
         if(! chekboxElement.checked){
           overlay.style.display="none"
+          document.getElementById("searchMountPoint").style.display="none";
+
           }
       } else {
         opacity+=step

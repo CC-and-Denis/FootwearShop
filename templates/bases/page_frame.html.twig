@@ -15,15 +15,15 @@
 {% endblock %}
 
 {% block body %}
-<div id="overlay" class="h-[100vh] w-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center pt-40 z-30 overflow-y-scroll">
-    <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" class="absolute left-0 top-0 size-20 mt-5 ml-32 buttonForSearch hover:cursor-pointer hover:scale-110 transition-all">
+<div id="overlay" class="h-[100vh] w-full overflow-x-hidden opacity-0 hidden column absolute bg-[rgba(0,0,0,0.5)] backdrop-blur-sm items-center lg:pt-40 pt-[6vh] z-30 overflow-y-hidden">
+    <img src="{{ asset('build/images/circle-chevron-left-solid.a5e7fe27.png')}}" class="absolute lg:left-32 left-5 top-5 size-20 buttonForSearch hover:cursor-pointer hover:scale-110 transition-all">
     <div id="alertsContainer">
     {% block alerts %}
 
     {% endblock %}
     </div>
 
-    <div id="searchMountPoint" class="w-full flex flex-col items-center overflow-y-scroll h-[80vh] relative flex-shrink-0"></div>
+    <div id="searchMountPoint" class="w-full flex flex-col items-center overflow-y-scroll lg:h-[80vh] h-[88vh] relative flex-shrink-0"></div>
     
 
 </div>
