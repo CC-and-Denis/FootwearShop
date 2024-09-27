@@ -102,23 +102,23 @@
 
 <div @scroll="onScrollFunction()" id="scrollable-grid-products" class="lg:w-10/12 w-[95%] min-h-[80vh] rounded-xl p-10 bg-white mt-[30vh] z-50 sticky top-[0vh] overflow-y-scroll">
   <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 w-full">
-          <div v-if="url === '/api/getProductByResearch/4-'" v-for="card in cards" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover size-[35vh]" :style="{ backgroundImage: `url(${card.image})` }">
+          <div v-if="url === '/api/getProductByResearch/12-'" v-for="product in cards" :key="product" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover size-[35vh]" :style="{ backgroundImage: `url(${product.image})` }">
               <div class="priceContainer m-3">
-                €{{card.price}}
+                €{{product.price}}
               </div>
 
               <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
 
-                  <a class="h-full" :href="`/product/${card.id}`" >
-                    <h1 class="text-xl underline">{{card.model}}</h1>
-                    <p class="text-lg h-full"> {{card.description}}</p>
+                  <a class="h-full" :href="`/product/${product.id}`" >
+                    <h1 class="text-xl underline">{{product.model}}</h1>
+                    <p class="text-lg h-full"> {{product.description}}</p>
                   </a>
 
-                  <a class="underline mt-3" :href="`/user/${card.seller.username}`">{{card.seller.username}}</a>
+                  <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
 
               </div>
           </div>
-          <div v-else v-for="card in cards" class="userCard column centered relative bg-semi-transparent-2">
+          <div v-else v-for="user in cards" :key="user" class="userCard column centered relative bg-semi-transparent-2">
             <div>
               <img
                   id="userImage"
@@ -131,10 +131,10 @@
             <h1 class="my-1">Average</h1>
             <div class="row mb-3">
               <div class="row mb-3">
-              <img v-for="img in card.average" {{img}}>
+              <img v-for="img in user.average" {{img}}>
               </div>
             </div>
-            <div class="h-[5vh] w-9/12">{{ card.username }}</div>
+            <div class="h-[5vh] w-9/12">{{ user.username }}</div>
             <div class="row h-[5vh]">
               <div class="column ml-5 mr-5">
                 
@@ -170,6 +170,7 @@ export default {
   data() {
     return {
       url: '',
+      parameters: [],
       selectedResearchType: 'product',
       cards: [],
       hasMoreproducts: true,
@@ -205,7 +206,7 @@ export default {
 
       if (this.selectedResearchType === 'product') {
         this.url = '/api/getProductByResearch/12-'
-        var parameters = {
+        this.parameters = {
           research: this.inputText,
           gender: this.getSelectedGenders(),
           age: this.getSelectedAges(),
@@ -224,14 +225,14 @@ export default {
           return;
         }
         this.url = '/api/getUserByResearch/12-'
-        var parameters = {
+        this.parameters = {
           research: this.inputText,
         };
       }
-      this.loadProducts(parameters)
+      this.loadProducts()
     },
 
-    async loadProducts(parameters) {
+    async loadProducts() {
 
       if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
       this.isLoading = true;
@@ -242,7 +243,7 @@ export default {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(parameters),
+            body: JSON.stringify(this.parameters),
           })
               .then(response => {
                 if (response.status === 200) {
@@ -255,9 +256,10 @@ export default {
               .then(data => {
                 const { cards, hasMore } = data;
                 this.cards = this.cards.concat(cards);
-                console.log(cards)
+                console.log("hey");
+                console.log(cards);
                 this.hasMoreproducts = hasMore;
-                this.counter += 4;
+                this.counter += 12;
               })
         }
         catch (error) {
@@ -334,7 +336,6 @@ export default {
 
       // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
-        console.log("annapepe")
         this.loadProducts();
       }
     },
