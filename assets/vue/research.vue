@@ -101,23 +101,29 @@
 
     <div @scroll="onScrollFunction" id="scrollable-grid-products" class="centered overflow-y-scroll h-[85vh] mt-10 relative">
       <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 absolute top-0">
-
-          <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover" :style="{ backgroundImage: `url(${product.image})` }">
+          <div v-if="url === '/api/getProductByResearch/4-'" v-for="card in cards" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover" :style="{ backgroundImage: `url(${card.image})` }">
               <div class="priceContainer m-3">
-                €{{product.price}}
+                €{{card.price}}
               </div>
 
               <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
 
-                  <a class="h-full" :href="`/product/${product.id}`" >
-                    <h1 class="text-xl underline">{{product.model}}</h1>
-                    <p class="text-lg h-full"> {{product.description}}</p>
+                  <a class="h-full" :href="`/product/${card.id}`" >
+                    <h1 class="text-xl underline">{{card.model}}</h1>
+                    <p class="text-lg h-full"> {{card.description}}</p>
                   </a>
 
-                  <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
+                  <a class="underline mt-3" :href="`/user/${card.seller.username}`">{{card.seller.username}}</a>
 
               </div>
           </div>
+          <div v-else v-for="card in cards" class="userCard absolute bg-semi-transparent-2">
+              <div class="priceContainer m-3">
+                ciao
+              </div>
+
+          </div>
+
       </div>
     </div>
 </template>
@@ -138,7 +144,7 @@ export default {
     return {
       url: '',
       selectedResearchType: 'product',
-      products: [],
+      cards: [],
       hasMoreproducts: true,
       isLoading: false,
       counter: 0,
@@ -167,7 +173,8 @@ export default {
   methods: {
     // Handle the magnifying glass click event
     async startResearch() {
-      this.products = [];
+      this.cards = [];
+      this.counter = 0;
 
       if (this.selectedResearchType === 'product') {
         this.url = '/api/getProductByResearch/4-'
@@ -219,9 +226,9 @@ export default {
                 }
               })
               .then(data => {
-                const { products, hasMore } = data;
-                this.products = this.products.concat(products);
-                console.log(products)
+                const { cards, hasMore } = data;
+                this.cards = this.cards.concat(cards);
+                console.log(cards)
                 this.hasMoreproducts = hasMore;
                 this.counter += 4;
               })

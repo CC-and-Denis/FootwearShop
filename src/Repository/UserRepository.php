@@ -33,6 +33,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    public function findResearchedUser(String $research, int $qta, int $offset)
+    {
+        $query = $this->createQueryBuilder('u')
+        ->where('u.username LIKE :search')
+        ->setParameter('search', '%' . $research . '%');
+        
+        $productsAvaible=(clone $query)->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $query = $query
+        ->addSelect(
+            'CASE 
+                WHEN u.username LIKE :exactStart THEN 1 
+                WHEN u.username LIKE :contains THEN 2 
+                ELSE 3 
+            END AS HIDDEN relevance'
+        )
+        ->setParameter('exactStart', $research . '%')
+        ->setParameter('contains', '%' . $research . '%')
+        ->orderBy('relevance', 'ASC')
+        ->addOrderBy('u.username', 'ASC')
+        ->setMaxResults($qta)
+        ->setFirstResult($offset)
+        ->getQuery()
+        ->getResult();
+
+        return [$productsAvaible-$offset-$qta>0,$query];
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

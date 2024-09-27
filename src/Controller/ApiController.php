@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Repository\ProductRepository;
 
+use App\Repository\UserRepository;
 use App\Service\FyService;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -88,6 +89,56 @@ class ApiController extends AbstractController {
             return new JsonResponse([
                 'hasMore' => $hasMore,
                 'products' => $productData,
+            ], 200);
+        }
+        return new JsonResponse(['hasMore' => false, 'products' => null]);
+    }
+
+    #[Route('/api/getUserByResearch/{qta}-{position}')]
+    public function getUserByResearch(Request $request, int $qta, int $position, UserRepository $userRepository) :JsonResponse {
+        $data = json_decode($request->getContent(), true);
+
+        if ($data) {
+            $research = $data['research'] ?? '';
+
+            [$hasMore, $users] = $userRepository->findResearchedUser($research, $qta, $position);
+            dump($users);
+            $userData = [];
+
+            $currentUser = $userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+
+            $userData = [];
+
+            foreach ($users as $user) {
+
+                $avg = $user->getAvgRating();
+                $avgImages=[];
+                $i=0;
+
+                while ($i < 5){
+                    if($i < floor($avg)){
+                        $avgImages[]='/build/images/star-solid.86d1454e.png';
+                    }else if($i==$avg && $avg<round($avg,0)){
+                        $avgImages[]='/build/images/star-half-stroke-solid.8a245df4.png';
+                    }else{
+                        $avgImages[]='/build/images/star-regular.6a90c9dc.png';
+                    }
+                    $i++;
+                }
+
+
+                $userData[] = [
+                    'id' => $user->getId(),
+                    'average' => $avgImages,
+                    'username' => $user->getUsername(),
+                    'totalProd' => count($user->getSellingProducts()),
+                    'youBought' => count($currentUser->hasBoughtFrom($user)),
+                ];
+            }
+
+            return new JsonResponse([
+                'hasMore' => $hasMore,
+                'cards' => $userData,
             ], 200);
         }
         return new JsonResponse(['hasMore' => false, 'products' => null]);

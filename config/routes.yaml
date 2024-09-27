@@ -70,6 +70,10 @@ get_product_by_research:
     path: /api/getProductByResearch/{qta}-{position}
     controller: App\Controller\ApiController::getProductByResearch
 
+get_user_by_research:
+    path: /api/getUserByResearch/{qta}-{position}
+    controller: App\Controller\ApiController::getUserByResearch
+
 delete_product:
     path: deleteproduct/{id}
     controller: App\Controller\HomeController::deleteProduct
