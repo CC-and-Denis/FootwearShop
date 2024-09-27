@@ -118,30 +118,27 @@
 
               </div>
           </div>
-          <div v-else v-for="user in cards" :key="user" class="userCard column centered relative bg-semi-transparent-2">
+          <div v-else v-for="user in cards" :key="user" class="userCard column centered relative bg-blue">
             <div>
               <img
                   id="userImage"
-                  class="generic-img size-50 rounded-full  bg-semi-transparent-1 mt-4"
-                  src='build/images/user-regularB.df1377b9.png'
+                  class="generic-img size-30 rounded-full bg-semi-transparent-1 mt-4"
+                  src='/build/images/user-regularB.df1377b9.png'
                   alt="userImage"
-                  @click="startResearch()"
               >
             </div>
-            <h1 class="my-1">Average</h1>
+            <h1 class="my-1 mt-5">Average</h1>
             <div class="row mb-3">
               <div class="row mb-3">
-              <img v-for="img in user.average" {{img}}>
+              <img v-for="img in user.average" :key="img" :src="img" class="small-img">
               </div>
             </div>
-            <div class="h-[5vh] w-9/12">{{ user.username }}</div>
-            <div class="row h-[5vh]">
-              <div class="column ml-5 mr-5">
-                
-              </div>
-              <div class="column ml-5 mr-5">
-                
-              </div>
+            <div class="h-[5vh] w-9/12 text-center font-bold">{{ user.username }}</div>
+            <div class="row h-[5vh] ml-5 mr-5">
+              <label>Selling products: {{ user.totalProd }}</label>
+            </div>
+            <div class="row h-[5vh] ml-5 mr-5">
+              <label>Product you bought: {{ user.youBought }}</label>
             </div>
               <div class="priceContainer m-3">
                 ciao
@@ -203,8 +200,10 @@ export default {
     async startResearch() {
       this.cards = [];
       this.counter = 0;
+      this.hasMoreproducts = true;
 
       if (this.selectedResearchType === 'product') {
+        console.log('product');
         this.url = '/api/getProductByResearch/12-'
         this.parameters = {
           research: this.inputText,
@@ -217,6 +216,7 @@ export default {
         };
       }
       else {
+        console.log('user');
         if (this.inputText.trim()) {
           this.errorMessage = false;
         }
@@ -233,9 +233,10 @@ export default {
     },
 
     async loadProducts() {
-
+      console.log('try to enter');
       if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
       this.isLoading = true;
+      console.log('entering '+this.url);
 
       try {
           const response = await fetch(this.url+this.counter, {
@@ -266,6 +267,7 @@ export default {
         console.error('Error loading products:', error);
       } finally {
         this.isLoading = false;
+        console.log('finished '+this.url);
       }
       },
 
