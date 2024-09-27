@@ -1,6 +1,6 @@
 <template>
     <!-- Search Bar, input, and confirm -->
-    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100">
+    <div id="searchBarContainer" class="row h-30 px-5 py-4 rounded-r-full lg:w-9/12 w-11/12 bg-white opacity-100 fixed top-[18vh]">
       <input id="filterMenuCheckbox" class="hidden" type="checkbox">
       <label for="filterMenuCheckbox">
         <img @click="toggleFilters()" class="small-img" src="/build/images/filter-solid.8f86f99e.png" alt="Filter Icon">
@@ -11,7 +11,7 @@
           id="researchText"
           v-model="inputText"
           type="text"
-          class="w-11/12 h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid"
+          class="w-full h-full text-2xl border-y-0 border-black px-10 mx-4 border-solid"
       >
 
       <select v-model="selectedResearchType" class="w-fit h-full mr-5 font-bold text-black">
@@ -19,7 +19,7 @@
           <option @click="blockFilters" class="" value="user">User Research</option>
       </select>
 
-      <div v-if="errorMessage" id="errorMessage" style="color: red;">Please fill in the text input.</div>
+      <div v-if="errorMessage" id="errorMessage text-red" >Please fill in the text input.</div>
 
       <!-- confirm button -->
       <div>
@@ -34,7 +34,7 @@
     </div>
 
     <!-- Filter Menu -->
-    <div v-show="!hiddenFilters" id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2">
+    <div v-show="!hiddenFilters" id="filterMenu" class="row bg-white bg-opacity-100 rounded-b-2xl p-1 w-8/12 border-t-2 fixed top-[26.5vh]">
       <!-- gender filter -->
       <div class="column">
         <p>Gender</p>
@@ -99,10 +99,10 @@
 
     </div>
 
-    <div @scroll="onScrollFunction" id="scrollable-grid-products" class="centered overflow-y-scroll h-[85vh] mt-10 relative">
-      <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 absolute top-0">
+    <div @scroll="onScrollFunction()" id="scrollable-grid-products" class="lg:w-10/12 w-[95%] min-h-[80vh] rounded-xl p-10 bg-white mt-[30vh] z-50 sticky top-[0vh] overflow-y-scroll">
+      <div id="products-grid" class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 w-full">
 
-          <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover" :style="{ backgroundImage: `url(${product.image})` }">
+          <div v-for="product in products" class="productCard relative rounded-2xl bg-semi-transparent-2 bg-no-repeat bg-center bg-cover size-[35vh]" :style="{ backgroundImage: `url(${product.image})` }">
               <div class="priceContainer m-3">
                 €{{product.price}}
               </div>
@@ -120,6 +120,7 @@
           </div>
       </div>
     </div>
+
 </template>
 
 <style lang="css" scoped>
@@ -132,6 +133,7 @@
   @apply border-y-[1px] border-collapse border-black w-[11vh] m-0 p-0 text-center
 }
 </style>
+
 <script>
 export default {
   data() {
@@ -170,7 +172,7 @@ export default {
       this.products = [];
 
       if (this.selectedResearchType === 'product') {
-        this.url = '/api/getProductByResearch/4-'
+        this.url = '/api/getProductByResearch/12-'
         var parameters = {
           research: this.inputText,
           gender: this.getSelectedGenders(),
@@ -189,7 +191,7 @@ export default {
           this.errorMessage = true;
           return;
         }
-        this.url = '/api/getUserByResearch/4-'
+        this.url = '/api/getUserByResearch/12-'
         var parameters = {
           research: this.inputText,
         };
@@ -300,7 +302,8 @@ export default {
 
       // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
-        this.loadProductsForProductsPage();
+        console.log("annapepe")
+        this.loadProducts();
       }
     },
     blockFilters(){
