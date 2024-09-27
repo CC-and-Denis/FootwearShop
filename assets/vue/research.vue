@@ -117,7 +117,31 @@
 
               </div>
           </div>
-          <div v-else v-for="card in cards" class="userCard absolute bg-semi-transparent-2">
+          <div v-else v-for="card in cards" class="userCard column centered relative bg-semi-transparent-2">
+            <div>
+              <img
+                  id="userImage"
+                  class="generic-img size-50 rounded-full  bg-semi-transparent-1 mt-4"
+                  src='build/images/user-regularB.df1377b9.png'
+                  alt="userImage"
+                  @click="startResearch()"
+              >
+            </div>
+            <h1 class="my-1">Average</h1>
+            <div class="row mb-3">
+              <div class="row mb-3">
+              <img v-for="img in card.average" {{img}}>
+              </div>
+            </div>
+            <div class="h-[5vh] w-9/12">{{ card.username }}</div>
+            <div class="row h-[5vh]">
+              <div class="column ml-5 mr-5">
+                
+              </div>
+              <div class="column ml-5 mr-5">
+                
+              </div>
+            </div>
               <div class="priceContainer m-3">
                 ciao
               </div>
