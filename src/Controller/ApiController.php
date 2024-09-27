@@ -57,7 +57,7 @@ class ApiController extends AbstractController {
         public function getProductByResearch(Request $request, int $qta, int $position, ProductRepository $productRepository) :JsonResponse{
 
         $data = json_decode($request->getContent(), true);
-
+        //dump($data);
         if ($data) {
             $research = $data['research'] ?? '';
             $gender = $data['gender'] ?? [];
@@ -68,7 +68,7 @@ class ApiController extends AbstractController {
             $sizes = $data['sizes'] ?? [];
 
             [$hasMore, $products] = $productRepository->findResearchedProduct($research, $gender, $age, $types, $brands, $colors, $sizes, $qta, $position);
-            dump($products);
+            //dump($products);
             $productData = array_map(function ($product) {
                 return [
                     'id' => $product->getId(),
@@ -88,7 +88,7 @@ class ApiController extends AbstractController {
 
             return new JsonResponse([
                 'hasMore' => $hasMore,
-                'products' => $productData,
+                'cards' => $productData,
             ], 200);
         }
         return new JsonResponse(['hasMore' => false, 'products' => null]);

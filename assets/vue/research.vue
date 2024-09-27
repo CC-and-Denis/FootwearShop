@@ -110,43 +110,41 @@
                 <div class="row priceContainer m-3 shadow-black shadow-sm">
                   <img class="lg:size-6 size-3 mr-1 " src="/build/images/boxes-stacked-solid.ede33cda.png">{{product.quantity}}
                 </div>
+
               </div>
 
               <div class="productInfo absolute bottom-0 column w-full backdrop-blur-2xl p-3 opacity-0 transition-opacity hover:cursor-pointer">
 
-                  <a class="h-full" :href="`/product/${card.id}`" >
-                    <h1 class="text-xl underline">{{card.model}}</h1>
-                    <p class="text-lg h-full"> {{card.description}}</p>
+                  <a class="h-full" :href="`/product/${product.id}`" >
+                    <h1 class="text-xl underline">{{product.model}}</h1>
+                    <p class="text-lg h-full"> {{product.description}}</p>
                   </a>
 
-                  <a class="underline mt-3" :href="`/user/${card.seller.username}`">{{card.seller.username}}</a>
+                  <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
 
               </div>
           </div>
-          <div v-else v-for="card in cards" class="userCard column centered relative bg-semi-transparent-2">
+          <div v-else v-for="user in cards" :key="user" class="userCard column centered relative bg-blue">
             <div>
               <img
                   id="userImage"
-                  class="generic-img size-50 rounded-full  bg-semi-transparent-1 mt-4"
-                  src='build/images/user-regularB.df1377b9.png'
+                  class="generic-img size-30 rounded-full bg-semi-transparent-1 mt-4"
+                  src='/build/images/user-regularB.df1377b9.png'
                   alt="userImage"
-                  @click="startResearch()"
               >
             </div>
-            <h1 class="my-1">Average</h1>
+            <h1 class="my-1 mt-5">Average</h1>
             <div class="row mb-3">
               <div class="row mb-3">
-              <img v-for="img in card.average" {{img}}>
+              <img v-for="img in user.average" :key="img" :src="img" class="small-img">
               </div>
             </div>
-            <div class="h-[5vh] w-9/12">{{ card.username }}</div>
-            <div class="row h-[5vh]">
-              <div class="column ml-5 mr-5">
-                
-              </div>
-              <div class="column ml-5 mr-5">
-                
-              </div>
+            <div class="h-[5vh] w-9/12 text-center font-bold">{{ user.username }}</div>
+            <div class="row h-[5vh] ml-5 mr-5">
+              <label>Selling products: {{ user.totalProd }}</label>
+            </div>
+            <div class="row h-[5vh] ml-5 mr-5">
+              <label>Product you bought: {{ user.youBought }}</label>
             </div>
               <div class="priceContainer m-3">
                 ciao
@@ -175,6 +173,7 @@ export default {
   data() {
     return {
       url: '',
+      parameters: [],
       selectedResearchType: 'product',
       cards: [],
       hasMoreproducts: true,
@@ -207,10 +206,12 @@ export default {
     async startResearch() {
       this.cards = [];
       this.counter = 0;
+      this.hasMoreproducts = true;
 
       if (this.selectedResearchType === 'product') {
+        console.log('product');
         this.url = '/api/getProductByResearch/12-'
-        var parameters = {
+        this.parameters = {
           research: this.inputText,
           gender: this.getSelectedGenders(),
           age: this.getSelectedAges(),
@@ -221,6 +222,7 @@ export default {
         };
       }
       else {
+        console.log('user');
         if (this.inputText.trim()) {
           this.errorMessage = false;
         }
@@ -229,17 +231,18 @@ export default {
           return;
         }
         this.url = '/api/getUserByResearch/12-'
-        var parameters = {
+        this.parameters = {
           research: this.inputText,
         };
       }
-      this.loadProducts(parameters)
+      this.loadProducts()
     },
 
-    async loadProducts(parameters) {
-
+    async loadProducts() {
+      console.log('try to enter');
       if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
       this.isLoading = true;
+      console.log('entering '+this.url);
 
       try {
           const response = await fetch(this.url+this.counter, {
@@ -247,7 +250,7 @@ export default {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(parameters),
+            body: JSON.stringify(this.parameters),
           })
               .then(response => {
                 if (response.status === 200) {
@@ -260,15 +263,17 @@ export default {
               .then(data => {
                 const { cards, hasMore } = data;
                 this.cards = this.cards.concat(cards);
-                console.log(cards)
+                console.log("hey");
+                console.log(cards);
                 this.hasMoreproducts = hasMore;
-                this.counter += 4;
+                this.counter += 12;
               })
         }
         catch (error) {
         console.error('Error loading products:', error);
       } finally {
         this.isLoading = false;
+        console.log('finished '+this.url);
       }
       },
 
@@ -339,7 +344,6 @@ export default {
 
       // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
-        console.log("annapepe")
         this.loadProducts();
       }
     },
