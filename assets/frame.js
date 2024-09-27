@@ -2,6 +2,7 @@ import './styles/frame.css';
 
 import './js/frame.ts';
 import './js/user.ts';
+import './js/review.ts';
 import './js/product_cards_loaders.ts'
 
 import { createApp } from 'vue';
@@ -11,6 +12,10 @@ import products_page from './vue/scroll_products_loader.vue';
 
 import filter_options from './vue/research.vue';
 import chat from './vue/chat.vue';
+
+import stars from './vue/stars.vue';
+
+// Mount carousel for popular products
 
 const carousel_populars = createApp(carousel_products, { apiUrl: '/api/getProductByPopular', maxProducts: 4});
 carousel_populars.mount('#carouselPopular');
@@ -29,3 +34,10 @@ products_pageApp.mount('#scrollable-products');
 
 const filterApp = createApp(filter_options);
 filterApp.mount('#searchMountPoint');
+
+
+const starsInput = createApp(stars);
+starsInput.mount('#starMountPoint');
+
+
+

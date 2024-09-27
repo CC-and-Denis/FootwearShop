@@ -9,12 +9,38 @@
 
 {% block content %}
 
-<div class="column centered">
+<div class="centered size-full lg:p-0 p-3">
 
 
-    <div class="std-container">
+    <div class="std-container lg:w-10/12 lg:h-4/5 w-full h-full">
         {{form_start(form)}}
-            {{form_widget(form)}}
+        <div id="reviewForm" class="centered column h-[80vh]">
+            <div class="text-3xl font-bold">Review</div>
+            <div class="text-md font-thin">reviewing <a href="/product/{{product.id}}" class="underline hover:cursor-pointer text-blue">{{product.model}}</a> sold by <a href="/user/{{product.vendor.username}}" class="underline hover:cursor-pointer text-blue">{{product.vendor.username}}</a> </div>
+            <div class="relative column items-center bg-semi-transparent-3 rounded-full h-fit lg:w-fit w-full py-2 lg:px-24 px-0 mt-7 z-10">
+            {{form_widget(form.score)}}
+            Score
+                <div class="row" id="starMountPoint">
+                  
+                </div>
+            </div>
+            <label class="text-center my-7 border-b-grey border-b-[1px] text-2xl">
+                Title
+                {%- set additionalClass = '' -%}
+            {{form_widget(form.title)}}
+            </label>
+
+            <label class="lg:w-9/12 w-full h-fit focus:text-blue text-black bg-semi-transparent-2 rounded-lg shadow-shadow shadow-md text-center pt-3">
+                Description
+            <div class=" bg-semi-transparent-2 shadow-shadow shadow-sm rounded-md p-3 mt-3 h-[20vh]">
+            {{form_widget(form.description)}}
+            </div>
+        </label>
+        <div class="row flex-wrap mt-5 gap-5">
+            <button class="aButton">Post the review</button>
+            <a href="javascript:history.back()" class="aButton bg-red">Cancel</a>
+        </div>
+        </div>
         {{form_end(form)}}
 
     </div>

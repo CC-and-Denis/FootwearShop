@@ -143,7 +143,7 @@ class ProductFormType extends AbstractType
                 'label'=>"Price",
                 'constraints' => [
                     new Range([
-                        'min' => 0.10, // Minimum value
+                        'min' => 1, // Minimum value
                         'max' => 10000, // Maximum value
                         'notInRangeMessage' => 'The price must be between {{ min }} and {{ max }}.',
                     ]),

@@ -21,10 +21,10 @@ class ReviewFormType extends AbstractType
             ->add('score',IntegerType::Class,[
                 'label'=>false,
                 'attr'=>[
-                    'class'=>[
-                        'absolute',
-                        'opacity-0'
-                    ]
+                   'min'=>1,
+                    'max'=>5,
+                    'maxlength'=>1,
+                    'class'=>'absolute'
                 ],
             ])
             ->add('title',TextType::Class,[

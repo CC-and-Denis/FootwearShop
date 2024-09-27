@@ -112,6 +112,10 @@ label{
     @apply rounded-lg w-fit px-2 py-0 backdrop-blur-sm bg-semi-transparent-3
 }
 
+textarea{
+    @apply size-full resize-none
+}
+
 
 @tailwind base;
 @tailwind components;

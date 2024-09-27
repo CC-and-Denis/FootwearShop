@@ -76,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sellingProducts = new ArrayCollection();
         $this->cart = new ArrayCollection();
-        $this->doneRatings = new ArrayCollection();
+        $this->ratingsWritten = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }
 
@@ -266,27 +266,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Rating>
      */
-    public function getDoneRatings(): Collection
+    public function getRatingsWritten(): Collection
     {
-        return $this->doneRatings;
+        return $this->ratingsWritten;
     }
 
-    public function addDoneRating(Rating $doneRating): static
+    public function addRatingsWritten(Rating $ratingsWritten): static
     {
-        if (!$this->doneRatings->contains($doneRating)) {
-            $this->doneRatings->add($doneRating);
-            $doneRating->setBuyer($this);
+        if (!$this->ratingsWritten->contains($ratingsWritten)) {
+            $this->ratingsWritten->add($ratingsWritten);
+            $ratingsWritten->setBuyer($this);
         }
 
         return $this;
     }
 
-    public function removeDoneRating(Rating $doneRating): static
+    public function removeRatingsWritten(Rating $ratingsWritten): static
     {
-        if ($this->doneRatings->removeElement($doneRating)) {
+        if ($this->ratingsWritten->removeElement($ratingsWritten)) {
             // set the owning side to null (unless already changed)
-            if ($doneRating->getBuyer() === $this) {
-                $doneRating->setBuyer(null);
+            if ($ratingsWritten->getBuyer() === $this) {
+                $ratingsWritten->setBuyer(null);
             }
         }
 
@@ -337,7 +337,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $returnArray=[];
         foreach ($this->orders as $order) {
 
-            if($order->getProduct()->getVendor() == $vendor && $order->getPaymentStatus() == "success" ){
+            if($order->getProduct()->getVendor() == $vendor && $order->getPaymentStatus() == "success" && ! in_array($order->getProduct(),$returnArray)  ){
                 $returnArray[] = $order->getProduct();
             }
         }
@@ -352,7 +352,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         foreach ($this->ratingsWritten as $review) {
             if($review->getVendor() == $vendor ){
-                $returnArray[] = $order->getProduct();
+                $returnArray[] = $review->getRatedProduct();
             }
         }
 
@@ -373,6 +373,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+
+
     public function getAvgRating(){
 
         $numberOfRatings=0;
@@ -380,8 +382,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         foreach ( $this->ratingsReceaved as $review ) {
 
-            $total+=1;
-            $number_of_ratings+=1;
+            $total+=$review->getScore();
+            $numberOfRatings+=1;
  
         }
         if($numberOfRatings==0){
@@ -397,7 +399,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         foreach ( $this->ratingsReceaved as $review ) {
 
-            $individualRatings[$review->getScores()-1]+=1;
+            $individualRatings[$review->getScore()-1]+=1;
 
         }
 

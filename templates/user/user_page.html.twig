@@ -209,8 +209,12 @@
                     </div>
                 </div>
 
-            <div class="column h-fit">
+            <div class="column h-fit w-2/12 flex justify-center">
+                {% if transaction in reviews %}
+                <a  href="/writeReview/{{transaction.id}}" class="aButton w-full">Edit review</a>
+                {% else %}
                 <a  href="/writeReview/{{transaction.id}}" class="aButton w-full">Write a review</a>
+                {% endif %}
             </div>
 
         </div>

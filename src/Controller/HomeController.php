@@ -86,7 +86,21 @@ class HomeController extends AbstractController
             ], $response);
         }
 
-        $renderVariables['canReview'] = $this->getUser()->didBuy($targetProduct);
+        $renderVariables['canReview'] = 0;
+
+        if($this->getUser()->didBuy($targetProduct)){
+            $renderVariables['canReview'] = 1;
+        }
+
+        if($renderVariables['canReview']){
+            foreach ($this->getUser()->getRatingsWritten() as $review) {
+                if($review->getRatedProduct()==$targetProduct){
+                    $renderVariables['canReview']=2;
+                    break;
+                }
+            }
+        }
+        
 
         if($this->getUser()==$targetProduct->getVendor() || $targetProduct->getQuantity()<=0){
             return $this->render('product/product_view_page.html.twig',$renderVariables, $response);
@@ -446,11 +460,11 @@ class HomeController extends AbstractController
         $avg = $renderVariables["average"] = $targetUser->getAvgRating();
         $avgImages=[];
         $i=0;
-
+    
         while ($i < 5){
             if($i < floor($avg)){
                 $avgImages[]='/build/images/star-solid.86d1454e.png';
-            }else if($i==$avg && $avg<round($avg,0)){
+            }else if($i==floor($avg) && $avg<round($avg,0)){
                 $avgImages[]='/build/images/star-half-stroke-solid.8a245df4.png';
             }else{
                 $avgImages[]='/build/images/star-regular.6a90c9dc.png';
@@ -506,12 +520,47 @@ class HomeController extends AbstractController
     #[Route('/writeReview/{productId}',name:"write_review")]
     public function writeReview(int $productId,Request $request){
 
+        $targetProduct = $this->entityManager->getRepository(Product::class)->findOneBy(['id' => $productId]);
+
+        if( ! $this->getUser()->didBuy($targetProduct) ){
+            return $this->render('not_found.html.twig',[
+                'entity'=>"Product"
+            ]);
+        }
+
         $targetReview = new Rating();
+
+        foreach ($this->getUser()->getRatingsWritten() as $review) {
+            if($review->getRatedProduct()==$targetProduct){
+                $targetReview = $review;
+                break;
+            }
+        }
+
 
         $form = $this->createForm(ReviewFormType::class, $targetReview);
         $form->handleRequest($request);
 
         $renderVariables['form']=$form;
+        $renderVariables['product']=$targetProduct;
+        $renderVariables['errorsList']=$form->getErrors(true);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $targetReview=$form->getData();
+            $targetReview->setRatedProduct($targetProduct);
+            $targetReview->setVendor($targetProduct->getVendor());
+            $targetReview->setBuyer($this->getUser());
+
+            $this->entityManager->persist($targetReview);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute("userPage",[
+               "username"=> $targetProduct->getVendor()->getUsername()
+            ]);
+        }
+
+
 
         return $this->render('reviews/reviews_form_page.html.twig',$renderVariables);}
 }
