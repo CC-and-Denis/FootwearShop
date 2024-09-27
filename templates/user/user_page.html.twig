@@ -64,7 +64,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <a class="aButton p-3 my-4">Read them!</a>
+                <a class="aButton p-3 my-4" href="/reviews/{{targetUser.username}}">Read them!</a>
                 {% elseif owner %}
                             <p>You have not sold anything</p>
                             <a class="aButton" href="/createproduct/">Start selling</a>

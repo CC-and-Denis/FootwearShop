@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\RatingRepository;
+use App\Repository\UserRepository;
 use App\Service\CookieService;
 use App\Form\RatingType;
 use App\Entity\Product;
@@ -248,6 +249,49 @@ class HomeController extends AbstractController
     }
     
 
+
+    #[Route('/reviews/{username}')]
+    public function loadReviewsPage($username, UserRepository $userRepository) {
+        $user = $userRepository->findOneBy(['username' => $username]);
+        /*
+        $defaultRating = new Rating();
+        $defaultRating->setBuyer($userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()])); // Set the buyer (non-nullable)
+        $defaultRating->setVendor($user); // Set the current user as the vendor
+        $defaultRating->setRatedProduct($user->getSellingProducts()[0]); // Set the product being rated
+        $defaultRating->setScore(5); // Set a default score, e.g., 5
+        $defaultRating->setTitle('Default Title'); // Set a default title
+        $defaultRating->setDescription('Default description for the rating.'); // Set a default description
+
+        // Step 2: Add the new Rating object to the user's ratingsReceived collection
+        $user->addRatingsReceived($defaultRating);
+
+        // If using Doctrine ORM, persist and flush the changes
+        $this->entityManager->persist($defaultRating);
+        $this->entityManager->flush();
+
+        */
+        $avg = $user->getAvgRating();
+        $avgImages=[];
+        $i=0;
+    
+        while ($i < 5){
+            if($i < floor($avg)){
+                $avgImages[]='/build/images/star-solid.86d1454e.png';
+            }else if($i==floor($avg) && $avg<round($avg,0)){
+                $avgImages[]='/build/images/star-half-stroke-solid.8a245df4.png';
+            }else{
+                $avgImages[]='/build/images/star-regular.6a90c9dc.png';
+            }
+            $i++;
+        }
+        return $this->render('reviews_page.html.twig', 
+        ['targetUser' => $user,
+            'average' => $avgImages,
+            'scores' => $user->getIndividualRatings(),
+            'reviews' => $user->getRatingsReceived(),
+            'owner' => ($userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]) === $user),
+        ]);
+    }
  
 
 

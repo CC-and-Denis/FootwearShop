@@ -51,6 +51,7 @@ class CookieService
             'cyan' => 0,
             'gray' => 0,
             'black' => 0,
+            'brown' => 0,
         ];
 
         return $cookies;
