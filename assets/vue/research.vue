@@ -128,7 +128,7 @@
 
                   <a class="h-full" :href="`/product/${product.id}`" >
                     <h1 class="text-xl underline">{{product.model}}</h1>
-                    <p class="text-lg h-full"> {{product.description}}</p>
+                    <p class="text-lg h-[12vh] overflow-y-scroll"> {{product.description}}</p>
                   </a>
 
                   <a class="underline mt-3" :href="`/user/${product.seller.username}`">{{product.seller.username}}</a>
@@ -221,7 +221,6 @@ export default {
     };
   },
   methods: {
-    // Handle the magnifying glass click event
     async startResearch() {
       this.cards = [];
       this.counter = 0;
@@ -250,7 +249,7 @@ export default {
     },
 
     async loadProducts() {
-      if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
+      if (this.isLoading || !this.hasMoreproducts) return;
       this.isLoading = true;
       try {
         
@@ -308,17 +307,14 @@ export default {
       window.location.href="/user/"+username
     },
 
-    // Handle selecting a type
     selectType(type) {
       this.toggleSelection(this.selectedTypes, type);
     },
 
-    // Handle selecting a brand
     selectBrand(brand) {
       this.toggleSelection(this.selectedBrands, brand);
     },
 
-    // Handle selecting a color
     selectColor(color) {
       this.toggleSelection(this.selectedColors, color);
     },
@@ -327,7 +323,6 @@ export default {
       this.toggleSelection(this.selectedSizes, size);
     },
 
-    // Generic function to toggle selection of types, brands, and colors
     toggleSelection(selectionArray, item) {
       const index = selectionArray.indexOf(item);
       if (index === -1) {
@@ -355,7 +350,6 @@ export default {
       const scrollHeight = scrollableElement.scrollHeight;
       const clientHeight = scrollableElement.clientHeight;
 
-      // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
         this.loadProducts();
       }

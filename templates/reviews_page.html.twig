@@ -46,40 +46,30 @@
 
     <div class="std-container lg:w-[70%] w-full lg:h-full h-[85vh] lg:px-5 px-2 py-2">
         <div id="productsContainer" class="column overflow-y-scroll overflow-x-hidden lg:pr-2 pr-0 h-full">
+            
             {% for review in reviews %}
-            <div  class="pl-2 std-container column h-fit hover:bg-semi-transparent-3 thover:cursor-pointer transition-all w-full animation-appear mt-2 mb-2" >
-        <div class="flex w-full items-center">
-            <!-- Left-aligned element -->
-            <div class="w-fit font-bold text-lg mb-2 text-start ml-5">
-                <label>{{ review.title }}</label>
-            </div>
-
-            <!-- Star ratings in the center -->
+            <div  class="pl-2 std-container column h-fit hover:bg-semi-transparent-3 hover:cursor-pointer transition-all w-full animation-appear mt-2 mb-2 " >
+        <div class="flex w-full items-center column gap-5">
+            
+            <label class="text-xl font-bold">{{ review.title }}</label>
             <div class="flex ml-4 mr-4">
-                {% for img in average %}
-                    <img class="small-img size-5 mx-1" src="{{ img }}">
+                {% for n in range(1,review.score)  %}
+                    <img class="small-img size-5 mx-1" src="/build/images/star-solid.86d1454e.png">
                 {% endfor %}
-            </div>
+                {% for n in range(1,5-review.score) %}
+                    <img class="small-img size-5 mx-1" src="/build/images/star-regular.6a90c9dc.png">
+                {% endfor %}
+            </div>            
 
-            <!-- Right-aligned element -->
-            <div class="w-fit font-semibold text-lg mb-2 ml-auto mr-10 text-end">
-                <label>By: {{ review.buyer.username }}</label>
+            <p class="">{{ review.description }}</p>
+
+            <div class="w-fit font-semibold text-lg mb-2 mr-10"></div>
+                <a href="/user/{{ review.buyer.username }}" class="underline">{{ review.buyer.username }}</a>
             </div>
+            
         </div>
+   
         
-        <!-- Display the review score as stars or number -->
-        <div class="text-yellow-500 mb-2">
-            <!-- Example of star rating (requires FontAwesome) -->
-            {% for i in 1..5 %}
-                <span class="fa fa-star {% if i <= review.score %}text-yellow-500{% else %}text-gray-300{% endif %}"></span>
-            {% endfor %}
-            <span class="text-gray-600 ml-2">({{ review.score }})</span>
-        </div>
-
-        <!-- Display review title -->
-
-        <!-- Display review description -->
-        <p class="text-gray-700">{{ review.description }}</p>
     </div>
     {% endfor %}
         </div>

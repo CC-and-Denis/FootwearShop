@@ -33,7 +33,6 @@ class FyService
         dump($types, $brands, $colors);
         dump($typesPicked, $brandsPicked, $colorsPicked);
     
-        //for ($i = 0; $i < $productCount; $i++) {
         while (true) {
             
             foreach ($typePriorities as $typeIndex => $typeLoopCount) {

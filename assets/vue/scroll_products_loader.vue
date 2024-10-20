@@ -39,7 +39,7 @@ export default {
       counter: 0,
       otherParams: '',
       isLoading: false,
-      products: [], // This will store the products loaded
+      products: [],
       pageName: HTMLInputElement,
       hasMoreproducts: true,
     };
@@ -56,7 +56,7 @@ export default {
     },
     async loadProductsForProductsPage(url) {
 
-      if (this.isLoading || !this.hasMoreproducts) return; // Prevent multiple requests at the same time
+      if (this.isLoading || !this.hasMoreproducts) return; 
       this.isLoading = true;
 
       try {
@@ -76,7 +76,7 @@ export default {
           document.getElementById("end-message").remove();
         }
 
-        this.counter += 8; // Load the next set
+        this.counter += 8;
       } catch (error) {
         console.error('Error loading products:', error);
       } finally {
@@ -90,7 +90,6 @@ export default {
       const scrollHeight = scrollableElement.scrollHeight;
       const clientHeight = scrollableElement.clientHeight;
 
-      // Check if scrolled near the bottom (e.g., within 100px)
       if (scrollTop + clientHeight >= scrollHeight - 100) {
         this.loadProductsForProductsPage(this.url);
       }
@@ -100,7 +99,6 @@ export default {
     },
   },
   mounted() {
-    // Load initial products when the component is mounted
     let pageName = document.getElementById('page_name');
 
     if (pageName.value === 'populars') {

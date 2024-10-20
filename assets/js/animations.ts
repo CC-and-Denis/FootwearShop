@@ -34,6 +34,8 @@ export function displayFilters(){
 export function displayOverlay(optionalElements=document.getElementById("searchBarContainer")){
     let overlay = document.getElementById("overlay") as HTMLDivElement;
     let searchCheckbox = document.getElementById("searchContainerCheckbox") as HTMLInputElement
+  document.getElementById("searchMountPoint").style.display="flex";
+
 
 
     // for some reason the listener fuck everything up if the clicked element is a label for an input so we needs to do this
@@ -173,7 +175,7 @@ export function displayDeleteAlert(productId ="unknown", model="unknown"){
         clearInterval(id);
         if(! chekboxElement.checked){
           overlay.style.display="none"
-          document.getElementById("searchMountPoint").style.display="none";
+          document.getElementById("searchMountPoint").style.display="flex";
 
           }
       } else {
